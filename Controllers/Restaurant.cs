@@ -6,17 +6,17 @@ namespace APISmartCity.Controllers
 
         public Restaurant(string nomCommerce, Address address, List<string> moyensPayements, string description, string produitPhare
                 ,string parcoursProduitPhare, int numGSM, int numTel, string mail, string urlPageFacebook, int coordGPS){
-            NomCommerce = nomCommerce;
-            Address = address;
-            MoyensPayements = moyensPayements;
-            Description = description;
-            ProduitPhare = produitPhare;
-            ParcoursProduitPhare = parcoursProduitPhare;
-            NumGSM = numGSM;
-            NumTel = numTel;
-            Mail = mail;
-            UrlPageFacebook = urlPageFacebook;
-            CoordGPS = coordGPS;
+            this.NomCommerce = nomCommerce;
+            this.Address = address;
+            this.MoyensPayements = moyensPayements;
+            this.Description = description;
+            this.ProduitPhare = produitPhare;
+            this.ParcoursProduitPhare = parcoursProduitPhare;
+            this.NumGSM = numGSM;
+            this.NumTel = numTel;
+            this.Mail = mail;
+            this.UrlPageFacebook = urlPageFacebook;
+            this.CoordGPS = coordGPS;
         }
 
         public string NomCommerce {get; set;}

@@ -9,9 +9,9 @@ namespace APISmartCity.Controllers
 
         public Commerce(int commerceId, string nomCommerce, Address address)
         {
-            CommerceId = commerceId;
-            NomCommerce = nomCommerce;
-            Address = address;
+            this.CommerceId = commerceId;
+            this.NomCommerce = nomCommerce;
+            this.Address = address;
         }
     }
 }
