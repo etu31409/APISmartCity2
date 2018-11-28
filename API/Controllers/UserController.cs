@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-
+using APISmartCity.Controllers.Model;
 namespace APISmartCity.Controllers
 {
     [Route("api/[controller]")]

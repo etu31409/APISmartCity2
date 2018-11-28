@@ -1,5 +1,4 @@
-
-namespace APISmartCity.Controllers
+namespace APISmartCity.Controllers.Model
 {
     public class Commerce
     {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-
+using APISmartCity.Controllers.Model;
 namespace APISmartCity.Controllers
 {
     public class AuthenticationRepository{
