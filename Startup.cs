@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using APISmartCity.Controllers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,9 +33,40 @@ namespace APISmartCity
             SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
             services.Configure<JwtIssuerOptions>(options => {
                 options.Issuer = "MonSuperServeurDeJetons";
-                options.Audience = "http://locahost:5000";
+                options.Audience = "http://localhost:5000";
                 options.SigningCredentials = new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256);
             });
+
+            var tokenValidationParameters = new TokenValidationParameters{
+                ValidateIssuer = true,
+                ValidIssuer = "MonSuperServeurDeJetons",
+
+                ValidateAudience = true,
+                ValidAudience = "http://localhost:5000",
+
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = _signingKey,
+
+                RequireExpirationTime = true,
+                ValidateLifetime = true,
+
+                ClockSkew = TimeSpan.Zero
+            };
+
+            services
+                .AddAuthentication(
+                    options => 
+                    {
+                        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                    })
+                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options => 
+                    {
+                        options.Audience = "http://localhost:5000";
+                        options.ClaimsIssuer = "MonSuperServeurDeJetons";
+                        options.TokenValidationParameters = tokenValidationParameters;
+                        options.SaveToken = true;
+                    });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
