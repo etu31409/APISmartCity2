@@ -2,12 +2,19 @@ namespace APISmartCity.Controllers
 {
     public class User
     {
-        public string Login{get; set;}
-        public string MDP{get;set;}
+        public string UserName{get; set;}
+        public string Password{get;set;}
+        public string Email{get;set;}
+        public int Id{get;set;}
 
-        public User(string login, string mdp){
-            this.Login = login;
-            this.MDP = mdp;
+        public User(){
+        }
+
+        public User(string userName, string email, int id, string password){
+            this.UserName = userName;
+            this.Email = email;
+            this.Id = id;
+            this.Password = password;
         }
     }
 
