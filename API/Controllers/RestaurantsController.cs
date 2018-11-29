@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using APISmartCity.Model;
+using APISmartCity.DAO;
 namespace APISmartCity.Controllers
 {
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
@@ -13,6 +14,7 @@ namespace APISmartCity.Controllers
     [ApiController]
     public class RestaurantsController : ControllerBase
     {
+        private RestaurantsDAO restaurantsDAO = new RestaurantsDAO();
         private List<Restaurant> restaurants = new List<Restaurant>(){};
         private Address address = new Address();
         private List<string> moyensPayements = new List<string>(){};
@@ -22,21 +24,8 @@ namespace APISmartCity.Controllers
         public ActionResult<IEnumerable<Restaurant>> Get()
         {
             User.Claims.ToList().ForEach(claim=>Console.WriteLine($"{claim.Type}: {claim.Value}"));
-            
-            restaurants.Add(new Restaurant(
-                "BurgerKing",
-                address,
-                moyensPayements,
-                "Restauration rapide",
-                "Whooper",
-                "Parcours produit phare",
-                0483312007,
-                061329068,
-                "info@burger-king.com",
-                "www.facebook.com/burger-king",
-                456321
-            ));
-            return restaurants;
+
+            return restaurantsDAO.GetRestaurants();
         }
 
         // GET api/values/5
