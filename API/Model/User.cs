@@ -1,4 +1,4 @@
-namespace APISmartCity.Controllers.Model
+namespace APISmartCity.Model
 {
     public class User
     {

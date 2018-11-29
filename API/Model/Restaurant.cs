@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-namespace APISmartCity.Controllers.Model
+namespace APISmartCity.Model
 {
     public class Restaurant
     {
