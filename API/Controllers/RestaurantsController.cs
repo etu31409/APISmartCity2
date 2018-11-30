@@ -24,8 +24,12 @@ namespace APISmartCity.Controllers
         public ActionResult<IEnumerable<Restaurant>> Get()
         {
             User.Claims.ToList().ForEach(claim=>Console.WriteLine($"{claim.Type}: {claim.Value}"));
-
-            return restaurantsDAO.GetRestaurants();
+            //Tester si l'utilisateur a les droits
+            if(true)
+                return restaurantsDAO.GetRestaurants();
+            else 
+                return Unauthorized();
+            
         }
 
         // GET api/values/5
@@ -51,6 +55,9 @@ namespace APISmartCity.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            //Verif que l'utilisateur a les droits
+
+            //Supprimer dans la base de données
         }
     }
 }
