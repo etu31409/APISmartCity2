@@ -68,6 +68,18 @@ namespace APISmartCity
                     });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            //pour ajouter CORS services (authoriser les requetes cross origin)
+            services.AddCors(
+                options =>{
+                    options.AddPolicy("AllowSpecificOrigins",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                        .AllowAnyHeader();
+                    });
+                }
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -84,6 +96,12 @@ namespace APISmartCity
 
             //app.UseHttpsRedirection();
             app.UseMvc();
+            //Enable CORS with CORS Middleware
+            // Shows UseCors with CorsPolicyBuilder.
+            app.UseCors(builder =>
+                builder.WithOrigins("http://localhost:4200")
+                .AllowAnyHeader()
+            );
         }
     }
 }
