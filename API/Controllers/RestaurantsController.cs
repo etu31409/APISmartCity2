@@ -18,7 +18,7 @@ namespace APISmartCity.Controllers
 
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<Restaurant>> Get()
+        public ActionResult<IEnumerable<Commerce>> Get()
         {
             //Permet de Récupérer tout les restaurants
                 //Permet de lister la liste des claims
@@ -27,7 +27,7 @@ namespace APISmartCity.Controllers
             //TODO Faire une vérif de l'ultilisateur qui appelle le controlleur pour lui renvoyer que ses restaurants.
             var claim = User.Claims.First();
 
-            List<Restaurant> restaurants = restaurantsDAO.GetRestaurants();
+            List<Commerce> restaurants = restaurantsDAO.GetRestaurants();
             if(restaurants == null)
                 return NotFound();
             return Ok(restaurants);
@@ -35,12 +35,12 @@ namespace APISmartCity.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<Restaurant> Get(int id)
+        public ActionResult<Commerce> Get(int id)
         {
             //Permet de récupérer le restaurant ayant comme ID 'id'
             var claim = User.Claims.First();
 
-            Restaurant restaurant = restaurantsDAO.GetRestaurant(id);
+            Commerce restaurant = restaurantsDAO.GetRestaurant(id);
             if(restaurant == null)
                 return NotFound();
             return Ok(restaurant);
@@ -48,14 +48,14 @@ namespace APISmartCity.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] Restaurant restaurant)
+        public void Post([FromBody] Commerce restaurant)
         {
             restaurantsDAO.ModifRestaurant(restaurant);
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Restaurant restaurant)
+        public void Put(int id, [FromBody] Commerce restaurant)
         {
             restaurantsDAO.AddRestaurant(id, restaurant);
         }
