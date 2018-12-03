@@ -37,7 +37,7 @@ namespace APISmartCity.Controllers
             Commerce commerce = commercesDAO.GetCommerce(id);
             if(commerce == null)
                 return NotFound();
-            return commerce;
+            return Ok(commerce);
         }
 
         // POST api/values
