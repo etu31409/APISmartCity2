@@ -77,5 +77,17 @@ namespace APISmartCity.DAO
             List<Restaurant> restaurants = GetRestaurants();
             return GetRestaurants().Find(restaurant => restaurant.Id == id);
         }
+
+        public void ModifRestaurant(Restaurant restaurant){
+            //TODO Modifier le restaurant dans la BD
+        }
+
+        public void AddRestaurant(int id, Restaurant restaurant){
+            //TODO Ajouter un restaurant dans la BD
+        }
+
+        public void DeleteRestaurant(int id){
+            // TODO Suprimer le restaurant dans la BD
+        }
     }
 }

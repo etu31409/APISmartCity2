@@ -15,18 +15,23 @@ namespace APISmartCity.Controllers
     public class RestaurantsController : ControllerBase
     {
         private RestaurantsDAO restaurantsDAO = new RestaurantsDAO();
-        private List<Restaurant> restaurants = new List<Restaurant>(){};
+        private List<Restaurant> restaurants = new List<Restaurant>() { };
         private Address address = new Address();
-        private List<string> moyensPayements = new List<string>(){};
-        
+        private List<string> moyensPayements = new List<string>() { };
+
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<Restaurant>> Get()
         {
             //Permet de Récupérer tout les restaurants
-            User.Claims.ToList().ForEach(claim=>Console.WriteLine($"{claim.Type}: {claim.Value}"));
+                //Permet de lister la liste des claims
+                //User.Claims.ToList().ForEach(claim => Console.WriteLine($"{claim.Type}: {claim.Value}"));
+
+            //TODO Faire une vérif de l'ultilisateur qui appelle le controlleur pour lui renvoyer que ses restaurants.
+            var claim = User.Claims.First();
+
             return restaurantsDAO.GetRestaurants();
-            
+
         }
 
         // GET api/values/5
@@ -34,27 +39,31 @@ namespace APISmartCity.Controllers
         public ActionResult<Restaurant> Get(int id)
         {
             //Permet de récupérer le restaurant ayant comme ID 'id'
+            var claim = User.Claims.First();
+
             return restaurantsDAO.GetRestaurant(id);
         }
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] Restaurant restaurant)
         {
+            restaurantsDAO.ModifRestaurant(restaurant);
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int id, [FromBody] Restaurant restaurant)
         {
+            restaurantsDAO.AddRestaurant(id, restaurant);
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            //Verif que l'utilisateur a les droits
-
+            //TODO Verif que l'utilisateur a les droits
+            restaurantsDAO.DeleteRestaurant(id);
             //Supprimer dans la base de données
         }
     }

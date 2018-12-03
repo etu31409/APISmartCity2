@@ -26,5 +26,23 @@ namespace APISmartCity.DAO
             //Laisser une erreur 204 ou lever une erreur 404 ?
             return GetCommerces().Find(c => c.CommerceId == id);
         }
+
+        public void ModifCommerce(Commerce commerce){
+            //TODO Update du commerce dans la BD
+        }
+
+        public void AddCommerce(int id, Commerce commerce){
+            //Les Id devraient pas etre accessible aux clients, seule une gestion interne !
+            if (GetCommerces().Find(c => c.CommerceId == id) != null){
+                //Pas d'ajout et renvoie que id dejà occupé
+
+                //Faire une verif backend sur le nom pour voir si le commerce existe deja et demander confirmation ?
+            }
+            //Ajout dans la BD
+        }
+
+        public void DeleteCommerce(int id){
+            //TODO SUpprimer le commerce portant un certain id dans la BD
+        }
     }
 }
