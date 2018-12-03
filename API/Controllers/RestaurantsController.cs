@@ -23,20 +23,20 @@ namespace APISmartCity.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Restaurant>> Get()
         {
+            //Permet de Récupérer tout les restaurants
             User.Claims.ToList().ForEach(claim=>Console.WriteLine($"{claim.Type}: {claim.Value}"));
-            //Tester si l'utilisateur a les droits
-            if(true)
-                return restaurantsDAO.GetRestaurants();
-            else 
-                return Unauthorized();
+            return restaurantsDAO.GetRestaurants();
             
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public ActionResult<Restaurant> Get(int id)
         {
-            return "value";
+            //Permet de récupérer les restaurants ayant comme propriétaire le user avec L'ID 'id'
+            var claim = User.Claims.First();
+            
+            return restaurantsDAO.GetRestaurant(id);
         }
 
         // POST api/values

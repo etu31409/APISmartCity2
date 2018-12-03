@@ -38,6 +38,8 @@ namespace APISmartCity.Controllers
                 new Claim(JwtRegisteredClaimNames.Iat,
                         ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(),
                         ClaimValueTypes.Integer64),
+                //Permet de rajouter l'ID de l'utilisateur dans les claims pour pouvoir tester son identité lors d'une modification
+                new Claim(JwtRegisteredClaimNames.NameId, userFound.Id.ToString())
             };
 
             JwtSecurityToken token = new JwtSecurityToken(
@@ -52,7 +54,7 @@ namespace APISmartCity.Controllers
             
             var response = new{
                 access_token = encodedJwt,
-                expires_in = (int)_jwtOptions.ValidFor.TotalSeconds
+                expires_in = (int)_jwtOptions.ValidFor.TotalSeconds,
             };
 
             return Ok(response);
