@@ -15,6 +15,7 @@ namespace APISmartCity.DAO
         public List<Restaurant> GetRestaurants()
         {
             restaurants.Add(new Restaurant(
+                1,
                 "BurgerKing",
                 address1,
                 moyensPayements,
@@ -28,6 +29,7 @@ namespace APISmartCity.DAO
                 456321
             ));
             restaurants.Add(new Restaurant(
+                2,
                 "Quick",
                 address2,
                 moyensPayements,
@@ -41,6 +43,7 @@ namespace APISmartCity.DAO
                 456321
             ));
             restaurants.Add(new Restaurant(
+                3,
                 "KFC",
                 address3,
                 moyensPayements,
@@ -54,6 +57,7 @@ namespace APISmartCity.DAO
                 456321
             ));
             restaurants.Add(new Restaurant(
+                4,
                 "Zara",
                 address4,
                 moyensPayements,
@@ -69,22 +73,9 @@ namespace APISmartCity.DAO
             return restaurants;
         }
 
-        public Restaurant GetRestaurant(int idProprio){
+        public Restaurant GetRestaurant(int id){
             List<Restaurant> restaurants = GetRestaurants();
-            return new Restaurant(
-                "Resto test id",
-                address1,
-                moyensPayements,
-                "Restauration rapide",
-                "Whooper",
-                //Test de recup idProprio
-                "idProprio : "+idProprio,
-                0483312007,
-                061329068,
-                "info@burger-king.com",
-                "www.facebook.com/burger-king",
-                456321
-            );
+            return GetRestaurants().Find(restaurant => restaurant.Id == id);
         }
     }
 }

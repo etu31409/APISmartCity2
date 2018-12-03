@@ -16,20 +16,21 @@ namespace APISmartCity.Controllers
     [ApiController]
     public class CommercesController : ControllerBase
     {
-        private CommercesDAO commercesDAO = new CommercesDAO();        
-
+        private CommercesDAO commercesDAO = new CommercesDAO();
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<Commerce>> Get()
         {
+            //TODO Faire une vérif de l'ultilisateur qui appelle le controlleur pour lui renvoyer que ses commerces.
+            var claim = User.Claims.First();
             return commercesDAO.GetCommerces();
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public ActionResult<Commerce> Get(int id)
         {
-            return "value";
+            return commercesDAO.GetCommerce(id);
         }
 
         // POST api/values

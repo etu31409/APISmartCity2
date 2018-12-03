@@ -12,14 +12,19 @@ namespace APISmartCity.DAO
         }
 
         public List<Commerce> GetCommerces(){
-            commerces = new List<Commerce>();
-            commerces.Add(new Commerce(12,"Commerce de test",address));
-            commerces.Add(new Commerce(16,"Deuxième commerce de test",address));
+            commerces.Add(new Commerce(1,"Commerce de test",address));
+            commerces.Add(new Commerce(2,"Deuxième commerce de test",address));
             commerces.Add(new Commerce(3,"Troisième commerce de test",address));
             commerces.Add(new Commerce(4,"Quatrième commerce de test",address));
             commerces.Add(new Commerce(5,"Cinquième commerce de test",address));
             commerces.Add(new Commerce(6,"Sixième commerce de test",address));
             return commerces;
+        }
+
+        public Commerce GetCommerce(int id){
+            //Return du restaurant correspondant à l'identifiant passé en argument
+            //Laisser une erreur 204 ou lever une erreur 404 ?
+            return GetCommerces().Find(c => c.CommerceId == id);
         }
     }
 }

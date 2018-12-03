@@ -15,7 +15,6 @@ namespace APISmartCity.Controllers
     [ApiController]
     public class JwtController : ControllerBase
     {  
-
         private readonly JwtIssuerOptions _jwtOptions;
 
         public JwtController(IOptions<JwtIssuerOptions> jwtOptions){

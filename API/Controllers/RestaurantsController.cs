@@ -33,9 +33,7 @@ namespace APISmartCity.Controllers
         [HttpGet("{id}")]
         public ActionResult<Restaurant> Get(int id)
         {
-            //Permet de récupérer les restaurants ayant comme propriétaire le user avec L'ID 'id'
-            var claim = User.Claims.First();
-            
+            //Permet de récupérer le restaurant ayant comme ID 'id'
             return restaurantsDAO.GetRestaurant(id);
         }
 

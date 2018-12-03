@@ -4,8 +4,9 @@ namespace APISmartCity.Model
     public class Restaurant
     {
 
-        public Restaurant(string nomCommerce, Address address, List<string> moyensPayements, string description, string produitPhare
+        public Restaurant(int id, string nomCommerce, Address address, List<string> moyensPayements, string description, string produitPhare
                 ,string parcoursProduitPhare, int numGSM, int numTel, string mail, string urlPageFacebook, int coordGPS){
+            this.Id = id;
             this.NomCommerce = nomCommerce;
             this.Address = address;
             this.MoyensPayements = moyensPayements;
@@ -19,6 +20,7 @@ namespace APISmartCity.Model
             this.CoordGPS = coordGPS;
         }
 
+        public int Id{get; set;}
         public string NomCommerce {get; set;}
         public Address Address {get; set;}
         public List<string> MoyensPayements {get; set;}
