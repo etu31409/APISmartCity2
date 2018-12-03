@@ -24,12 +24,6 @@ namespace APISmartCity.DAO
         }
 
         public void AddCommerce(int id, Commerce commerce){
-            //Les Id devraient pas etre accessible aux clients, seule une gestion interne !
-            if (GetCommerces().Find(c => c.IdCommerce == id) != null){
-                //Pas d'ajout et renvoie que id dejà occupé
-
-                //Faire une verif backend sur le nom pour voir si le commerce existe deja et demander confirmation ?
-            }
             //Ajout dans la BD
             context.Add<Commerce>(commerce);
             try{
@@ -38,11 +32,16 @@ namespace APISmartCity.DAO
                 //TODO
                 Console.WriteLine(e.Message);
             }
- 
         }
 
         public void DeleteCommerce(int id){
-            //TODO SUpprimer le commerce portant un certain id dans la BD
+            context.Remove(context.Commerce.FirstOrDefault(c => c.IdCommerce == id));
+            try{
+                context.SaveChanges();
+            }catch(Exception e){
+                //TODO
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }

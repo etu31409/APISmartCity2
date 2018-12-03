@@ -49,16 +49,23 @@ namespace APISmartCity.Controllers
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Commerce commerce)
+        public ActionResult<Commerce> Put(int id, [FromBody] Commerce commerce)
         {
+            if(commerce == null)
+                return NotFound();
             commercesDAO.AddCommerce(id, commerce);
+            return Ok();
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult<Commerce> Delete(int id)
         {
+            //Vérif si le commerce est présent
+            if(commercesDAO.GetCommerce(id)==null)
+                return NotFound();
             commercesDAO.DeleteCommerce(id);
+            return Ok();
         }
     }
 }
