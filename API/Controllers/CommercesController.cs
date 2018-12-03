@@ -23,15 +23,21 @@ namespace APISmartCity.Controllers
         public ActionResult<IEnumerable<Commerce>> Get()
         {
             //TODO Faire une vérif de l'ultilisateur qui appelle le controlleur pour lui renvoyer que ses commerces.
-            var claim = User.Claims.First();
-            return commercesDAO.GetCommerces();
+            //var claim = User.Claims.First();
+            List<Commerce> commerces = commercesDAO.GetCommerces();
+            if (commerces == null)
+                return NotFound();
+            return Ok(commerces);
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
         public ActionResult<Commerce> Get(int id)
         {
-            return commercesDAO.GetCommerce(id);
+            Commerce commerce = commercesDAO.GetCommerce(id);
+            if(commerce == null)
+                return NotFound();
+            return commerce;
         }
 
         // POST api/values
