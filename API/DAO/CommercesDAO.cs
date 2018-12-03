@@ -5,9 +5,7 @@ namespace APISmartCity.DAO
 {
     public class CommercesDAO
     {     
-        public CommercesDAO()
-        {   
-        }
+        public CommercesDAO(){   }
 
         public List<Commerce> GetCommerces(){
             var context = new SCNConnectDBContext();

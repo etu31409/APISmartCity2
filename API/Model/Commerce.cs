@@ -11,14 +11,6 @@ namespace APISmartCity.Model
             ImageCommerce = new HashSet<ImageCommerce>();
             Personne = new HashSet<Personne>();
         }
-
-        public Commerce(int id, string nom, string rue)
-        {
-            this.IdCommerce = id;
-            this.NomCommerce = nom;
-            this.Rue = rue;
-        }
-
         public int IdCommerce { get; set; }
         public string NomCommerce { get; set; }
         public string Rue { get; set; }
