@@ -15,9 +15,6 @@ namespace APISmartCity.Controllers
     public class RestaurantsController : ControllerBase
     {
         private RestaurantsDAO restaurantsDAO = new RestaurantsDAO();
-        private List<Restaurant> restaurants = new List<Restaurant>() { };
-        private Address address = new Address();
-        private List<string> moyensPayements = new List<string>() { };
 
         // GET api/values
         [HttpGet]
