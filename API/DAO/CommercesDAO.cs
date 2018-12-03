@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using APISmartCity.Model;
@@ -6,9 +7,8 @@ namespace APISmartCity.DAO
     public class CommercesDAO
     {     
         public CommercesDAO(){   }
-
+        private SCNConnectDBContext context = new SCNConnectDBContext();
         public List<Commerce> GetCommerces(){
-            var context = new SCNConnectDBContext();
             //BETTER Faire un include en plus pour avoir le nom de la catégorie et pas l'id (clé étrangère)
             IQueryable<Commerce> commerces = context.Commerce.Where(c => c.IdCategorie==2);
             return commerces.ToList();
@@ -31,6 +31,14 @@ namespace APISmartCity.DAO
                 //Faire une verif backend sur le nom pour voir si le commerce existe deja et demander confirmation ?
             }
             //Ajout dans la BD
+            context.Add<Commerce>(commerce);
+            try{
+                context.SaveChanges();
+            }catch(Exception e){
+                //TODO
+                Console.WriteLine(e.Message);
+            }
+ 
         }
 
         public void DeleteCommerce(int id){
