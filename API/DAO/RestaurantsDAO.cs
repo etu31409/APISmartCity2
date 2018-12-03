@@ -5,7 +5,10 @@ namespace APISmartCity.DAO
     public class RestaurantsDAO
     {
         private List<Restaurant> restaurants = new List<Restaurant>();
-        private Address address = new Address();
+        private Address address1 = new Address("Rue du Burger King",5000,25);
+        private Address address2 = new Address("Rue du Quick",5000,14);
+        private Address address3 = new Address("Rue du KFC",5000,125);
+        private Address address4 = new Address("Rue du Zara",5000,29);
         private List<string> moyensPayements = new List<string>() { };
         public RestaurantsDAO() { }
 
@@ -13,7 +16,7 @@ namespace APISmartCity.DAO
         {
             restaurants.Add(new Restaurant(
                 "BurgerKing",
-                address,
+                address1,
                 moyensPayements,
                 "Restauration rapide",
                 "Whooper",
@@ -26,7 +29,7 @@ namespace APISmartCity.DAO
             ));
             restaurants.Add(new Restaurant(
                 "Quick",
-                address,
+                address2,
                 moyensPayements,
                 "Restauration rapide",
                 "Giant",
@@ -39,7 +42,7 @@ namespace APISmartCity.DAO
             ));
             restaurants.Add(new Restaurant(
                 "KFC",
-                address,
+                address3,
                 moyensPayements,
                 "Restauration rapide",
                 "Saut de poulet",
@@ -52,7 +55,7 @@ namespace APISmartCity.DAO
             ));
             restaurants.Add(new Restaurant(
                 "Zara",
-                address,
+                address4,
                 moyensPayements,
                 "Pret à porter féminin",
                 "Echarpe de Noel",
@@ -70,7 +73,7 @@ namespace APISmartCity.DAO
             List<Restaurant> restaurants = GetRestaurants();
             return new Restaurant(
                 "Resto test id",
-                address,
+                address1,
                 moyensPayements,
                 "Restauration rapide",
                 "Whooper",

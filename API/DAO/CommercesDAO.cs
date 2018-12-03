@@ -5,7 +5,7 @@ namespace APISmartCity.DAO
     public class CommercesDAO
     {
         private List<Commerce> commerces = new List<Commerce>(){};
-        private Address address = new Address("Rue de l'ange", "5550", 13);
+        private Address address = new Address("Rue de l'ange", 5000, 13);
         private List<string> moyensPayements = new List<string>(){};
 
         public CommercesDAO()
