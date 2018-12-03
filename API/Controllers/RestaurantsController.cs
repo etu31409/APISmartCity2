@@ -27,8 +27,10 @@ namespace APISmartCity.Controllers
             //TODO Faire une vérif de l'ultilisateur qui appelle le controlleur pour lui renvoyer que ses restaurants.
             var claim = User.Claims.First();
 
-            return restaurantsDAO.GetRestaurants();
-
+            List<Restaurant> restaurants = restaurantsDAO.GetRestaurants();
+            if(restaurants == null)
+                return NotFound();
+            return Ok(restaurants);
         }
 
         // GET api/values/5
@@ -38,7 +40,10 @@ namespace APISmartCity.Controllers
             //Permet de récupérer le restaurant ayant comme ID 'id'
             var claim = User.Claims.First();
 
-            return restaurantsDAO.GetRestaurant(id);
+            Restaurant restaurant = restaurantsDAO.GetRestaurant(id);
+            if(restaurant == null)
+                return NotFound();
+            return Ok(restaurant);
         }
 
         // POST api/values

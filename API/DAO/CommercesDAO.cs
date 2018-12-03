@@ -12,7 +12,7 @@ namespace APISmartCity.DAO
         }
 
         public List<Commerce> GetCommerces(){
-            commerces.Add(new Commerce(1,"Commerce de test",address));
+            commerces.Add(new Commerce(1,"Premier commerce de test",address));
             commerces.Add(new Commerce(2,"Deuxième commerce de test",address));
             commerces.Add(new Commerce(3,"Troisième commerce de test",address));
             commerces.Add(new Commerce(4,"Quatrième commerce de test",address));
