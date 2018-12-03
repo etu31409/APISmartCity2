@@ -55,7 +55,7 @@ namespace APISmartCity
                 entity.HasOne(d => d.IdCommerceNavigation)
                     .WithMany(p => p.Actualite)
                     .HasForeignKey(d => d.IdCommerce)
-                    .HasConstraintName("FK__Actualite__IdCom__5812160E");
+                    .HasConstraintName("FK__Actualite__IdCom__6EF57B66");
             });
 
             modelBuilder.Entity<Categorie>(entity =>
@@ -110,7 +110,7 @@ namespace APISmartCity
                 entity.HasOne(d => d.IdCategorieNavigation)
                     .WithMany(p => p.Commerce)
                     .HasForeignKey(d => d.IdCategorie)
-                    .HasConstraintName("FK__Commerce__IdCate__4BAC3F29");
+                    .HasConstraintName("FK__Commerce__IdCate__628FA481");
             });
 
             modelBuilder.Entity<Horaire>(entity =>
@@ -144,7 +144,7 @@ namespace APISmartCity
                 entity.HasOne(d => d.IdCommerceNavigation)
                     .WithMany(p => p.ImageCommerce)
                     .HasForeignKey(d => d.IdCommerce)
-                    .HasConstraintName("FK__ImageComm__IdCom__4E88ABD4");
+                    .HasConstraintName("FK__ImageComm__IdCom__656C112C");
             });
 
             modelBuilder.Entity<Personne>(entity =>
@@ -176,7 +176,7 @@ namespace APISmartCity
                 entity.HasOne(d => d.IdCommerceNavigation)
                     .WithMany(p => p.Personne)
                     .HasForeignKey(d => d.IdCommerce)
-                    .HasConstraintName("FK__Personne__IdComm__5535A963");
+                    .HasConstraintName("FK__Personne__IdComm__6C190EBB");
             });
 
             modelBuilder.Entity<Promotion>(entity =>

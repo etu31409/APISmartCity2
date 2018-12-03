@@ -22,6 +22,7 @@ namespace APISmartCity.Model
         public int IdCommerce { get; set; }
         public string NomCommerce { get; set; }
         public string Rue { get; set; }
+        public int Numero { get; set; }
         public string Description { get; set; }
         public string ProduitPhare { get; set; }
         public string ParcoursProduitPhare { get; set; }
