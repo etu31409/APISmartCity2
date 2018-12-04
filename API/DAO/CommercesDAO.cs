@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using APISmartCity.ExceptionPackage;
 using APISmartCity.Model;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,6 +35,8 @@ namespace APISmartCity.DAO
 
         public Commerce AddCommerce(Commerce commerce){
             //Ajout dans la BD
+            if(commerce == null)
+                throw new CommerceNotFoundException();
             context.Commerce.Add(commerce);
             try{
                 context.SaveChanges();
@@ -46,7 +49,10 @@ namespace APISmartCity.DAO
         }
 
         public async Task DeleteCommerce(int id){
-            context.Remove(context.Commerce.FirstOrDefault(c => c.IdCommerce == id));
+            Commerce commerce = await GetCommerce(id);
+            //fixme: Besoin de lever une exception ?
+            if(commerce == null)
+                throw new CommerceNotFoundException();
             try{
                 await context.SaveChangesAsync();
             }catch(Exception e){
