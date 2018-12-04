@@ -20,11 +20,11 @@ namespace APISmartCity.Controllers
         private CommercesDAO commercesDAO = new CommercesDAO();
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<Commerce>> Get()
+        public async Task<ActionResult<IEnumerable<Commerce>>> Get()
         {
             //TODO Faire une vérif de l'ultilisateur qui appelle le controlleur pour lui renvoyer que ses commerces.
             //var claim = User.Claims.First();
-            List<Commerce> commerces = commercesDAO.GetCommerces();
+            List<Commerce> commerces = await commercesDAO.GetCommerces();
             if (commerces == null)
                 return NotFound();
             return Ok(commerces);
