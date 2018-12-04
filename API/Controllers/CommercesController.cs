@@ -32,9 +32,9 @@ namespace APISmartCity.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<Commerce> Get(int id)
+        public async Task<ActionResult<Commerce>> Get(int id)
         {
-            Commerce commerce = commercesDAO.GetCommerce(id);
+            Commerce commerce = await commercesDAO.GetCommerce(id);
             if(commerce == null)
                 return NotFound();
             return Ok(commerce);
