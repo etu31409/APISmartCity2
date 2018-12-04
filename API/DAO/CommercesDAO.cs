@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using APISmartCity.Model;
+using Microsoft.EntityFrameworkCore;
+
 namespace APISmartCity.DAO
 {
     public class CommercesDAO
@@ -19,25 +22,33 @@ namespace APISmartCity.DAO
             return GetCommerces().Find(c => c.IdCommerce == id);
         }
 
-        public void ModifCommerce(Commerce commerce){
-            //TODO Update du commerce dans la BD
+        public Commerce ModifCommerce(Commerce commerce){
+            if (context.Entry(commerce).State == EntityState.Detached)
+            {
+                context.Attach(commerce).State = EntityState.Modified;
+            }
+            // regardez également aux versions asynchrones des méthodes!
+            context.SaveChanges();
+            return commerce;
         }
 
-        public void AddCommerce(int id, Commerce commerce){
+        public Commerce AddCommerce(Commerce commerce){
             //Ajout dans la BD
-            context.Add<Commerce>(commerce);
+            context.Commerce.Add(commerce);
             try{
                 context.SaveChanges();
             }catch(Exception e){
                 //TODO
                 Console.WriteLine(e.Message);
             }
+            return commerce;
+            //TODO Faire un catch de l'excpetion pour la renvoyer au client vie FILTER
         }
 
-        public void DeleteCommerce(int id){
+        public async Task DeleteCommerce(int id){
             context.Remove(context.Commerce.FirstOrDefault(c => c.IdCommerce == id));
             try{
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }catch(Exception e){
                 //TODO
                 Console.WriteLine(e.Message);

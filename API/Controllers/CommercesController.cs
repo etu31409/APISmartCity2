@@ -42,29 +42,30 @@ namespace APISmartCity.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] Commerce commerce)
-        {
-            commercesDAO.ModifCommerce(commerce);
+        public ActionResult<Commerce> Post([FromBody] Commerce commerce)
+        {   //TODO Revoie la méthode POST
+            commerce = commercesDAO.AddCommerce(commerce);
+            return Created("api/Commerces/" + commerce.IdCommerce, commerce);
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
         public ActionResult<Commerce> Put(int id, [FromBody] Commerce commerce)
         {
-            if(commerce == null)
+            if (commerce == null)
                 return NotFound();
-            commercesDAO.AddCommerce(id, commerce);
-            return Ok();
+            commerce = commercesDAO.ModifCommerce(commerce);
+            return Ok(commerce);
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public ActionResult<Commerce> Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             //Vérif si le commerce est présent
             if(commercesDAO.GetCommerce(id)==null)
                 return NotFound();
-            commercesDAO.DeleteCommerce(id);
+            await commercesDAO.DeleteCommerce(id);
             return Ok();
         }
     }
