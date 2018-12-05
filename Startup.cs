@@ -67,17 +67,17 @@ namespace APISmartCity
                         options.SaveToken = true;
                     });
 //pour ajouter CORS services (authoriser les requetes cross origin)
-            services.AddCors();
-            //     options =>{
-            //         options.AddPolicy("AllowSpecificOrigins",
-            //         builder =>
-            //         {
-            //             builder.AllowAnyOrigin()
-            //             .AllowAnyMethod()
-            //             .AllowAnyHeader();
-            //         });
-            //     }
-            // );
+            //services.AddCors();
+            services.AddCors(options =>{
+                options.AddPolicy("AllowSpecificOrigins",
+                builder =>
+                {
+                    builder.WithOrigins("*")
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+                });
+            }
+        );
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             
         }
