@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Cors;
 namespace APISmartCity.Controllers
 {
     //TODO mettre en place la reception du token d'identification
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class CommercesController : ControllerBase
