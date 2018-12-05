@@ -41,8 +41,7 @@ namespace APISmartCity.DAO
             try{
                 context.SaveChanges();
             }catch(Exception e){
-                //TODO
-                Console.WriteLine(e.Message);
+                throw new CommerceNotFoundException(e.Message);
             }
             return commerce;
             //TODO Faire un catch de l'excpetion pour la renvoyer au client vie FILTER
