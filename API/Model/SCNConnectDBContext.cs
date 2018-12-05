@@ -1,9 +1,8 @@
 ﻿using System;
-using APISmartCity.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace APISmartCity
+namespace APISmartCity.Model
 {
     public partial class SCNConnectDBContext : DbContext
     {
@@ -22,7 +21,6 @@ namespace APISmartCity
         public virtual DbSet<Horaire> Horaire { get; set; }
         public virtual DbSet<ImageCommerce> ImageCommerce { get; set; }
         public virtual DbSet<Personne> Personne { get; set; }
-        public virtual DbSet<Promotion> Promotion { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -39,8 +37,6 @@ namespace APISmartCity
             {
                 entity.HasKey(e => e.IdActualite);
 
-                entity.Property(e => e.IdActualite).ValueGeneratedNever();
-
                 entity.Property(e => e.Date).HasColumnType("date");
 
                 entity.Property(e => e.Libelle)
@@ -55,14 +51,12 @@ namespace APISmartCity
                 entity.HasOne(d => d.IdCommerceNavigation)
                     .WithMany(p => p.Actualite)
                     .HasForeignKey(d => d.IdCommerce)
-                    .HasConstraintName("FK__Actualite__IdCom__6EF57B66");
+                    .HasConstraintName("FK__Actualite__IdCom__02084FDA");
             });
 
             modelBuilder.Entity<Categorie>(entity =>
             {
                 entity.HasKey(e => e.IdCategorie);
-
-                entity.Property(e => e.IdCategorie).ValueGeneratedNever();
 
                 entity.Property(e => e.Libelle)
                     .IsRequired()
@@ -74,15 +68,13 @@ namespace APISmartCity
             {
                 entity.HasKey(e => e.IdCommerce);
 
-                entity.Property(e => e.IdCommerce).ValueGeneratedNever();
-
                 entity.Property(e => e.AdresseMail)
                     .IsRequired()
-                    .HasMaxLength(30)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Description)
-                    .HasMaxLength(50)
+                    .HasMaxLength(255)
                     .IsUnicode(false);
 
                 entity.Property(e => e.NomCommerce)
@@ -95,7 +87,7 @@ namespace APISmartCity
                     .IsUnicode(false);
 
                 entity.Property(e => e.ProduitPhare)
-                    .HasMaxLength(30)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Rue)
@@ -110,14 +102,17 @@ namespace APISmartCity
                 entity.HasOne(d => d.IdCategorieNavigation)
                     .WithMany(p => p.Commerce)
                     .HasForeignKey(d => d.IdCategorie)
-                    .HasConstraintName("FK__Commerce__IdCate__628FA481");
+                    .HasConstraintName("FK__Commerce__IdCate__7A672E12");
+
+                entity.HasOne(d => d.IdPersonneNavigation)
+                    .WithMany(p => p.Commerce)
+                    .HasForeignKey(d => d.IdPersonne)
+                    .HasConstraintName("FK__Commerce__IdPers__797309D9");
             });
 
             modelBuilder.Entity<Horaire>(entity =>
             {
                 entity.HasKey(e => e.IdHoraire);
-
-                entity.Property(e => e.IdHoraire).ValueGeneratedNever();
 
                 entity.Property(e => e.HoraireDebut).HasColumnType("datetime");
 
@@ -133,25 +128,21 @@ namespace APISmartCity
             {
                 entity.HasKey(e => e.IdImageCommerce);
 
-                entity.Property(e => e.IdImageCommerce)
-                    .HasColumnName("idImageCommerce")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.IdImageCommerce).HasColumnName("idImageCommerce");
 
                 entity.Property(e => e.Url)
-                    .HasMaxLength(30)
+                    .HasMaxLength(255)
                     .IsUnicode(false);
 
                 entity.HasOne(d => d.IdCommerceNavigation)
                     .WithMany(p => p.ImageCommerce)
                     .HasForeignKey(d => d.IdCommerce)
-                    .HasConstraintName("FK__ImageComm__IdCom__656C112C");
+                    .HasConstraintName("FK__ImageComm__IdCom__7D439ABD");
             });
 
             modelBuilder.Entity<Personne>(entity =>
             {
                 entity.HasKey(e => e.IdPersonne);
-
-                entity.Property(e => e.IdPersonne).ValueGeneratedNever();
 
                 entity.Property(e => e.Mail)
                     .IsRequired()
@@ -169,31 +160,6 @@ namespace APISmartCity
                     .IsUnicode(false);
 
                 entity.Property(e => e.Prenom)
-                    .IsRequired()
-                    .HasMaxLength(30)
-                    .IsUnicode(false);
-
-                entity.HasOne(d => d.IdCommerceNavigation)
-                    .WithMany(p => p.Personne)
-                    .HasForeignKey(d => d.IdCommerce)
-                    .HasConstraintName("FK__Personne__IdComm__6C190EBB");
-            });
-
-            modelBuilder.Entity<Promotion>(entity =>
-            {
-                entity.HasKey(e => e.IdPromotion);
-
-                entity.Property(e => e.IdPromotion).ValueGeneratedNever();
-
-                entity.Property(e => e.Conditions)
-                    .HasMaxLength(30)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.DateDeb).HasColumnType("date");
-
-                entity.Property(e => e.DateFin).HasColumnType("date");
-
-                entity.Property(e => e.Libelle)
                     .IsRequired()
                     .HasMaxLength(30)
                     .IsUnicode(false);

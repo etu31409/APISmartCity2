@@ -18,7 +18,7 @@ namespace APISmartCity.Controllers
     public class CommercesController : ControllerBase
     {
         private CommercesDAO commercesDAO = new CommercesDAO();
-        // GET api/values
+        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Commerce>>> Get()
         {
@@ -30,7 +30,6 @@ namespace APISmartCity.Controllers
             return Ok(commerces);
         }
 
-        // GET api/values/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Commerce>> Get(int id)
         {
@@ -40,7 +39,6 @@ namespace APISmartCity.Controllers
             return Ok(commerce);
         }
 
-        // POST api/values
         [HttpPost]
         public ActionResult<Commerce> Post([FromBody] Commerce commerce)
         {   //TODO Revoie la méthode POST
@@ -48,7 +46,6 @@ namespace APISmartCity.Controllers
             return Created("api/Commerces/" + commerce.IdCommerce, commerce);
         }
 
-        // PUT api/values/5
         [HttpPut("{id}")]
         public ActionResult<Commerce> Put(int id, [FromBody] Commerce commerce)
         {
@@ -58,7 +55,6 @@ namespace APISmartCity.Controllers
             return Ok(commerce);
         }
 
-        // DELETE api/values/5
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {

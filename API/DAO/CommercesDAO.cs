@@ -14,8 +14,7 @@ namespace APISmartCity.DAO
         private SCNConnectDBContext context = new SCNConnectDBContext();
         public async Task<List<Commerce>> GetCommerces(){
             //BETTER Faire un include en plus pour avoir le nom de la catégorie et pas l'id (clé étrangère)
-            IQueryable<Commerce> commerces = context.Commerce.Where(c => c.IdCategorie==2);
-            return await commerces.ToListAsync();
+            return await context.Commerce.ToListAsync();
         }
 
         public async Task<Commerce> GetCommerce(int id){

@@ -5,6 +5,11 @@ namespace APISmartCity.Model
 {
     public partial class Personne
     {
+        public Personne()
+        {
+            Commerce = new HashSet<Commerce>();
+        }
+
         public int IdPersonne { get; set; }
         public string Nom { get; set; }
         public string Prenom { get; set; }
@@ -12,8 +17,7 @@ namespace APISmartCity.Model
         public byte? EstCommercant { get; set; }
         public int? NumeroTelephone { get; set; }
         public string MotDePasse { get; set; }
-        public int? IdCommerce { get; set; }
 
-        public Commerce IdCommerceNavigation { get; set; }
+        public ICollection<Commerce> Commerce { get; set; }
     }
 }

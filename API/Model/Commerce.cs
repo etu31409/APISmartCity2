@@ -9,8 +9,8 @@ namespace APISmartCity.Model
         {
             Actualite = new HashSet<Actualite>();
             ImageCommerce = new HashSet<ImageCommerce>();
-            Personne = new HashSet<Personne>();
         }
+
         public int IdCommerce { get; set; }
         public string NomCommerce { get; set; }
         public string Rue { get; set; }
@@ -25,10 +25,11 @@ namespace APISmartCity.Model
         public int? Longitude { get; set; }
         public int? Latitude { get; set; }
         public int? IdCategorie { get; set; }
+        public int? IdPersonne { get; set; }
 
         public Categorie IdCategorieNavigation { get; set; }
+        public Personne IdPersonneNavigation { get; set; }
         public ICollection<Actualite> Actualite { get; set; }
         public ICollection<ImageCommerce> ImageCommerce { get; set; }
-        public ICollection<Personne> Personne { get; set; }
     }
 }
