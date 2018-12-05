@@ -6,6 +6,7 @@ namespace APISmartCity.Model
         public string Password{get;set;}
         public string Email{get;set;}
         public int Id{get;set;}
+        public string[] Roles { get; set; }
 
         public User(){
         }
@@ -15,6 +16,7 @@ namespace APISmartCity.Model
             this.Email = email;
             this.Id = id;
             this.Password = password;
+            
         }
     }
 

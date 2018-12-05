@@ -31,15 +31,22 @@ namespace APISmartCity.Controllers
             if(userFound==null)
                 return Unauthorized();
             
-            var claims = new []{
+            var claims = new List<Claim>{
                 new Claim(JwtRegisteredClaimNames.Sub, userFound.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, await _jwtOptions.JtiGenerator()),
                 new Claim(JwtRegisteredClaimNames.Iat,
                         ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(),
                         ClaimValueTypes.Integer64),
-                //Permet de rajouter l'ID de l'utilisateur dans les claims pour pouvoir tester son identité lors d'une modification
-                new Claim(JwtRegisteredClaimNames.NameId, userFound.Id.ToString())
+                //Ajout de l'identifiant de la personne dans les claims du token
+                new Claim(PrivateClaims.UserId, userFound.Id.ToString())
             };
+
+            //Permet de ajouter les différents rôles à un personne
+            if (userFound.Roles != null)
+            {
+                userFound.Roles.ToList().ForEach(roleName =>
+                claims.Add(new Claim("roles", roleName)));
+            }
 
             JwtSecurityToken token = new JwtSecurityToken(
                 issuer: _jwtOptions.Issuer,
