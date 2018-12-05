@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Cors;
 
 namespace APISmartCity.Controllers
 {
-    //TODO mettre en place la reception du token d'identification
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
@@ -51,10 +50,10 @@ namespace APISmartCity.Controllers
         {
             if (commerce == null)
                 return NotFound();
-            //fixme: InvalidOperationException: Sequence contains no matching element
+            
             int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
-            //Pas possible si l'utilisateur n'est pas le propriétaire du commerce
-            if(commerce.IdPersonne != userId)
+            //Pas possible si l'utilisateur n'est pas le propriétaire du commerce ou admin
+            if(commerce.IdPersonne != userId && !User.IsInRole(Constants.Roles.Admin))
                 return Forbid();
 
             commerce = commercesDAO.ModifCommerce(commerce);
