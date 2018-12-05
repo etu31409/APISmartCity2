@@ -51,6 +51,7 @@ namespace APISmartCity.Controllers
         {
             if (commerce == null)
                 return NotFound();
+            //fixme: InvalidOperationException: Sequence contains no matching element
             int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
             //Pas possible si l'utilisateur n'est pas le propriétaire du commerce
             if(commerce.IdPersonne != userId)
