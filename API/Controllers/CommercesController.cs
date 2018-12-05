@@ -19,9 +19,10 @@ namespace APISmartCity.Controllers
         private CommercesDAO commercesDAO = new CommercesDAO();
         
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Commerce>>> Get()
+        public async Task<ActionResult<IEnumerable<Commerce>>> Get(int categorie=0)
         {
-            List<Commerce> commerces = await commercesDAO.GetCommerces();
+            //L'attribut permet de définir la catégorie que on veut
+            List<Commerce> commerces = await commercesDAO.GetCommerces(categorie);
             if (commerces == null)
                 return NotFound();
             return Ok(commerces);

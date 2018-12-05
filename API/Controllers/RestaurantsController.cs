@@ -20,13 +20,6 @@ namespace APISmartCity.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Commerce>> Get()
         {
-            //Permet de Récupérer tout les restaurants
-            //Permet de lister la liste des claims
-            //User.Claims.ToList().ForEach(claim => Console.WriteLine($"{claim.Type}: {claim.Value}"));
-
-            //TODO Faire une vérif de l'ultilisateur qui appelle le controlleur pour lui renvoyer que ses restaurants.
-            var claim = User.Claims.First();
-
             List<Commerce> restaurants = restaurantsDAO.GetRestaurants();
             if (restaurants == null)
                 return NotFound();

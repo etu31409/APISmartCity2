@@ -12,9 +12,9 @@ namespace APISmartCity.DAO
     {     
         public CommercesDAO(){   }
         private SCNConnectDBContext context = new SCNConnectDBContext();
-        public async Task<List<Commerce>> GetCommerces(){
+        public async Task<List<Commerce>> GetCommerces(int categorie){
             //BETTER Faire un include en plus pour avoir le nom de la catégorie et pas l'id (clé étrangère)
-            return await context.Commerce.ToListAsync();
+            return await context.Commerce.Where( c => categorie == 0 || c.IdCategorie == categorie).ToListAsync();
         }
 
         public async Task<Commerce> GetCommerce(int id){

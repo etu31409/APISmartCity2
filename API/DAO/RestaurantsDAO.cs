@@ -11,7 +11,7 @@ namespace APISmartCity.DAO
         {
             var context = new SCNConnectDBContext();
             //BETTER Faire un include en plus pour avoir le nom de la catégorie et pas l'id (clé étrangère)
-            IQueryable<Commerce> restaurants = context.Commerce.Where(c => c.IdCategorie==1);
+            IQueryable<Commerce> restaurants = context.Commerce;
             return restaurants.ToList();
         }
 
