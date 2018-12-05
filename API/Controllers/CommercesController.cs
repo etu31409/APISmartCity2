@@ -22,8 +22,6 @@ namespace APISmartCity.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Commerce>>> Get()
         {
-            //TODO Faire une vérif de l'ultilisateur qui appelle le controlleur pour lui renvoyer que ses commerces.
-            //var claim = User.Claims.First();
             List<Commerce> commerces = await commercesDAO.GetCommerces();
             if (commerces == null)
                 return NotFound();
@@ -31,7 +29,7 @@ namespace APISmartCity.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Commerce>> Get(int id)
+        public async Task<ActionResult<Commerce>> GetById(int id)
         {
             Commerce commerce = await commercesDAO.GetCommerce(id);
             if(commerce == null)
@@ -41,9 +39,11 @@ namespace APISmartCity.Controllers
 
         [HttpPost]
         public ActionResult<Commerce> Post([FromBody] Commerce commerce)
-        {   //TODO Revoie la méthode POST
+        {   
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
             commerce = commercesDAO.AddCommerce(commerce);
-            return Created("api/Commerces/" + commerce.IdCommerce, commerce);
+            return Created($"api/Commerces/{commerce.IdCommerce}", commerce);
         }
 
         [HttpPut("{id}")]
@@ -51,6 +51,11 @@ namespace APISmartCity.Controllers
         {
             if (commerce == null)
                 return NotFound();
+            int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
+            //Pas possible si l'utilisateur n'est pas le propriétaire du commerce
+            if(commerce.IdPersonne != userId)
+                return Forbid();
+
             commerce = commercesDAO.ModifCommerce(commerce);
             return Ok(commerce);
         }
