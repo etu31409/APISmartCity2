@@ -32,13 +32,15 @@ namespace APISmartCity
         {
             string SecretKey = "MaSuperCleSecreteAPasPublier";
             SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
-            services.Configure<JwtIssuerOptions>(options => {
+            services.Configure<JwtIssuerOptions>(options =>
+            {
                 options.Issuer = "MonSuperServeurDeJetons";
                 options.Audience = "http://localhost:5000";
                 options.SigningCredentials = new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256);
             });
 
-            var tokenValidationParameters = new TokenValidationParameters{
+            var tokenValidationParameters = new TokenValidationParameters
+            {
                 ValidateIssuer = true,
                 ValidIssuer = "MonSuperServeurDeJetons",
 
@@ -56,20 +58,21 @@ namespace APISmartCity
 
             services
                 .AddAuthentication(
-                    options => 
+                    options =>
                     {
                         options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                     })
-                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options => 
+                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                     {
                         options.Audience = "http://localhost:5000";
                         options.ClaimsIssuer = "MonSuperServeurDeJetons";
                         options.TokenValidationParameters = tokenValidationParameters;
                         options.SaveToken = true;
                     });
-//pour ajouter CORS services (authoriser les requetes cross origin)
+            //pour ajouter CORS services (authoriser les requetes cross origin)
             //services.AddCors();
-            services.AddCors(options =>{
+            services.AddCors(options =>
+            {
                 options.AddPolicy("AllowSpecificOrigins",
                 builder =>
                 {
@@ -77,13 +80,12 @@ namespace APISmartCity
                 .AllowAnyMethod()
                 .AllowAnyHeader();
                 });
-            }
-        );
-            services.AddMvc((options)=>
+            });
+            services.AddMvc((options) =>
             {
-               options.Filters.Add(typeof(PersonnalExceptionFilter));
+                options.Filters.Add(typeof(PersonnalExceptionFilter));
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -110,7 +112,7 @@ namespace APISmartCity
             //app.UseHttpsRedirection();
             app.UseMvc();
 
-            
+
         }
     }
 }
