@@ -37,6 +37,10 @@ namespace APISmartCity.Controllers
             return Ok(commerce);
         }
 
+        private async Task<Commerce> FindById(int id){
+            return await commercesDAO.FindById(id);
+        }
+
         [HttpPost]
         public ActionResult<Commerce> Post([FromBody] Commerce commerce)
         {   
@@ -47,9 +51,10 @@ namespace APISmartCity.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult<Commerce> Put(int id, [FromBody] Commerce commerce)
+        public async Task<ActionResult> Put(int id,[FromBody] Commerce commerce)
         {
-            if (commerce == null)
+            Commerce com = await FindById(id);
+            if (com == null)
                 return NotFound();
             
             int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
@@ -64,9 +69,13 @@ namespace APISmartCity.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            //Vérif si le commerce est présent
-            if(commercesDAO.GetCommerce(id)==null)
+            Commerce commerce = await commercesDAO.GetCommerce(id);
+            if(commerce==null)
                 return NotFound();
+            int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
+            //Pas possible si l'utilisateur n'est pas le propriétaire du commerce ou admin
+            if(commerce.IdPersonne != userId && !User.IsInRole(Constants.Roles.Admin))
+                return Forbid();
             await commercesDAO.DeleteCommerce(id);
             return Ok();
         }

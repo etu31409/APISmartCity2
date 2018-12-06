@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using APISmartCity.Controllers;
+using APISmartCity.ExceptionPackage;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -78,7 +79,10 @@ namespace APISmartCity
                 });
             }
         );
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc((options)=>
+            {
+               options.Filters.Add(typeof(PersonnalExceptionFilter));
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             
         }
 

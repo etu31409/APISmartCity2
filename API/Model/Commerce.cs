@@ -26,6 +26,7 @@ namespace APISmartCity.Model
         public int? Latitude { get; set; }
         public int? IdCategorie { get; set; }
         public int? IdPersonne { get; set; }
+        public byte[] RowVersion { get; set; }
 
         public Categorie IdCategorieNavigation { get; set; }
         public Personne IdPersonneNavigation { get; set; }
