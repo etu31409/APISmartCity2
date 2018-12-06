@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace APISmartCity.Model
+namespace APISmartCity
 {
     public partial class SCNConnectDBContext : DbContext
     {
@@ -89,6 +89,8 @@ namespace APISmartCity.Model
                 entity.Property(e => e.ProduitPhare)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.Property(e => e.RowVersion).IsRowVersion();
 
                 entity.Property(e => e.Rue)
                     .IsRequired()
