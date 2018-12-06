@@ -1,5 +1,5 @@
 using System;
-namespace API.DTO
+namespace APISmartCity.DTO
 {
     public class Horaire
     {

@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-namespace API.DTO
+namespace APISmartCity.DTO
 {
 public class LoginModel
     {

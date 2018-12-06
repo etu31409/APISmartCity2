@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using APISmartCity.ExceptionPackage;
 using APISmartCity.Model;
 using Microsoft.EntityFrameworkCore;
+using APISmartCity.DTO;
 
 namespace APISmartCity.DAO
 {
@@ -24,13 +25,16 @@ namespace APISmartCity.DAO
 
         public async Task<Commerce> ModifCommerce(Commerce entity, Commerce dto){
             //Gérer les accès concurents plus tard
-            //TODO Utiliser un mapper
-            entity = dto;
+            
+            //Changer tout les champs de l'entity
+                //fixme: Configurer un mapper
+            entity.Numero = dto.Numero;
+
             await context.SaveChangesAsync();
-            return dto;
+            return entity;
         }
 
-        public Commerce AddCommerce(Commerce commerce){
+        public Model.Commerce AddCommerce(Commerce commerce){
             //Ajout dans la BD
             if(commerce == null)
                 throw new CommerceNotFoundException();
