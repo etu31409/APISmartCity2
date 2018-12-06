@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Cors;
+using APISmartCity.ExceptionPackage;
 
 namespace APISmartCity.Controllers
 {
@@ -37,10 +38,6 @@ namespace APISmartCity.Controllers
             return Ok(commerce);
         }
 
-        private async Task<Commerce> FindById(int id){
-            return await commercesDAO.FindById(id);
-        }
-
         [HttpPost]
         public ActionResult<Commerce> Post([FromBody] Commerce commerce)
         {   
@@ -53,7 +50,7 @@ namespace APISmartCity.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(int id,[FromBody] Commerce commerce)
         {
-            Commerce com = await FindById(id);
+            Commerce com = await commercesDAO.GetCommerce(id);
             if (com == null)
                 return NotFound();
             
@@ -76,7 +73,7 @@ namespace APISmartCity.Controllers
             //Pas possible si l'utilisateur n'est pas le propriétaire du commerce ou admin
             if(commerce.IdPersonne != userId && !User.IsInRole(Constants.Roles.Admin))
                 return Forbid();
-            await commercesDAO.DeleteCommerce(id);
+            await commercesDAO.DeleteCommerce(commerce);
             return Ok();
         }
     }

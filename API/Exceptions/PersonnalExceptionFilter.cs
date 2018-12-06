@@ -29,7 +29,7 @@ namespace APISmartCity.ExceptionPackage
                 var result = new ContentResult()
                 {
                     StatusCode = (int)HttpStatusCode.Conflict,
-                    //Content = Newtonsoft.Json.JsonConvert.SerializeObject(new BusinessError() { Message = context.Exception.Message }),
+                    Content = Newtonsoft.Json.JsonConvert.SerializeObject(new PersonnalError() { Message = context.Exception.Message }),
                     ContentType = "application/json"
 
                 };
