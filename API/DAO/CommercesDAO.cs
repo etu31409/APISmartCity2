@@ -22,7 +22,12 @@ namespace APISmartCity.DAO
             return await context.Commerce.FirstOrDefaultAsync(c => c.IdCommerce == id);
         }
 
+        public async Task<Commerce> FindById(int id){
+            return await context.Commerce.FindAsync(id);
+        }
+
         public Commerce ModifCommerce(Commerce commerce){
+            //Gérer les accès concurents plus tard
             if (context.Entry(commerce).State == EntityState.Detached)
             {
                 context.Attach(commerce).State = EntityState.Modified;
@@ -48,7 +53,6 @@ namespace APISmartCity.DAO
 
         public async Task DeleteCommerce(int id){
             Commerce commerce = await GetCommerce(id);
-            //fixme: Besoin de lever une exception ?
             if(commerce == null)
                 throw new CommerceNotFoundException();
             try{
