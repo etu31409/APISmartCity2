@@ -50,16 +50,16 @@ namespace APISmartCity.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(int id,[FromBody] Commerce commerce)
         {
-            Commerce com = await commercesDAO.GetCommerce(id);
-            if (com == null)
+            Commerce entity = await commercesDAO.GetCommerce(id);
+            if (entity == null)
                 return NotFound();
             
             int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
             //Pas possible si l'utilisateur n'est pas le propriétaire du commerce ou admin
-            if(commerce.IdPersonne != userId && !User.IsInRole(Constants.Roles.Admin))
+            if(entity.IdPersonne != userId && !User.IsInRole(Constants.Roles.Admin))
                 return Forbid();
 
-            commerce = commercesDAO.ModifCommerce(commerce);
+            commerce = await commercesDAO.ModifCommerce(entity, commerce);
             return Ok(commerce);
         }
 

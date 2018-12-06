@@ -22,15 +22,12 @@ namespace APISmartCity.DAO
             return await context.Commerce.FirstOrDefaultAsync(c => c.IdCommerce == id);
         }
 
-        public Commerce ModifCommerce(Commerce commerce){
+        public async Task<Commerce> ModifCommerce(Commerce entity, Commerce dto){
             //Gérer les accès concurents plus tard
-            if (context.Entry(commerce).State == EntityState.Detached)
-            {
-                context.Attach(commerce).State = EntityState.Modified;
-            }
-            // regardez également aux versions asynchrones des méthodes!
-            context.SaveChanges();
-            return commerce;
+            //TODO Utiliser un mapper
+            entity = dto;
+            await context.SaveChangesAsync();
+            return dto;
         }
 
         public Commerce AddCommerce(Commerce commerce){

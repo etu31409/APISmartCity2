@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace APISmartCity
+namespace APISmartCity.Model
 {
     public partial class SCNConnectDBContext : DbContext
     {
@@ -51,7 +51,7 @@ namespace APISmartCity
                 entity.HasOne(d => d.IdCommerceNavigation)
                     .WithMany(p => p.Actualite)
                     .HasForeignKey(d => d.IdCommerce)
-                    .HasConstraintName("FK__Actualite__IdCom__02084FDA");
+                    .HasConstraintName("FK__Actualite__IdCom__2A164134");
             });
 
             modelBuilder.Entity<Categorie>(entity =>
@@ -90,7 +90,9 @@ namespace APISmartCity
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.RowVersion).IsRowVersion();
+                entity.Property(e => e.RowVersion)
+                    .IsRequired()
+                    .IsRowVersion();
 
                 entity.Property(e => e.Rue)
                     .IsRequired()
@@ -104,12 +106,12 @@ namespace APISmartCity
                 entity.HasOne(d => d.IdCategorieNavigation)
                     .WithMany(p => p.Commerce)
                     .HasForeignKey(d => d.IdCategorie)
-                    .HasConstraintName("FK__Commerce__IdCate__7A672E12");
+                    .HasConstraintName("FK__Commerce__IdCate__22751F6C");
 
                 entity.HasOne(d => d.IdPersonneNavigation)
                     .WithMany(p => p.Commerce)
                     .HasForeignKey(d => d.IdPersonne)
-                    .HasConstraintName("FK__Commerce__IdPers__797309D9");
+                    .HasConstraintName("FK__Commerce__IdPers__2180FB33");
             });
 
             modelBuilder.Entity<Horaire>(entity =>
@@ -124,6 +126,10 @@ namespace APISmartCity
                     .IsRequired()
                     .HasMaxLength(30)
                     .IsUnicode(false);
+
+                entity.Property(e => e.RowVersion)
+                    .IsRequired()
+                    .IsRowVersion();
             });
 
             modelBuilder.Entity<ImageCommerce>(entity =>
@@ -139,7 +145,7 @@ namespace APISmartCity
                 entity.HasOne(d => d.IdCommerceNavigation)
                     .WithMany(p => p.ImageCommerce)
                     .HasForeignKey(d => d.IdCommerce)
-                    .HasConstraintName("FK__ImageComm__IdCom__7D439ABD");
+                    .HasConstraintName("FK__ImageComm__IdCom__25518C17");
             });
 
             modelBuilder.Entity<Personne>(entity =>

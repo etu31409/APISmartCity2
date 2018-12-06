@@ -9,5 +9,6 @@ namespace APISmartCity.Model
         public string Libelle { get; set; }
         public DateTime HoraireDebut { get; set; }
         public DateTime HoraireFin { get; set; }
+        public byte[] RowVersion { get; set; }
     }
 }
