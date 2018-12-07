@@ -9,6 +9,7 @@ namespace APISmartCity.Model
         {
             Actualite = new HashSet<Actualite>();
             ImageCommerce = new HashSet<ImageCommerce>();
+            OpeningPeriod = new HashSet<OpeningPeriod>();
         }
 
         public int IdCommerce { get; set; }
@@ -32,5 +33,6 @@ namespace APISmartCity.Model
         public Personne IdPersonneNavigation { get; set; }
         public ICollection<Actualite> Actualite { get; set; }
         public ICollection<ImageCommerce> ImageCommerce { get; set; }
+        public ICollection<OpeningPeriod> OpeningPeriod { get; set; }
     }
 }

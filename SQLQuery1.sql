@@ -1,9 +1,10 @@
+DROP TABLE OpeningPeriod;
 DROP TABLE Actualite;
 DROP TABLE ImageCommerce;
 DROP TABLE Commerce;
 DROP TABLE Personne;
 DROP TABLE Categorie;
-DROP TABLE Horaire;
+
 
 CREATE TABLE Personne(
 	IdPersonne int IDENTITY(1,1) PRIMARY KEY,
@@ -71,13 +72,16 @@ CREATE TABLE ImageCommerce(
 	FOREIGN KEY (IdCommerce) REFERENCES Commerce(IdCommerce)
 );
 
-CREATE TABLE Horaire(
+CREATE TABLE OpeningPeriod(
 	IdHoraire int IDENTITY(1,1) PRIMARY KEY,
-	Libelle varchar(30) NOT NULL,
-	HoraireDebut dateTime NOT NULL,
-	HoraireFin dateTime NOT NULL,
+	HoraireDebut time NOT NULL,
+	HoraireFin time NOT NULL,
+	Jour int NOT NULL,
+	idCommerce int,
 	RowVersion timestamp,
+	FOREIGN KEY (IdCommerce) REFERENCES Commerce(IdCommerce)
 );
+
 
 CREATE TABLE Actualite(
 	IdActualite int IDENTITY(1,1) PRIMARY KEY,
@@ -85,6 +89,6 @@ CREATE TABLE Actualite(
 	Texte varchar(30),
 	Date date,
 	IdCommerce int,
-	IdSiteTouristique int,
 	FOREIGN KEY (IdCommerce) REFERENCES Commerce(IdCommerce)
 );
+

@@ -1,8 +1,9 @@
 ﻿using System;
+using APISmartCity.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace APISmartCity.Model
+namespace APISmartCity
 {
     public partial class SCNConnectDBContext : DbContext
     {
@@ -18,8 +19,8 @@ namespace APISmartCity.Model
         public virtual DbSet<Actualite> Actualite { get; set; }
         public virtual DbSet<Categorie> Categorie { get; set; }
         public virtual DbSet<Commerce> Commerce { get; set; }
-        public virtual DbSet<Horaire> Horaire { get; set; }
         public virtual DbSet<ImageCommerce> ImageCommerce { get; set; }
+        public virtual DbSet<OpeningPeriod> OpeningPeriod { get; set; }
         public virtual DbSet<Personne> Personne { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -51,7 +52,7 @@ namespace APISmartCity.Model
                 entity.HasOne(d => d.IdCommerceNavigation)
                     .WithMany(p => p.Actualite)
                     .HasForeignKey(d => d.IdCommerce)
-                    .HasConstraintName("FK__Actualite__IdCom__2A164134");
+                    .HasConstraintName("FK__Actualite__IdCom__4B7734FF");
             });
 
             modelBuilder.Entity<Categorie>(entity =>
@@ -106,30 +107,12 @@ namespace APISmartCity.Model
                 entity.HasOne(d => d.IdCategorieNavigation)
                     .WithMany(p => p.Commerce)
                     .HasForeignKey(d => d.IdCategorie)
-                    .HasConstraintName("FK__Commerce__IdCate__22751F6C");
+                    .HasConstraintName("FK__Commerce__IdCate__42E1EEFE");
 
                 entity.HasOne(d => d.IdPersonneNavigation)
                     .WithMany(p => p.Commerce)
                     .HasForeignKey(d => d.IdPersonne)
-                    .HasConstraintName("FK__Commerce__IdPers__2180FB33");
-            });
-
-            modelBuilder.Entity<Horaire>(entity =>
-            {
-                entity.HasKey(e => e.IdHoraire);
-
-                entity.Property(e => e.HoraireDebut).HasColumnType("datetime");
-
-                entity.Property(e => e.HoraireFin).HasColumnType("datetime");
-
-                entity.Property(e => e.Libelle)
-                    .IsRequired()
-                    .HasMaxLength(30)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.RowVersion)
-                    .IsRequired()
-                    .IsRowVersion();
+                    .HasConstraintName("FK__Commerce__IdPers__41EDCAC5");
             });
 
             modelBuilder.Entity<ImageCommerce>(entity =>
@@ -145,7 +128,23 @@ namespace APISmartCity.Model
                 entity.HasOne(d => d.IdCommerceNavigation)
                     .WithMany(p => p.ImageCommerce)
                     .HasForeignKey(d => d.IdCommerce)
-                    .HasConstraintName("FK__ImageComm__IdCom__25518C17");
+                    .HasConstraintName("FK__ImageComm__IdCom__45BE5BA9");
+            });
+
+            modelBuilder.Entity<OpeningPeriod>(entity =>
+            {
+                entity.HasKey(e => e.IdHoraire);
+
+                entity.Property(e => e.IdCommerce).HasColumnName("idCommerce");
+
+                entity.Property(e => e.RowVersion)
+                    .IsRequired()
+                    .IsRowVersion();
+
+                entity.HasOne(d => d.IdCommerceNavigation)
+                    .WithMany(p => p.OpeningPeriod)
+                    .HasForeignKey(d => d.IdCommerce)
+                    .HasConstraintName("FK__OpeningPe__idCom__489AC854");
             });
 
             modelBuilder.Entity<Personne>(entity =>
