@@ -39,7 +39,7 @@ namespace APISmartCity.Controllers
         }
 
         [HttpPost]
-        //ajouter p-e le role d'admin
+        //ajouter p-e le role d'admin - Non, les utilisateurs d'angular doivent savoir ajouter sans etre admin - Gestionnaire ? Ca ferrait une différence avec ceux qui ont pas de privilèges en Android
         //[Authorize(Roles = Constants.Roles.Admin)]
         public async Task<ActionResult<Commerce>> Post([FromBody] Commerce commerce)
         {   
