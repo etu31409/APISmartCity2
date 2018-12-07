@@ -89,6 +89,12 @@ namespace APISmartCity
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            //automapper
+            AutoMapper.Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<Model.LoginModel,DTO.LoginModel>();
+                cfg.CreateMap<Model.Horaire,DTO.Horaire>();
+            });
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
