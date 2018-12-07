@@ -62,22 +62,14 @@ namespace APISmartCity.DAO
             //return Ok(Mapper.Map<DTO.Commerce>(Model.Commerce));
         }
 
-        public Model.Commerce AddCommerce(Commerce commerce)
+        public async Task<Model.Commerce> AddCommerce(Commerce commerce)
         {
             //Ajout dans la BD
             if (commerce == null)
                 throw new CommerceNotFoundException();
             context.Commerce.Add(commerce);
-            try
-            {
-                context.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                throw new CommerceNotFoundException(e.Message);
-            }
+            await context.SaveChangesAsync();
             return commerce;
-            //TODO Faire un catch de l'excpetion pour la renvoyer au client vie FILTER
         }
 
         public async Task DeleteCommerce(Commerce commerce)

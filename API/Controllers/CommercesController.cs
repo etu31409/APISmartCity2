@@ -41,11 +41,11 @@ namespace APISmartCity.Controllers
         [HttpPost]
         //ajouter p-e le role d'admin
         //[Authorize(Roles = Constants.Roles.Admin)]
-        public ActionResult<Commerce> Post([FromBody] Commerce commerce)
+        public async Task<ActionResult<Commerce>> Post([FromBody] Commerce commerce)
         {   
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
-            commerce = commercesDAO.AddCommerce(commerce);
+            commerce = await commercesDAO.AddCommerce(commerce);
             return Created($"api/Commerces/{commerce.IdCommerce}", commerce);
         }
 
