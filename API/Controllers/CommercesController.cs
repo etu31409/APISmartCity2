@@ -39,6 +39,8 @@ namespace APISmartCity.Controllers
         }
 
         [HttpPost]
+        //ajouter p-e le role d'admin
+        //[Authorize(Roles = Constants.Roles.Admin)]
         public ActionResult<Commerce> Post([FromBody] Commerce commerce)
         {   
             if(!ModelState.IsValid)

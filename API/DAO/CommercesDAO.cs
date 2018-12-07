@@ -6,7 +6,7 @@ using APISmartCity.ExceptionPackage;
 using APISmartCity.Model;
 using Microsoft.EntityFrameworkCore;
 using APISmartCity.DTO;
-
+using AutoMapper;
 namespace APISmartCity.DAO
 {
     public class CommercesDAO
@@ -28,10 +28,30 @@ namespace APISmartCity.DAO
             
             //Changer tout les champs de l'entity
                 //fixme: Configurer un mapper
+            entity.NomCommerce = dto.NomCommerce;
+            entity.AdresseMail = dto.AdresseMail;
+            entity.Actualite = dto.Actualite;
             entity.Numero = dto.Numero;
+            entity.Rue = dto.Rue;
+            entity.Description = dto.Description;
+            entity.IdCategorie = dto.IdCategorie;
+            entity.IdCategorieNavigation = dto.IdCategorieNavigation;
+            entity.IdCommerce = dto.IdCommerce;
+            entity.IdPersonne = dto.IdPersonne;
+            entity.IdPersonneNavigation = dto.IdPersonneNavigation;
+            entity.ImageCommerce = dto.ImageCommerce;
+            entity.Latitude = dto.Latitude;
+            entity.Longitude = dto.Longitude;
+            entity.NumeroFixe = dto.NumeroFixe;
+            entity.NumeroGsm = dto.NumeroGsm;
+            entity.ParcoursProduitPhare = dto.ParcoursProduitPhare;
+            entity.ProduitPhare = dto.ProduitPhare;
+            entity.UrlPageFacebook = dto.UrlPageFacebook;
 
+            context.Entry(entity).OriginalValues["RowVersion"] = dto.RowVersion;
             await context.SaveChangesAsync();
             return entity;
+            //return Ok(Mapper.Map<DTO.Commerce>(Model.Commerce));
         }
 
         public Model.Commerce AddCommerce(Commerce commerce){
