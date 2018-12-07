@@ -13,13 +13,28 @@ namespace APISmartCity.DAO
     {     
         public OpeningPeriodDAO(){   }
         private SCNConnectDBContext context = new SCNConnectDBContext();
-        public async Task<List<DTO.OpeningPeriod>> GetOpeningPeriods(){
-           // return await context.Commerce.SelectMany(sm => sm.OpeningPeriod).Select(CreateDTOFromEntity);
-           return new List<DTO.OpeningPeriod>();
+
+        public DTO.OpeningPeriod CreateDTOFromEntity(Model.OpeningPeriod entity){
+            //fixme: Possibilité d'amélioration avec un mapper
+            return new DTO.OpeningPeriod()
+            {
+                Id = entity.IdHoraire,
+                Opening = entity.HoraireDebut,
+                Closing = entity.HoraireFin,
+                //Day = entity.Jour, --Trouver un truc pour dayOfWeek dans la db
+                // on ne le stocke pas en DB car calculable, mais on facilite la vie
+                // des applications clientes en le proposant dans le DTO!
+                DurationOfOpening = entity.HoraireFin.Subtract(entity.HoraireDebut)
+            };
         }
 
-        public async Task<Commerce> GetCommerce(int id){
-            //Return du restaurant correspondant à l'identifiant passé en argument
+        public async Task<List<DTO.OpeningPeriod>> GetOpeningPeriods(){
+            //fixme : Pourquoi pas de ToListAsync() ?
+            return context.Commerce.SelectMany(sm => sm.OpeningPeriod).Select(CreateDTOFromEntity).ToList();
+        }
+
+        public async Task<Commerce> GetOpeningPeriod(int id){
+            //Utilité d'une telle méthode ?
             return await context.Commerce.FirstOrDefaultAsync(c => c.IdCommerce == id);
         }
 
