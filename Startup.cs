@@ -95,7 +95,7 @@ namespace APISmartCity
             AutoMapper.Mapper.Initialize(cfg =>
             {
                 cfg.CreateMap<Model.LoginModel,DTO.LoginModel>();
-                cfg.CreateMap<Model.Horaire,DTO.Horaire>();
+                cfg.CreateMap<Model.OpeningPeriod,DTO.OpeningPeriod>();
             });
             if (env.IsDevelopment())
             {
