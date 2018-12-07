@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using APISmartCity.ExceptionPackage;
 
 namespace APISmartCity.Model
 {
@@ -34,5 +36,17 @@ namespace APISmartCity.Model
         public ICollection<Actualite> Actualite { get; set; }
         public ICollection<ImageCommerce> ImageCommerce { get; set; }
         public ICollection<OpeningPeriod> OpeningPeriod { get; set; }
+
+        public void AddOpeningPeriod(OpeningPeriod newPeriod)
+        {
+            if (OpeningPeriod.Any(existingPeriod =>
+                existingPeriod.Jour == newPeriod.Jour &&
+                (newPeriod.HoraireFin >= existingPeriod.HoraireDebut && newPeriod.HoraireFin <= existingPeriod.HoraireFin) ||
+                (newPeriod.HoraireDebut >= existingPeriod.HoraireDebut && newPeriod.HoraireDebut <= existingPeriod.HoraireFin) ||
+                (newPeriod.HoraireDebut <= existingPeriod.HoraireDebut && newPeriod.HoraireFin >= existingPeriod.HoraireFin)))
+                throw new InvalidOpeningPeriodException();
+
+            this.OpeningPeriod.Add(newPeriod);
+        }
     }
 }

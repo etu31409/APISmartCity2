@@ -27,7 +27,6 @@ namespace APISmartCity
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Server=sc-nconnect-db.database.windows.net;Database=SC-NConnect-DB;User Id=dbadminSC;Password=azertyuiop123*;");
             }
         }

@@ -11,8 +11,13 @@ namespace APISmartCity.DAO
 {
     public class OpeningPeriodDAO
     {     
-        public OpeningPeriodDAO(){   }
-        private SCNConnectDBContext context = new SCNConnectDBContext();
+        public OpeningPeriodDAO(){  }
+        private SCNConnectDBContext context;
+
+        public OpeningPeriodDAO(SCNConnectDBContext context)
+        {   //Question : Passer par des méthodes statiques ?
+            this.context = context ?? throw new ArgumentNullException(nameof(context));
+        }
 
         public DTO.OpeningPeriod CreateDTOFromEntity(Model.OpeningPeriod entity){
             //fixme: Possibilité d'amélioration avec un mapper
@@ -28,7 +33,7 @@ namespace APISmartCity.DAO
             };
         }
 
-        public async Task<List<DTO.OpeningPeriod>> GetOpeningPeriods(){
+        public List<DTO.OpeningPeriod> GetOpeningPeriods(){
             //fixme : Pourquoi pas de ToListAsync() ?
             return context.Commerce.SelectMany(sm => sm.OpeningPeriod).Select(CreateDTOFromEntity).ToList();
         }

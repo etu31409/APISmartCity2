@@ -9,7 +9,7 @@ namespace APISmartCity.DAO
 {
     public class DesignTimeContextFactory : IDesignTimeDbContextFactory<SCNConnectDBContext>
     {
-        private const string CONNECTION_STRING_CONFIG_KEY = "DesignTimeConnectionString";
+        private const string CONNECTION_STRING_CONFIG_KEY = "Connection";
         readonly string connectionString;
         public DesignTimeContextFactory()
         {

@@ -10,11 +10,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+// using Swashbuckle.AspNetCore.Swagger;
 
 namespace APISmartCity
 {
@@ -30,6 +32,12 @@ namespace APISmartCity
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<SCNConnectDBContext>((options) =>
+            {
+                string connectionString = new ConfigurationHelper("ShopsDatabase").GetConnectionString();
+                options.UseSqlServer(connectionString);
+            });
+
             string SecretKey = "MaSuperCleSecreteAPasPublier";
             SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
             services.Configure<JwtIssuerOptions>(options =>
@@ -86,6 +94,11 @@ namespace APISmartCity
                 options.Filters.Add(typeof(PersonnalExceptionFilter));
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            // services.AddSwaggerGen(c =>
+            // {
+            //     c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+            // });
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -94,8 +107,8 @@ namespace APISmartCity
             //automapper
             AutoMapper.Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<Model.LoginModel,DTO.LoginModel>();
-                cfg.CreateMap<Model.OpeningPeriod,DTO.OpeningPeriod>();
+                cfg.CreateMap<Model.LoginModel, DTO.LoginModel>();
+                cfg.CreateMap<Model.OpeningPeriod, DTO.OpeningPeriod>();
             });
             if (env.IsDevelopment())
             {
@@ -105,7 +118,12 @@ namespace APISmartCity
             {
                 app.UseHsts();
             }
-
+            //Swagger
+            // app.useSwagger();
+            // app.UseSwaggerUI(c =>
+            // {
+            //     c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            // });
             //Enable CORS with CORS Middleware
             // Shows UseCors with CorsPolicyBuilder.
             app.UseCors(builder =>
