@@ -31,12 +31,12 @@ namespace APISmartCity.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            Model.Horaire entity = await FindOpeningPeriodById(id);
-            return (entity == null) ? NotFound() : (IActionResult)Ok(CreateDTOFromEntity(entity));
+            Model.OpeningPeriod entity = await FindOpeningPeriodById(id);
+            return (entity == null) ? NotFound() : (IActionResult)Ok(dao.CreateDTOFromEntity(entity));
 
         }
 
-        private Task<Model.Horaire> FindOpeningPeriodById(int id)
+        private Task<Model.OpeningPeriod> FindOpeningPeriodById(int id)
         {
             //fixme: Comment faire?
             throw new NotImplementedException();
@@ -44,90 +44,69 @@ namespace APISmartCity.Controllers
 
         // GET api/OpeningPeriod/Shop/5
         [HttpGet("Shop/{shopId}")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<DTO.Horaire>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<DTO.OpeningPeriod>))]
         public async Task<IActionResult> GetByShop(int shopId)
-        {
-            Model.Commerce commerceFound = await FindShopById(shopId);
+        { //TODO : Passer par la classe de dao
+            Model.Commerce commerceFound = await FindCommerceById(shopId);
             if (commerceFound == null)
                 return NotFound();
 
-            //IEnumerable<DTO.OpeningPeriod> dtos = commerceFound.OpeningPeriods.Select(CreateDTOFromEntity);
-            //return Ok(dtos);
-            return Ok();
+            IEnumerable<DTO.OpeningPeriod> dtos = commerceFound.OpeningPeriod.Select(dao.CreateDTOFromEntity);
+            return Ok(dtos);
         }
 
-        private async Task<Model.Commerce> FindShopById(int shopId)
-        {
+        private async Task<Model.Commerce> FindCommerceById(int shopId)
+        { 
             return await daoCommerce.GetCommerce(shopId);
         }
 
-        private static DTO.OpeningPeriod CreateDTOFromEntity(Model.Horaire op)
-        {
-            //fixme: Possibilité d'amélioration ?
-            return new DTO.OpeningPeriod()
-            {
-                //Id = op.Id,
-                //Opening = op.Opening,
-                //Closing = op.Closing,
-                //Day = op.Day,
-                // on ne le stocke pas en DB car calculable, mais on facilite la vie
-                // des applications clientes en le proposant dans le DTO!
-                //DurationOfOpening = op.Closing.Subtract(op.Opening)
-            };
+        //POST api/OpeningPeriod
+       [HttpPost("Shop/{shopId}")]
+       public async Task<IActionResult> Post(int shopId, [FromBody]DTO.OpeningPeriod dto)
+        { //TODO : Passer par le dao
+            Model.Commerce commerce = await FindCommerceById(shopId);
+            if (commerce == null)
+                return NotFound();  
+            int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
+
+            if (!User.IsInRole(Constants.Roles.Admin) && commerce.IdPersonne!=userId)
+                return Forbid();
+
+            Model.OpeningPeriod entity = CreateEntityFromDTO(dto);
+            //commerce.AddOpeningPeriod(entity);
+            //await context.SaveChangesAsync();
+            return Created($"api/{entity.IdHoraire}", dao.CreateDTOFromEntity(entity));
         }
 
-        // POST api/OpeningPeriod
-       // [HttpPost("Shop/{shopId}")]
-       // public async Task<IActionResult> Post(int shopId, [FromBody]DTO.OpeningPeriod dto)
-        //{
-            // Model.Shop shop = await FindShopById(shopId);
-            // if (shop == null)
-            //     return NotFound();  
-            // int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
+        private Model.OpeningPeriod CreateEntityFromDTO(DTO.OpeningPeriod dto)
+        {
+            //return new Model.OpeningPeriod(dto.Opening, dto.Closing, dto.Day);
+            return new Model.OpeningPeriod();
+        }
 
-            // #region ...
-            // if (!User.IsInRole(Constants.Roles.Admin) && shop.OwnerId!=userId)
-            //     return Forbid();
-            // #endregion
+        // PUT api/OpeningPeriod/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, [FromBody]DTO.OpeningPeriod dto)
+        {
+            Model.OpeningPeriod entity = await FindOpeningPeriodById(id);
+            if (entity == null)
+                return NotFound();
+            //fixme: comment améliorer cette implémentation?
+            entity = CreateEntityFromDTO(dto);
+            //await context.SaveChangesAsync();
+            return Ok();
+        }
 
-            // Model.OpeningPeriod entity = CreateEntityFromDTO(dto);
-            // shop.AddOpeningPeriod(entity);
-            // await context.SaveChangesAsync();
-            // return Created($"api/{entity.Id}", CreateDTOFromEntity(entity));
-        //}
-
-        // private Model.OpeningPeriod CreateEntityFromDTO(DTO.OpeningPeriod dto)
-        // {
-        //     return new Model.OpeningPeriod(dto.Opening, dto.Closing, dto.Day);
-        // }
-
-        // // PUT api/OpeningPeriod/5
-        // [HttpPut("{id}")]
-        // public async Task<IActionResult> Put(int id, [FromBody]DTO.OpeningPeriod dto)
-        // {
-        //     Model.OpeningPeriod entity = await FindOpeningPeriodById(id);
-        //     if (entity == null)
-        //         return NotFound();
-        //     //fixme: comment améliorer cette implémentation?
-        //     entity.Closing = dto.Closing;
-        //     entity.Day = dto.Day;
-        //     entity.Opening = dto.Opening;
-        //     await context.SaveChangesAsync();
-        //     return Ok();
-        // }
-
-        // // DELETE api/OpeningPeriod/5
-        // [HttpDelete("{id}")]
-        // public async Task<IActionResult> Delete(int id)
-        // {
-        //     Model.OpeningPeriod entity = await FindOpeningPeriodById(id);
-        //     if (entity == null)
-        //         // todo: débat: si l'on demande une suppression d'une entité qui n'existe pas
-        //         // s'agit-il vraiment d'un cas d'erreur? 
-        //         return NotFound();
-        //     context.Remove(entity);
-        //     await context.SaveChangesAsync();
-        //     return Ok();
-        // }
+        // DELETE api/OpeningPeriod/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            Model.OpeningPeriod entity = await FindOpeningPeriodById(id);
+            if (entity == null)
+                return NotFound();
+            //context.Remove(entity);
+            //await context.SaveChangesAsync();
+            return Ok();
+        }
     }
 }
