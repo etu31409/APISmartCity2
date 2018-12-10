@@ -16,8 +16,15 @@ namespace APISmartCity.Controllers
     [Route("api/[controller]")]
     public class OpeningPeriodsController : Controller
     {
-        OpeningPeriodDAO dao = new OpeningPeriodDAO();
-        CommercesDAO daoCommerce = new CommercesDAO();
+        private SCNConnectDBContext context;
+        private OpeningPeriodDAO dao;
+        private CommercesDAO commercesDAO;
+        public OpeningPeriodsController(SCNConnectDBContext context)
+        {
+            this.context = context ?? throw new ArgumentNullException(nameof(context));
+            this.commercesDAO = new CommercesDAO(context);
+            this.dao = new OpeningPeriodDAO(context);
+        }
 
         // GET: api/OpeningPeriod
         [HttpGet]
@@ -57,7 +64,7 @@ namespace APISmartCity.Controllers
 
         private async Task<Model.Commerce> FindCommerceById(int shopId)
         { 
-            return await daoCommerce.GetCommerce(shopId);
+            return await commercesDAO.GetCommerce(shopId);
         }
 
         //POST api/OpeningPeriod

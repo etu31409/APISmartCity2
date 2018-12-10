@@ -11,7 +11,7 @@ namespace APISmartCity.DAO
 {
     public class OpeningPeriodDAO
     {     
-        public OpeningPeriodDAO(){  }
+        
         private SCNConnectDBContext context;
 
         public OpeningPeriodDAO(SCNConnectDBContext context)

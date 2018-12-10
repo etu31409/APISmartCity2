@@ -11,9 +11,7 @@ namespace APISmartCity.DAO
 {
     public class CommercesDAO
     {
-        public CommercesDAO(){ }
         private SCNConnectDBContext context;
-
         public CommercesDAO(SCNConnectDBContext context)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
