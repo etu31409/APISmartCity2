@@ -16,7 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-// using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace APISmartCity
 {
@@ -34,7 +34,7 @@ namespace APISmartCity
         {
             services.AddDbContext<SCNConnectDBContext>((options) =>
             {
-                string connectionString = new ConfigurationHelper("ShopsDatabase").GetConnectionString();
+                string connectionString = new ConfigurationHelper("database").GetConnectionString();
                 options.UseSqlServer(connectionString);
             });
 
@@ -94,10 +94,10 @@ namespace APISmartCity
                 options.Filters.Add(typeof(PersonnalExceptionFilter));
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            // services.AddSwaggerGen(c =>
-            // {
-            //     c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
-            // });
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+            });
             
         }
 
@@ -119,11 +119,11 @@ namespace APISmartCity
                 app.UseHsts();
             }
             //Swagger
-            // app.useSwagger();
-            // app.UseSwaggerUI(c =>
-            // {
-            //     c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-            // });
+            //app.useSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
             //Enable CORS with CORS Middleware
             // Shows UseCors with CorsPolicyBuilder.
             app.UseCors(builder =>

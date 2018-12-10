@@ -17,7 +17,14 @@ namespace APISmartCity.Controllers
     [ApiController]
     public class CommercesController : ControllerBase
     {
-        private CommercesDAO commercesDAO = new CommercesDAO();
+        private SCNConnectDBContext context;
+        private CommercesDAO commercesDAO;
+        public CommercesController(SCNConnectDBContext context)
+        {
+            this.context = context ?? throw new ArgumentNullException(nameof(context));
+            this.commercesDAO = new CommercesDAO(context);
+        }
+        
         
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Commerce>>> Get(int categorie = 0)

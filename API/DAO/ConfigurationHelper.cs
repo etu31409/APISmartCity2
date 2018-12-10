@@ -24,7 +24,7 @@ namespace APISmartCity
                .Build();
             string connectionString = config.GetConnectionString(CONNECTION_STRING_CONFIG_KEY);
             if (String.IsNullOrEmpty(connectionString))
-                throw new InvalidOperationException($"Le fichier de configuration doit contenir une connection string nommée {CONNECTION_STRING_CONFIG_KEY}");
+                throw new InvalidOperationException($"Le fichier de configuration {expectedConfigurationFilePath} doit contenir une connection string nommée {CONNECTION_STRING_CONFIG_KEY}");
             return connectionString;
         }
     }
