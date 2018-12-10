@@ -29,8 +29,8 @@ namespace APISmartCity.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Commerce>>> Get(int categorie = 0)
         {
-            //L'attribut permet de définir la catégorie que on veut
-            List<Commerce> commerces = await commercesDAO.GetCommerces(categorie);
+            int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
+            List<Commerce> commerces = await commercesDAO.GetCommerces(categorie, userId);
             if (commerces == null)
                 return NotFound();
             return Ok(commerces);
