@@ -80,8 +80,9 @@ namespace APISmartCity.Controllers
                 return Forbid();
 
             Model.OpeningPeriod entity = CreateEntityFromDTO(dto);
-            //commerce.AddOpeningPeriod(entity);
-            //await context.SaveChangesAsync();
+
+            dao.AddOpeningPeriod(entity);
+
             return Created($"api/{entity.IdHoraire}", dao.CreateDTOFromEntity(entity));
         }
 
