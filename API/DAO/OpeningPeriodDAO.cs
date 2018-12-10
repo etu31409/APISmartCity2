@@ -48,25 +48,23 @@ namespace APISmartCity.DAO
             return context.Commerce.SelectMany(sm => sm.OpeningPeriod).Select(CreateDTOFromEntity).ToList();
         }
 
-
-        public async Task ModifOpeningPeriod(Model.OpeningPeriod entity, DTO.OpeningPeriod dto){
-            entity = CreateEntityFromDTO(dto);
-            context.Entry(entity).OriginalValues["RowVersion"] = dto.RowVersion;
-            await context.SaveChangesAsync();
-        }
-
-        public Model.Commerce AddCommerce(Commerce commerce){
+        public Model.OpeningPeriod AddOpeningPeriod(Model.OpeningPeriod op){
             //Ajout dans la BD
-            if(commerce == null)
-                throw new CommerceNotFoundException();
-            context.Commerce.Add(commerce);
+            if(op == null)
+                throw new OpeningPeriodNotFoundException();
+            context.OpeningPeriod.Add(op);
             try{
                 context.SaveChanges();
             }catch(Exception e){
                 throw new CommerceNotFoundException(e.Message);
             }
-            return commerce;
-            //TODO Faire un catch de l'excpetion pour la renvoyer au client vie FILTER
+            return op;
+        }
+
+        public async Task ModifOpeningPeriod(Model.OpeningPeriod entity, DTO.OpeningPeriod dto){
+            entity = CreateEntityFromDTO(dto);
+            context.Entry(entity).OriginalValues["RowVersion"] = dto.RowVersion;
+            await context.SaveChangesAsync();
         }
 
         public async Task DeleteCommerce(Commerce commerce){               
