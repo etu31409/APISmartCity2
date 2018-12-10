@@ -10,16 +10,17 @@ using APISmartCity.DTO;
 namespace APISmartCity.DAO
 {
     public class OpeningPeriodDAO
-    {     
-        
+    {
+
         private SCNConnectDBContext context;
 
         public OpeningPeriodDAO(SCNConnectDBContext context)
-        {   
+        {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public DTO.OpeningPeriod CreateDTOFromEntity(Model.OpeningPeriod entity){
+        public DTO.OpeningPeriod CreateDTOFromEntity(Model.OpeningPeriod entity)
+        {
             //fixme: Possibilité d'amélioration avec un mapper
             return new DTO.OpeningPeriod()
             {
@@ -33,8 +34,10 @@ namespace APISmartCity.DAO
             };
         }
 
-        private Model.OpeningPeriod CreateEntityFromDTO(DTO.OpeningPeriod dto){
-            return new Model.OpeningPeriod(){
+        private Model.OpeningPeriod CreateEntityFromDTO(DTO.OpeningPeriod dto)
+        {
+            return new Model.OpeningPeriod()
+            {
                 IdHoraire = dto.Id,
                 HoraireDebut = dto.Opening,
                 HoraireFin = dto.Closing,
@@ -44,37 +47,39 @@ namespace APISmartCity.DAO
             };
         }
 
-        public List<DTO.OpeningPeriod> GetOpeningPeriods(){
+        public List<DTO.OpeningPeriod> GetOpeningPeriods()
+        {
             return context.Commerce.SelectMany(sm => sm.OpeningPeriod).Select(CreateDTOFromEntity).ToList();
         }
 
-        public Model.OpeningPeriod AddOpeningPeriod(Model.OpeningPeriod op){
+        public Model.OpeningPeriod AddOpeningPeriod(Model.OpeningPeriod op)
+        {
             //Ajout dans la BD
-            if(op == null)
+            if (op == null)
                 throw new OpeningPeriodNotFoundException();
             context.OpeningPeriod.Add(op);
-            try{
+            try
+            {
                 context.SaveChanges();
-            }catch(Exception e){
+            }
+            catch (Exception e)
+            {
                 throw new CommerceNotFoundException(e.Message);
             }
             return op;
         }
 
-        public async Task ModifOpeningPeriod(Model.OpeningPeriod entity, DTO.OpeningPeriod dto){
+        public async Task ModifOpeningPeriod(Model.OpeningPeriod entity, DTO.OpeningPeriod dto)
+        {
             entity = CreateEntityFromDTO(dto);
             context.Entry(entity).OriginalValues["RowVersion"] = dto.RowVersion;
             await context.SaveChangesAsync();
         }
 
-        public async Task DeleteCommerce(Commerce commerce){               
-            try{
-                context.Remove(commerce);
-                await context.SaveChangesAsync();
-            }catch(Exception e){
-                //TODO
-                Console.WriteLine(e.Message);
-            }
+        public async Task DeleteOpeningPeriod(Model.OpeningPeriod op)
+        {
+            context.Remove(op);
+            await context.SaveChangesAsync();
         }
     }
 }
