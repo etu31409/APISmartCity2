@@ -116,8 +116,7 @@ namespace APISmartCity.Controllers
             Model.OpeningPeriod entity = await FindOpeningPeriodById(id);
             if (entity == null)
                 return NotFound();
-            //context.Remove(entity);
-            //await context.SaveChangesAsync();
+            await dao.DeleteOpeningPeriod(entity);
             return Ok();
         }
     }
