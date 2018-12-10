@@ -2,22 +2,19 @@ DROP TABLE OpeningPeriod;
 DROP TABLE Actualite;
 DROP TABLE ImageCommerce;
 DROP TABLE Commerce;
-DROP TABLE Personne;
+DROP TABLE Users;
 DROP TABLE Categorie;
 
 
-CREATE TABLE Personne(
-	IdPersonne int IDENTITY(1,1) PRIMARY KEY,
-	Nom varchar(30) NOT NULL,
-	Prenom varchar(30) NOT NULL,
-	Mail varchar(30) NOT NULL,
-	EstCommercant tinyint,
-	NumeroTelephone int,
-	MotDePasse varchar(60) NOT NULL,
+CREATE TABLE Users(
+	IdUser int IDENTITY(1,1) PRIMARY KEY,
+	UserName varchar(60) NOT NULL,
+	Email varchar(60) NOT NULL,
+	Password varchar(60) NOT NULL,
 );
 
-INSERT INTO Personne (Nom, Prenom, Mail, MotDePasse) VALUES ('doe', 'jane', 'janedoe@mail.com','123'); 
-INSERT INTO Personne (Nom, Prenom, Mail, MotDePasse) VALUES ('doe', 'john', 'johndoe@mail.com','456'); 
+INSERT INTO Users (UserName, Email, Password) VALUES ('janedoe', 'janedoe@mail.com','123'); 
+INSERT INTO Users (UserName, Email, Password) VALUES ('johndoe', 'johndoe@mail.com','456'); 
 
 CREATE TABLE Categorie(
 	IdCategorie int IDENTITY(1,1) PRIMARY KEY,
@@ -45,7 +42,7 @@ CREATE TABLE Commerce(
 	IdCategorie int,
 	IdPersonne int,
 	RowVersion timestamp,
-	FOREIGN KEY (IdPersonne) REFERENCES Personne(IdPersonne),
+	FOREIGN KEY (IdPersonne) REFERENCES Users(IdUser),
 	FOREIGN KEY (IdCategorie) REFERENCES Categorie(IdCategorie)
 );
 /*Il faut d'abord insérer les catégories pour que ca marche !!!*/

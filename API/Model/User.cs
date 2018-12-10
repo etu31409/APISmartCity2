@@ -16,7 +16,6 @@ namespace APISmartCity.Model
             this.Email = email;
             this.Id = id;
             this.Password = password;
-            
         }
     }
 
