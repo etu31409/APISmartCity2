@@ -23,13 +23,13 @@ namespace APISmartCity.ExceptionPackage
             _logger.LogError(context.Exception, "Une erreur inattendue s'est produite");
 
 
-            if (context.Exception.GetType()==typeof(ArgumentNullException))
+            if (context.Exception.GetType()==typeof(DbUpdateConcurrencyException))
             {
                
                 var result = new ContentResult()
                 {
                     StatusCode = (int)HttpStatusCode.Conflict,
-                    Content = Newtonsoft.Json.JsonConvert.SerializeObject(new PersonnalError() { Message = "Argument Null Exception" }),
+                    Content = Newtonsoft.Json.JsonConvert.SerializeObject(new PersonnalError() { Message = "Access concurent à la base de donnée" }),
                     ContentType = "application/json"
 
                 };

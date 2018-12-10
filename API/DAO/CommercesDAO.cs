@@ -24,7 +24,6 @@ namespace APISmartCity.DAO
 
         public async Task<Commerce> GetCommerce(int id)
         {
-            //Return du restaurant correspondant à l'identifiant passé en argument
             return await context.Commerce.FirstOrDefaultAsync(c => c.IdCommerce == id);
         }
 
