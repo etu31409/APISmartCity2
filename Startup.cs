@@ -34,7 +34,7 @@ namespace APISmartCity
         {
             services.AddDbContext<SCNConnectDBContext>((options) =>
             {
-                string connectionString = new ConfigurationHelper("database").GetConnectionString();
+                string connectionString = new ConfigurationHelper("Connection").GetConnectionString();
                 options.UseSqlServer(connectionString);
             });
 
