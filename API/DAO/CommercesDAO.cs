@@ -27,10 +27,8 @@ namespace APISmartCity.DAO
             return await context.Commerce.FirstOrDefaultAsync(c => c.IdCommerce == id);
         }
 
-        public async Task<Commerce> ModifCommerce(Commerce entity, Commerce dto)
+        public async Task ModifCommerce(Commerce entity, Commerce dto)
         {
-            //Gérer les accès concurents plus tard
-
             //Changer tout les champs de l'entity
             //fixme: Configurer un mapper
             entity.NomCommerce = dto.NomCommerce;
@@ -55,7 +53,6 @@ namespace APISmartCity.DAO
 
             context.Entry(entity).OriginalValues["RowVersion"] = dto.RowVersion;
             await context.SaveChangesAsync();
-            return entity;
             //return Ok(Mapper.Map<DTO.Commerce>(Model.Commerce));
         }
 

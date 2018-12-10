@@ -97,10 +97,15 @@ namespace APISmartCity.Controllers
             Model.OpeningPeriod entity = await FindOpeningPeriodById(id);
             if (entity == null)
                 return NotFound();
-            //fixme: comment améliorer cette implémentation?
-            entity = CreateEntityFromDTO(dto);
-            //await context.SaveChangesAsync();
-            return Ok();
+
+            int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
+            //Pas possible si l'utilisateur n'est pas le propriétaire du commerce ou admin
+            //if(entity.IdCommerce != userId && !User.IsInRole(Constants.Roles.Admin))
+              //  return Forbid();
+              //fixme : Faire une validation que le commerce (opening period par extension) appartient bien a l'utilisateur
+
+            await dao.ModifOpeningPeriod(entity, dto);
+            return Ok(dto);
         }
 
         // DELETE api/OpeningPeriod/5

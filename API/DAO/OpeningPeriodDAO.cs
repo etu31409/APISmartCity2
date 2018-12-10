@@ -15,7 +15,7 @@ namespace APISmartCity.DAO
         private SCNConnectDBContext context;
 
         public OpeningPeriodDAO(SCNConnectDBContext context)
-        {   //Question : Passer par des méthodes statiques ?
+        {   
             this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
@@ -26,32 +26,33 @@ namespace APISmartCity.DAO
                 Id = entity.IdHoraire,
                 Opening = entity.HoraireDebut,
                 Closing = entity.HoraireFin,
-                //Day = entity.Jour, --Trouver un truc pour dayOfWeek dans la db
+                Day = entity.Jour, //fixme: Trouver un truc pour dayOfWeek dans la db
                 // on ne le stocke pas en DB car calculable, mais on facilite la vie
                 // des applications clientes en le proposant dans le DTO!
                 DurationOfOpening = entity.HoraireFin.Subtract(entity.HoraireDebut)
             };
         }
 
+        private Model.OpeningPeriod CreateEntityFromDTO(DTO.OpeningPeriod dto){
+            return new Model.OpeningPeriod(){
+                IdHoraire = dto.Id,
+                HoraireDebut = dto.Opening,
+                HoraireFin = dto.Closing,
+                Jour = dto.Day //fixme: Trouver un truc pour dayOfWeek dans la db
+                // on ne le stocke pas en DB car calculable, mais on facilite la vie
+                // des applications clientes en le proposant dans le DTO!
+            };
+        }
+
         public List<DTO.OpeningPeriod> GetOpeningPeriods(){
-            //fixme : Pourquoi pas de ToListAsync() ?
             return context.Commerce.SelectMany(sm => sm.OpeningPeriod).Select(CreateDTOFromEntity).ToList();
         }
 
-        public async Task<Commerce> GetOpeningPeriod(int id){
-            //Utilité d'une telle méthode ?
-            return await context.Commerce.FirstOrDefaultAsync(c => c.IdCommerce == id);
-        }
 
-        public async Task<Commerce> ModifCommerce(Commerce entity, Commerce dto){
-            //Gérer les accès concurents plus tard
-            
-            //Changer tout les champs de l'entity
-                //fixme: Configurer un mapper
-            entity.Numero = dto.Numero;
-
+        public async Task ModifOpeningPeriod(Model.OpeningPeriod entity, DTO.OpeningPeriod dto){
+            entity = CreateEntityFromDTO(dto);
+            context.Entry(entity).OriginalValues["RowVersion"] = dto.RowVersion;
             await context.SaveChangesAsync();
-            return entity;
         }
 
         public Model.Commerce AddCommerce(Commerce commerce){

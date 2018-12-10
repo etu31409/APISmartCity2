@@ -68,7 +68,7 @@ namespace APISmartCity.Controllers
             if(entity.IdPersonne != userId && !User.IsInRole(Constants.Roles.Admin))
                 return Forbid();
 
-            commerce = await commercesDAO.ModifCommerce(entity, commerce);
+            await commercesDAO.ModifCommerce(entity, commerce);
             return Ok(commerce);
         }
 

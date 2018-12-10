@@ -15,7 +15,7 @@ namespace APISmartCity.Model
 
         public Commerce IdCommerceNavigation { get; set; }
 
-        private OpeningPeriod(){
+        public OpeningPeriod(){
             //Nécessaire pour EF Core
         }
         public OpeningPeriod(TimeSpan opening, TimeSpan closing, DayOfWeek day)
