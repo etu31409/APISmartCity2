@@ -119,7 +119,7 @@ namespace APISmartCity
                 app.UseHsts();
             }
             //Swagger
-            //app.useSwagger();
+            //fixme : app.useSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
