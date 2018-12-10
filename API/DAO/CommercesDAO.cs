@@ -19,7 +19,7 @@ namespace APISmartCity.DAO
 
         public async Task<List<Commerce>> GetCommerces(int categorie, int UserId)
         {
-            return await context.Commerce.Where(c => categorie == 0 || c.IdCategorie == categorie).Where(c => c.IdPersonne == UserId).ToListAsync();
+            return await context.Commerce.Where(c => (categorie == 0 || c.IdCategorie == categorie) && c.IdPersonne == UserId).ToListAsync();
         }
 
         public async Task<Commerce> GetCommerce(int id)
