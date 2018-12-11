@@ -42,9 +42,9 @@ namespace APISmartCity.DAO
             };
         }
 
-        public List<DTO.OpeningPeriod> GetOpeningPeriods()
+        public async Task<List<Model.OpeningPeriod>> GetOpeningPeriods()
         {
-            return context.Commerce.SelectMany(sm => sm.OpeningPeriod).Select(CreateDTOFromEntity).ToList();
+            return await context.OpeningPeriod.ToListAsync();
         }
 
         public async Task<Model.OpeningPeriod> AddOpeningPeriod(Model.OpeningPeriod op)

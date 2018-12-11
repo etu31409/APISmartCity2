@@ -28,9 +28,9 @@ namespace APISmartCity.Controllers
 
         // GET: api/OpeningPeriod
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            return Ok(dao.GetOpeningPeriods());
+            return Ok(await dao.GetOpeningPeriods());
         }
 
         // GET api/OpeningPeriod/5
