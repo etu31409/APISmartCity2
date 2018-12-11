@@ -44,7 +44,6 @@ namespace APISmartCity.Controllers
 
         private Task<Model.OpeningPeriod> FindOpeningPeriodById(int id)
         {
-            //fixme: Comment faire?
             throw new NotImplementedException();
         }
 
@@ -52,7 +51,7 @@ namespace APISmartCity.Controllers
         [HttpGet("Shop/{shopId}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<DTO.OpeningPeriod>))]
         public async Task<IActionResult> GetByShop(int shopId)
-        { //TODO : Passer par la classe de dao
+        { 
             Model.Commerce commerceFound = await FindCommerceById(shopId);
             if (commerceFound == null)
                 return NotFound();
@@ -69,25 +68,25 @@ namespace APISmartCity.Controllers
         //POST api/OpeningPeriod
        [HttpPost("Shop/{shopId}")]
        public async Task<IActionResult> Post(int shopId, [FromBody]DTO.OpeningPeriod dto)
-        { //TODO : Passer par le dao
+        {
             Model.Commerce commerce = await FindCommerceById(shopId);
             if (commerce == null)
-                return NotFound();  
-            int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
+                return NotFound();
 
+            int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
             if (!User.IsInRole(Constants.Roles.Admin) && commerce.IdUser!=userId)
                 return Forbid();
 
             Model.OpeningPeriod entity = CreateEntityFromDTO(dto);
 
-            await dao.AddOpeningPeriod(entity);
-
+            await dao.AddOpeningPeriod(entity, commerce);
+            
             return Created($"api/{entity.IdHoraire}", dao.CreateDTOFromEntity(entity));
         }
 
         private Model.OpeningPeriod CreateEntityFromDTO(DTO.OpeningPeriod dto)
         {
-            return new Model.OpeningPeriod(dto.Opening, dto.Closing, dto.Day);
+            return new Model.OpeningPeriod(dto.Opening, dto.Closing, dto.Day, dto.ShopId);
         }
 
         // PUT api/OpeningPeriod/5

@@ -28,6 +28,7 @@ namespace APISmartCity.DAO
                 Opening = entity.HoraireDebut,
                 Closing = entity.HoraireFin,
                 Day = entity.Jour,
+                ShopId = entity.IdCommerce,
                 DurationOfOpening = entity.HoraireFin.Subtract(entity.HoraireDebut)
             };
         }
@@ -35,10 +36,10 @@ namespace APISmartCity.DAO
         {
             return new Model.OpeningPeriod()
             {
-                IdHoraire = dto.Id,
                 HoraireDebut = dto.Opening,
                 HoraireFin = dto.Closing,
-                Jour = dto.Day
+                Jour = dto.Day,
+                IdCommerce = dto.ShopId
             };
         }
 
@@ -47,20 +48,13 @@ namespace APISmartCity.DAO
             return await context.OpeningPeriod.ToListAsync();
         }
 
-        public async Task<Model.OpeningPeriod> AddOpeningPeriod(Model.OpeningPeriod op)
+        public async Task<Model.OpeningPeriod> AddOpeningPeriod(Model.OpeningPeriod op, Model.Commerce commerce)
         {
-            //Ajout dans la BD
             if (op == null)
                 throw new OpeningPeriodNotFoundException();
-            context.OpeningPeriod.Add(op);
-            try
-            {
-                await context.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-                throw new CommerceNotFoundException(e.Message);
-            }
+            
+            commerce.AddOpeningPeriod(op);
+            await context.SaveChangesAsync();
             return op;
         }
 
