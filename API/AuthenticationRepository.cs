@@ -20,7 +20,7 @@ namespace APISmartCity.Controllers
         // }
         
         public IEnumerable<User> GetUsers(){
-            return context.Users.ToList();
+            return context.User.ToList();
         }
         
     }

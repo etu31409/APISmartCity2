@@ -65,7 +65,7 @@ namespace APISmartCity.Controllers
             
             int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
             //Pas possible si l'utilisateur n'est pas le propriétaire du commerce ou admin
-            if(entity.IdPersonne != userId && !User.IsInRole(Constants.Roles.Admin))
+            if(entity.IdUser != userId && !User.IsInRole(Constants.Roles.Admin))
                 return Forbid();
 
             await commercesDAO.ModifCommerce(entity, commerce);
@@ -80,7 +80,7 @@ namespace APISmartCity.Controllers
                 return NotFound();
             int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
             //Pas possible si l'utilisateur n'est pas le propriétaire du commerce ou admin
-            if(commerce.IdPersonne != userId && !User.IsInRole(Constants.Roles.Admin))
+            if(commerce.IdUser != userId && !User.IsInRole(Constants.Roles.Admin))
                 return Forbid();
             await commercesDAO.DeleteCommerce(commerce);
             return Ok();

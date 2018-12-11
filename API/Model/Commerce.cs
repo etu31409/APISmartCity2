@@ -26,11 +26,11 @@ namespace APISmartCity.Model
         public string AdresseMail { get; set; }
         public string UrlPageFacebook { get; set; }
         public int? IdCategorie { get; set; }
-        public int? IdPersonne { get; set; }
+        public int? IdUser { get; set; }
         public byte[] RowVersion { get; set; }
 
         public Categorie IdCategorieNavigation { get; set; }
-        public Personne IdPersonneNavigation { get; set; }
+        public User IdUserNavigation { get; set; }
         public ICollection<Actualite> Actualite { get; set; }
         public ICollection<ImageCommerce> ImageCommerce { get; set; }
         public ICollection<OpeningPeriod> OpeningPeriod { get; set; }

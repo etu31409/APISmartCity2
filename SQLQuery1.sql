@@ -1,8 +1,10 @@
+DROP TABLE [Role];
+DROP TABLE __EFMigrationsHistory;
 DROP TABLE OpeningPeriod;
 DROP TABLE Actualite;
 DROP TABLE ImageCommerce;
 DROP TABLE Commerce;
-DROP TABLE Users;
+DROP TABLE [User];
 DROP TABLE Categorie;
 
 

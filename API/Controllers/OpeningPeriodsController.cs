@@ -76,7 +76,7 @@ namespace APISmartCity.Controllers
                 return NotFound();  
             int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
 
-            if (!User.IsInRole(Constants.Roles.Admin) && commerce.IdPersonne!=userId)
+            if (!User.IsInRole(Constants.Roles.Admin) && commerce.IdUser!=userId)
                 return Forbid();
 
             Model.OpeningPeriod entity = CreateEntityFromDTO(dto);

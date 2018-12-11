@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 namespace APISmartCity.Model
 {
     public class User
@@ -6,7 +8,9 @@ namespace APISmartCity.Model
         public string Password{get;set;}
         public string Email{get;set;}
         public int Id{get;set;}
-        public Role[] Roles { get; set; }
+        public List<UserRole> UserRoles { get; set; }
+
+        public ICollection<Commerce> Commerce { get; set; }
 
         public User(){
         }

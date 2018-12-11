@@ -21,7 +21,7 @@ namespace APISmartCity
         public virtual DbSet<Commerce> Commerce { get; set; }
         public virtual DbSet<ImageCommerce> ImageCommerce { get; set; }
         public virtual DbSet<OpeningPeriod> OpeningPeriod { get; set; }
-        public virtual DbSet<User> Users {get; set;}
+        public virtual DbSet<User> User { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -104,9 +104,9 @@ namespace APISmartCity
                     .HasForeignKey(d => d.IdCategorie)
                     .HasConstraintName("FK__Commerce__IdCate__42E1EEFE");
 
-                entity.HasOne(d => d.IdPersonneNavigation)
+                entity.HasOne(d => d.IdUserNavigation)
                     .WithMany(p => p.Commerce)
-                    .HasForeignKey(d => d.IdPersonne)
+                    .HasForeignKey(d => d.IdUser)
                     .HasConstraintName("FK__Commerce__IdPers__41EDCAC5");
             });
 
@@ -141,34 +141,21 @@ namespace APISmartCity
                     .HasForeignKey(d => d.IdCommerce)
                     .HasConstraintName("FK__OpeningPe__idCom__489AC854");
             });
-
-            modelBuilder.Entity<Personne>(entity =>
-            {
-                entity.HasKey(e => e.IdPersonne);
-
-                entity.Property(e => e.Mail)
-                    .IsRequired()
-                    .HasMaxLength(30)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.MotDePasse)
-                    .IsRequired()
-                    .HasMaxLength(60)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Nom)
-                    .IsRequired()
-                    .HasMaxLength(30)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Prenom)
-                    .IsRequired()
-                    .HasMaxLength(30)
-                    .IsUnicode(false);
-            });
             modelBuilder.Entity<Role>(entity =>
             {
                 entity.HasKey(e => e.Name);
+            });
+
+            modelBuilder.Entity<UserRole>(entity =>{
+                entity.HasKey(e => new{e.IdRole, e.IdUser});
+
+                entity.HasOne(e => e.User)
+                    .WithMany(u => u.UserRoles)
+                    .HasForeignKey(e => e.IdUser);
+
+                entity.HasOne(e => e.Role)
+                    .WithMany(u => u.UserRoles)
+                    .HasForeignKey(e => e.IdRole);
             });
         }
     }

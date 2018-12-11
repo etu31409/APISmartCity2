@@ -42,10 +42,10 @@ namespace APISmartCity.Controllers
             };
 
             //Permet de ajouter les différents rôles à un personne
-            if (userFound.Roles != null)
+            if (userFound.UserRoles != null)
             {
-                userFound.Roles.ToList().ForEach(role =>
-                claims.Add(new Claim("roles", role.Name)));
+                userFound.UserRoles.ToList().ForEach(userRole =>
+                claims.Add(new Claim("roles", userRole.Role.ToString())));
             }
 
             JwtSecurityToken token = new JwtSecurityToken(

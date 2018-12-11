@@ -19,7 +19,7 @@ namespace APISmartCity.DAO
 
         public async Task<List<Commerce>> GetCommerces(int categorie, int UserId)
         {
-            return await context.Commerce.Where(c => (categorie == 0 || c.IdCategorie == categorie) && c.IdPersonne == UserId).ToListAsync();
+            return await context.Commerce.Where(c => (categorie == 0 || c.IdCategorie == categorie) && c.IdUser == UserId).ToListAsync();
         }
 
         public async Task<Commerce> GetCommerce(int id)
@@ -40,8 +40,8 @@ namespace APISmartCity.DAO
             entity.IdCategorie = dto.IdCategorie;
             entity.IdCategorieNavigation = dto.IdCategorieNavigation;
             entity.IdCommerce = dto.IdCommerce;
-            entity.IdPersonne = dto.IdPersonne;
-            entity.IdPersonneNavigation = dto.IdPersonneNavigation;
+            entity.IdUser = dto.IdUser;
+            entity.IdUserNavigation = dto.IdUserNavigation;
             entity.ImageCommerce = dto.ImageCommerce;
             entity.NumeroFixe = dto.NumeroFixe;
             entity.NumeroGsm = dto.NumeroGsm;
