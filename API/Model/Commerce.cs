@@ -25,8 +25,6 @@ namespace APISmartCity.Model
         public int? NumeroFixe { get; set; }
         public string AdresseMail { get; set; }
         public string UrlPageFacebook { get; set; }
-        public int? Longitude { get; set; }
-        public int? Latitude { get; set; }
         public int? IdCategorie { get; set; }
         public int? IdPersonne { get; set; }
         public byte[] RowVersion { get; set; }

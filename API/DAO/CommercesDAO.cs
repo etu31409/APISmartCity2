@@ -43,8 +43,6 @@ namespace APISmartCity.DAO
             entity.IdPersonne = dto.IdPersonne;
             entity.IdPersonneNavigation = dto.IdPersonneNavigation;
             entity.ImageCommerce = dto.ImageCommerce;
-            entity.Latitude = dto.Latitude;
-            entity.Longitude = dto.Longitude;
             entity.NumeroFixe = dto.NumeroFixe;
             entity.NumeroGsm = dto.NumeroGsm;
             entity.ParcoursProduitPhare = dto.ParcoursProduitPhare;

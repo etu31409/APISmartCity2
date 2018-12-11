@@ -21,14 +21,10 @@ namespace APISmartCity
         public virtual DbSet<Commerce> Commerce { get; set; }
         public virtual DbSet<ImageCommerce> ImageCommerce { get; set; }
         public virtual DbSet<OpeningPeriod> OpeningPeriod { get; set; }
-        public virtual DbSet<Personne> Personne { get; set; }
+        public virtual DbSet<User> Users {get; set;}
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Server=sc-nconnect-db.database.windows.net;Database=SC-NConnect-DB;User Id=dbadminSC;Password=azertyuiop123*;");
-            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -11,12 +11,12 @@ namespace APISmartCity.Model
         public User(){
         }
 
-        public User(string userName, string email, int id, string password){
-            this.UserName = userName;
-            this.Email = email;
-            this.Id = id;
-            this.Password = password;
-        }
+        // public User(string userName, string email, int id, string password){
+        //     this.UserName = userName;
+        //     this.Email = email;
+        //     this.Id = id;
+        //     this.Password = password;
+        // }
     }
 
 }
