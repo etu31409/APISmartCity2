@@ -16,9 +16,11 @@ namespace APISmartCity.Controllers
     public class JwtController : ControllerBase
     {  
         private readonly JwtIssuerOptions _jwtOptions;
+        private SCNConnectDBContext context;
 
-        public JwtController(IOptions<JwtIssuerOptions> jwtOptions){
+        public JwtController(IOptions<JwtIssuerOptions> jwtOptions, SCNConnectDBContext context){
             this._jwtOptions = jwtOptions.Value;
+            this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         [HttpPost]
@@ -26,7 +28,7 @@ namespace APISmartCity.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var repository = new AuthenticationRepository();
+            var repository = new AuthenticationRepository(this.context);
             User userFound = repository.GetUsers().FirstOrDefault(user => user.UserName==model.Username && user.Password == model.Password);
             if(userFound==null)
                 return Unauthorized();
