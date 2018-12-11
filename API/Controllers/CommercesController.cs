@@ -27,10 +27,10 @@ namespace APISmartCity.Controllers
         
         
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Commerce>>> Get(int categorie = 0)
+        public async Task<ActionResult<IEnumerable<Commerce>>> Get(int categorie = 0, bool all = true)
         {
             int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
-            List<Commerce> commerces = await commercesDAO.GetCommerces(categorie, userId);
+            List<Commerce> commerces = await commercesDAO.GetCommerces(categorie, userId, all);
             if (commerces == null)
                 return NotFound();
             return Ok(commerces);

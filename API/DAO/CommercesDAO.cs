@@ -17,9 +17,9 @@ namespace APISmartCity.DAO
             this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<List<Commerce>> GetCommerces(int categorie, int UserId)
+        public async Task<List<Commerce>> GetCommerces(int categorie, int UserId, bool all)
         {
-            return await context.Commerce.Where(c => (categorie == 0 || c.IdCategorie == categorie) && c.IdUser == UserId).ToListAsync();
+            return await context.Commerce.Where(c => (categorie == 0 || c.IdCategorie == categorie) && (c.IdUser == UserId || all)).ToListAsync();
         }
 
         public async Task<Commerce> GetCommerce(int id)
