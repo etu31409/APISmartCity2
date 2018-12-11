@@ -166,6 +166,10 @@ namespace APISmartCity
                     .HasMaxLength(30)
                     .IsUnicode(false);
             });
+            modelBuilder.Entity<Role>(entity =>
+            {
+                entity.HasKey(e => e.Name);
+            });
         }
     }
 }
