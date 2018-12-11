@@ -30,7 +30,6 @@ namespace APISmartCity.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            //todo: Débat: Est-ce que cette méthode a un sens
             return Ok(dao.GetOpeningPeriods());
         }
 
@@ -81,7 +80,7 @@ namespace APISmartCity.Controllers
 
             Model.OpeningPeriod entity = CreateEntityFromDTO(dto);
 
-            dao.AddOpeningPeriod(entity);
+            await dao.AddOpeningPeriod(entity);
 
             return Created($"api/{entity.IdHoraire}", dao.CreateDTOFromEntity(entity));
         }

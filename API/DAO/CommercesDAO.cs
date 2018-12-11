@@ -56,7 +56,6 @@ namespace APISmartCity.DAO
 
         public async Task<Model.Commerce> AddCommerce(Commerce commerce)
         {
-            //Ajout dans la BD
             if (commerce == null)
                 throw new CommerceNotFoundException();
             context.Commerce.Add(commerce);
@@ -73,7 +72,6 @@ namespace APISmartCity.DAO
             }
             catch (Exception e)
             {
-                //TODO
                 Console.WriteLine(e.Message);
             }
         }
