@@ -86,7 +86,7 @@ namespace APISmartCity.Controllers
 
         private Model.OpeningPeriod CreateEntityFromDTO(DTO.OpeningPeriod dto)
         {
-            return new Model.OpeningPeriod(dto.Opening, dto.Closing, dto.Day, dto.ShopId);
+            return new Model.OpeningPeriod(dto.HoraireDebut, dto.HoraireFin, dto.Jour, dto.IdCommerce);
         }
 
         // PUT api/OpeningPeriod/5

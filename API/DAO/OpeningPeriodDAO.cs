@@ -24,22 +24,22 @@ namespace APISmartCity.DAO
             //fixme: Possibilité d'amélioration avec un mapper
             return new DTO.OpeningPeriod()
             {
-                Id = entity.IdHoraire,
-                Opening = entity.HoraireDebut,
-                Closing = entity.HoraireFin,
-                Day = entity.Jour,
-                ShopId = entity.IdCommerce,
-                DurationOfOpening = entity.HoraireFin.Subtract(entity.HoraireDebut)
+                IdHoraire = entity.IdHoraire,
+                HoraireDebut = entity.HoraireDebut,
+                HoraireFin = entity.HoraireFin,
+                Jour = entity.Jour,
+                IdCommerce = entity.IdCommerce,
+                DureeOuverture = entity.HoraireFin.Subtract(entity.HoraireDebut)
             };
         }
         private Model.OpeningPeriod CreateEntityFromDTO(DTO.OpeningPeriod dto)
         {
             return new Model.OpeningPeriod()
             {
-                HoraireDebut = dto.Opening,
-                HoraireFin = dto.Closing,
-                Jour = dto.Day,
-                IdCommerce = dto.ShopId
+                HoraireDebut = dto.HoraireDebut,
+                HoraireFin = dto.HoraireDebut,
+                Jour = dto.Jour,
+                IdCommerce = dto.IdCommerce
             };
         }
 

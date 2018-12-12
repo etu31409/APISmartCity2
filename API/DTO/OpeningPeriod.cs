@@ -4,12 +4,12 @@ namespace APISmartCity.DTO
 {
     public class OpeningPeriod
     {
-        public int Id { get; set; }
-        public TimeSpan Opening { get; set; }
-        public TimeSpan Closing { get; set; }
-        public DayOfWeek Day { get; set; }
-        public int ShopId { get; set; }
-        public TimeSpan DurationOfOpening { get; set; }
+        public int IdHoraire { get; set; }
+        public TimeSpan HoraireDebut { get; set; }
+        public TimeSpan HoraireFin { get; set; }
+        public DayOfWeek Jour { get; set; }
+        public int IdCommerce { get; set; }
+        public TimeSpan DureeOuverture { get; set; }
         public byte[] RowVersion { get; set; }
 
     }
