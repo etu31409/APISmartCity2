@@ -32,7 +32,6 @@ namespace APISmartCity.DAO
 
         public async Task ModifCommerce(Commerce entity, Commerce dto)
         {
-            //Changer tout les champs de l'entity
             //fixme: Configurer un mapper
             entity.NomCommerce = dto.NomCommerce;
             entity.AdresseMail = dto.AdresseMail;
