@@ -56,10 +56,10 @@ namespace APISmartCity.Controllers
             return Created($"api/Commerces/{commerce.IdCommerce}", commerce);
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id,[FromBody] Commerce commerce)
+        [HttpPut]
+        public async Task<ActionResult> Put([FromBody] Commerce commerce)
         {
-            Commerce entity = await commercesDAO.GetCommerce(id);
+            Commerce entity = await commercesDAO.GetCommerce((int)commerce.IdCommerce);
             if (entity == null)
                 return NotFound();
             

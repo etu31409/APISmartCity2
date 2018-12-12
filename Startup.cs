@@ -38,22 +38,22 @@ namespace APISmartCity
                 options.UseSqlServer(connectionString);
             });
 
-            string SecretKey = "MaSuperCleSecreteAPasPublier";
+            string SecretKey = Constantes.CLE_SECRETE_JETON;
             SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
             services.Configure<JwtIssuerOptions>(options =>
             {
-                options.Issuer = "MonSuperServeurDeJetons";
-                options.Audience = "http://localhost:5000";
+                options.Issuer = Constantes.NOM_SERVEUR_JETON;
+                options.Audience = Constantes.URL_SERVEUR_JETON;
                 options.SigningCredentials = new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256);
             });
 
             var tokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuer = true,
-                ValidIssuer = "MonSuperServeurDeJetons",
+                ValidIssuer = Constantes.NOM_SERVEUR_JETON,
 
                 ValidateAudience = true,
-                ValidAudience = "http://localhost:5000",
+                ValidAudience = Constantes.URL_SERVEUR_JETON,
 
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = _signingKey,
@@ -72,8 +72,8 @@ namespace APISmartCity
                     })
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                     {
-                        options.Audience = "http://localhost:5000";
-                        options.ClaimsIssuer = "MonSuperServeurDeJetons";
+                        options.Audience = Constantes.URL_SERVEUR_JETON;
+                        options.ClaimsIssuer = Constantes.NOM_SERVEUR_JETON;
                         options.TokenValidationParameters = tokenValidationParameters;
                         options.SaveToken = true;
                     });
