@@ -25,7 +25,7 @@ namespace APISmartCity.Controllers
         private SCNConnectDBContext context;
         public ImageController(SCNConnectDBContext context)
         {
-            Account account  = new Account("","",""/*a cplt avec les clefs*/);
+            Account account  = new Account("dtf5i3kcx","331395718795461","jAAPUe06bLnqQbogzB5nREwJBRQ"/*a cplt avec les clefs*/);
           _cloudinary = new Cloudinary(account);        
         }
         [HttpPost]
