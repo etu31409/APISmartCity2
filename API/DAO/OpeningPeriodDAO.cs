@@ -19,10 +19,10 @@ namespace APISmartCity.DAO
             this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public DTO.OpeningPeriod CreateDTOFromEntity(Model.OpeningPeriod entity)
+        public DTO.OpeningPeriodDTO CreateDTOFromEntity(Model.OpeningPeriod entity)
         {
             //fixme: Possibilité d'amélioration avec un mapper
-            return new DTO.OpeningPeriod()
+            return new DTO.OpeningPeriodDTO()
             {
                 IdHoraire = entity.IdHoraire,
                 HoraireDebut = entity.HoraireDebut,
@@ -32,7 +32,7 @@ namespace APISmartCity.DAO
                 DureeOuverture = entity.HoraireFin.Subtract(entity.HoraireDebut)
             };
         }
-        private Model.OpeningPeriod CreateEntityFromDTO(DTO.OpeningPeriod dto)
+        private Model.OpeningPeriod CreateEntityFromDTO(DTO.OpeningPeriodDTO dto)
         {
             return new Model.OpeningPeriod()
             {
@@ -58,7 +58,7 @@ namespace APISmartCity.DAO
             return op;
         }
 
-        public async Task ModifOpeningPeriod(Model.OpeningPeriod entity, DTO.OpeningPeriod dto)
+        public async Task ModifOpeningPeriod(Model.OpeningPeriod entity, DTO.OpeningPeriodDTO dto)
         {
             entity = CreateEntityFromDTO(dto);
             context.Entry(entity).OriginalValues["RowVersion"] = dto.RowVersion;

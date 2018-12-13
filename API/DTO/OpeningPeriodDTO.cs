@@ -2,7 +2,7 @@ using System;
 
 namespace APISmartCity.DTO
 {
-    public class OpeningPeriod
+    public class OpeningPeriodDTO
     {
         public int IdHoraire { get; set; }
         public TimeSpan HoraireDebut { get; set; }
