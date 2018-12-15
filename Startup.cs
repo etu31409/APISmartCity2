@@ -114,6 +114,8 @@ namespace APISmartCity
                 cfg.CreateMap<DTO.LoginModelDTO, Model.LoginModel>();
                 cfg.CreateMap<DTO.OpeningPeriodDTO, Model.OpeningPeriod>();
                 cfg.CreateMap<Model.OpeningPeriod, DTO.OpeningPeriodDTO>();
+                cfg.CreateMap<Model.Commerce, DTO.CommerceDTO>();
+                cfg.CreateMap<DTO.CommerceDTO, Model.Commerce>();
             });
            
             if (env.IsDevelopment())

@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Cors;
 using APISmartCity.ExceptionPackage;
+using AutoMapper;
+using APISmartCity.DTO;
 
 namespace APISmartCity.Controllers
 {
@@ -33,7 +35,8 @@ namespace APISmartCity.Controllers
             List<Commerce> commerces = await commercesDAO.GetCommerces(categorie, userId, all);
             if (commerces == null)
                 return NotFound();
-            return Ok(commerces);
+            //return Ok(commerces);
+            return Ok(Mapper.Map<List<CommerceDTO>>(commerces));
         }
 
         [HttpGet("{id}")]
@@ -42,7 +45,8 @@ namespace APISmartCity.Controllers
             Commerce commerce = await commercesDAO.GetCommerce(id);
             if(commerce == null)
                 return NotFound();
-            return Ok(commerce);
+            //return Ok(commerce);
+            return Ok(Mapper.Map<CommerceDTO>(commerce));
         }
 
         [HttpPost]
