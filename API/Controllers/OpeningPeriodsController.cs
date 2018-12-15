@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace APISmartCity.Controllers
@@ -49,14 +50,14 @@ namespace APISmartCity.Controllers
 
         // GET api/OpeningPeriod/Shop/5
         [HttpGet("Shop/{shopId}")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<DTO.OpeningPeriod>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<DTO.OpeningPeriodDTO>))]
         public async Task<IActionResult> GetByShop(int shopId)
         { 
             Model.Commerce commerceFound = await FindCommerceById(shopId);
             if (commerceFound == null)
                 return NotFound();
 
-            IEnumerable<DTO.OpeningPeriod> dtos = commerceFound.OpeningPeriod.Select(dao.CreateDTOFromEntity);
+            IEnumerable<DTO.OpeningPeriodDTO> dtos = commerceFound.OpeningPeriod.Select(dao.CreateDTOFromEntity);
             return Ok(dtos);
         }
 
@@ -67,7 +68,7 @@ namespace APISmartCity.Controllers
 
         //POST api/OpeningPeriod
        [HttpPost("Shop/{shopId}")]
-       public async Task<IActionResult> Post(int shopId, [FromBody]DTO.OpeningPeriod dto)
+       public async Task<IActionResult> Post(int shopId, [FromBody]DTO.OpeningPeriodDTO dto)
         {
             Model.Commerce commerce = await FindCommerceById(shopId);
             if (commerce == null)
@@ -80,18 +81,18 @@ namespace APISmartCity.Controllers
             Model.OpeningPeriod entity = CreateEntityFromDTO(dto);
 
             await dao.AddOpeningPeriod(entity, commerce);
-            
-            return Created($"api/{entity.IdHoraire}", dao.CreateDTOFromEntity(entity));
+            return Created($"api/{entity.IdHoraire}", Mapper.Map<OpeningPeriod>(entity));
+            //return Created($"api/{entity.IdHoraire}", dao.CreateDTOFromEntity(entity));
         }
 
-        private Model.OpeningPeriod CreateEntityFromDTO(DTO.OpeningPeriod dto)
+        private Model.OpeningPeriod CreateEntityFromDTO(DTO.OpeningPeriodDTO dto)
         {
-            return new Model.OpeningPeriod(dto.Opening, dto.Closing, dto.Day, dto.ShopId);
+            return new Model.OpeningPeriod(dto.HoraireDebut, dto.HoraireFin, dto.Jour, dto.IdCommerce);
         }
 
         // PUT api/OpeningPeriod/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody]DTO.OpeningPeriod dto)
+        public async Task<IActionResult> Put(int id, [FromBody]DTO.OpeningPeriodDTO dto)
         {
             Model.OpeningPeriod entity = await FindOpeningPeriodById(id);
             if (entity == null)

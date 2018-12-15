@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 namespace APISmartCity.DTO
 {
-public class LoginModel
+public class LoginModelDTO
     {
         [Required]
         public string UserName { get; set; }

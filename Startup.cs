@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using APISmartCity.Controllers;
 using APISmartCity.ExceptionPackage;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -39,22 +40,22 @@ namespace APISmartCity
                 options.UseSqlServer(connectionString);
             });
 
-            string SecretKey = "MaSuperCleSecreteAPasPublier";
+            string SecretKey = Constantes.CLE_SECRETE_JETON;
             SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
             services.Configure<JwtIssuerOptions>(options =>
             {
-                options.Issuer = "MonSuperServeurDeJetons";
-                options.Audience = "http://localhost:5000";
+                options.Issuer = Constantes.NOM_SERVEUR_JETON;
+                options.Audience = Constantes.URL_SERVEUR_JETON;
                 options.SigningCredentials = new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256);
             });
 
             var tokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuer = true,
-                ValidIssuer = "MonSuperServeurDeJetons",
+                ValidIssuer = Constantes.NOM_SERVEUR_JETON,
 
                 ValidateAudience = true,
-                ValidAudience = "http://localhost:5000",
+                ValidAudience = Constantes.URL_SERVEUR_JETON,
 
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = _signingKey,
@@ -73,8 +74,8 @@ namespace APISmartCity
                     })
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                     {
-                        options.Audience = "http://localhost:5000";
-                        options.ClaimsIssuer = "MonSuperServeurDeJetons";
+                        options.Audience = Constantes.URL_SERVEUR_JETON;
+                        options.ClaimsIssuer = Constantes.NOM_SERVEUR_JETON;
                         options.TokenValidationParameters = tokenValidationParameters;
                         options.SaveToken = true;
                     });
@@ -95,6 +96,7 @@ namespace APISmartCity
                 options.Filters.Add(typeof(PersonnalExceptionFilter));
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
@@ -106,11 +108,14 @@ namespace APISmartCity
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             //automapper
-            AutoMapper.Mapper.Initialize(cfg =>
+            Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<Model.LoginModel, DTO.LoginModel>();
-                cfg.CreateMap<Model.OpeningPeriod, DTO.OpeningPeriod>();
+                cfg.CreateMap<Model.LoginModel, DTO.LoginModelDTO>();
+                cfg.CreateMap<DTO.LoginModelDTO, Model.LoginModel>();
+                cfg.CreateMap<DTO.OpeningPeriodDTO, Model.OpeningPeriod>();
+                cfg.CreateMap<Model.OpeningPeriod, DTO.OpeningPeriodDTO>();
             });
+           
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
