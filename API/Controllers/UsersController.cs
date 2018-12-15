@@ -30,6 +30,13 @@ namespace APISmartCity.Controllers
         {   
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
+            //Bof ... Peut-être si email devient la clé primaire de user pas besoin de vérifier içi
+            User userDB = await userDAO.GetUser(user.Email);
+            if(userDB != null){
+                if(userDB.Email == user.Email)
+                    return Forbid();
+            }
+            
             user = await userDAO.AddUser(user);
             return Created($"api/user", user);
         }

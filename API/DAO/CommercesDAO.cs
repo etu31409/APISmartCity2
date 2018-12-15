@@ -25,7 +25,6 @@ namespace APISmartCity.DAO
                 .Include(commerce => commerce.ImageCommerce)
                 .Where(c => (categorie == 0 || c.IdCategorie == categorie) && (c.IdUser == UserId || all))
                 .ToListAsync();
-                         
         }
 
         public async Task<Commerce> GetCommerce(int id)

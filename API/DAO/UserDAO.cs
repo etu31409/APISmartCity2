@@ -20,10 +20,16 @@ namespace APISmartCity.DAO
         public async Task<Model.User> AddUser(User user)
         {
             if (user == null)
-                throw new CommerceNotFoundException();
+                throw new UserNotFoundException();
             context.User.Add(user);
             await context.SaveChangesAsync();
             return user;
+        }
+
+        public async Task<Model.User> GetUser(string email)
+        {
+            return await context.User
+            .FirstOrDefaultAsync(user => user.Email == email);
         }
     }
 }
