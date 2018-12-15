@@ -57,8 +57,7 @@ namespace APISmartCity.Controllers
             if (commerceFound == null)
                 return NotFound();
 
-            IEnumerable<DTO.OpeningPeriodDTO> dtos = commerceFound.OpeningPeriod.Select(dao.CreateDTOFromEntity);
-            return Ok(dtos);
+            return Ok(commerceFound.OpeningPeriod.Select(dao.CreateDTOFromEntity));
         }
 
         private async Task<Model.Commerce> FindCommerceById(int shopId)

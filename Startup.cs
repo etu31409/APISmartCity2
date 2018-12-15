@@ -23,6 +23,7 @@ namespace APISmartCity
 {
     public class Startup
     {
+        //TODO : Créer des constantes pour le serveur par exemple
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -124,7 +125,7 @@ namespace APISmartCity
                 app.UseHsts();
             }
             //Swagger
-            //fixme : app.useSwagger();
+            //app.useSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");

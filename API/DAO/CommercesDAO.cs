@@ -66,15 +66,8 @@ namespace APISmartCity.DAO
 
         public async Task DeleteCommerce(Commerce commerce)
         {
-            try
-            {
-                context.Remove(commerce);
-                await context.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
+            context.Remove(commerce);
+            await context.SaveChangesAsync();            
         }
     }
 }
