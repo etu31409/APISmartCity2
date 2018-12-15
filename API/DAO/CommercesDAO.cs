@@ -20,7 +20,6 @@ namespace APISmartCity.DAO
         public async Task<List<Commerce>> GetCommerces(int categorie, int UserId, bool all)
         {   //fixme : Problème de chargement entités liés - Include
             return await context.Commerce
-                .Include(commerce => commerce.OpeningPeriod)
                 .Where(c => (categorie == 0 || c.IdCategorie == categorie) && (c.IdUser == UserId || all))
                 .ToListAsync();
         }
