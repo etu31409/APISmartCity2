@@ -12,6 +12,7 @@ using APISmartCity.ExceptionPackage;
 
 namespace APISmartCity.Controllers
 {
+    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -30,7 +31,7 @@ namespace APISmartCity.Controllers
         {   
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
-            //Bof ... Peut-être si email devient la clé primaire de user pas besoin de vérifier içi
+            //Bof ... si email devient la clé primaire de user pas besoin de vérifier içi
             User userDB = await userDAO.GetUser(user.Email);
             if(userDB != null){
                 if(userDB.Email == user.Email)
