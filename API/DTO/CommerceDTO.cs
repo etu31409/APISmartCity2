@@ -15,7 +15,7 @@ namespace APISmartCity.DTO
             OpeningPeriod = new HashSet<OpeningPeriodDTO>();
         }
 
-        public int? IdCommerce { get; set; }
+        public int IdCommerce { get; set; }
         public string NomCommerce { get; set; }
         public string Rue { get; set; }
         public int Numero { get; set; }

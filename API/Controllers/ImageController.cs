@@ -67,17 +67,14 @@ namespace APISmartCity.Controllers
                     {
                         targetFilePath = Path.GetTempFileName();
                         using (var targetStream = System.IO.File.Create(targetFilePath))
-                        {   // Voir avec Luca
-                            //rediriger le stream vers cloudinary
-                            ImageUploadResult results = cloudinary.Upload(new ImageUploadParams()
-                            {
-                                //File = new FileDescription(name, stream)
-                            });
+                        {
                             await section.Body.CopyToAsync(targetStream);
-
-                            Console.WriteLine($"Copied the uploaded file '{targetFilePath}'");
                         }
-
+                        ImageUploadResult results = cloudinary.Upload(new ImageUploadParams()
+                        {
+                            File = new FileDescription(targetFilePath)
+                        });
+                        return Ok(results.Uri);
                     }
                     else if (MultipartRequestHelper.HasFormDataContentDisposition(contentDisposition))
                     {

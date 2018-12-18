@@ -18,8 +18,7 @@ namespace APISmartCity.DAO
         }
 
         public async Task<List<Commerce>> GetCommerces(int categorie, int UserId, bool all)
-        {   //fixme : Problème de chargement entités liés - Include
-            
+        {            
             return await context.Commerce
                 .Include(commerce => commerce.OpeningPeriod)
                 .Include(commerce => commerce.ImageCommerce)
@@ -30,9 +29,9 @@ namespace APISmartCity.DAO
         public async Task<Commerce> GetCommerce(int id)
         {
             return await context.Commerce
-            .Include(commerce => commerce.OpeningPeriod)
-            .Include(commerce => commerce.ImageCommerce)
-            .FirstOrDefaultAsync(c => c.IdCommerce == id);
+                .Include(c => c.OpeningPeriod)
+                .Include(c => c.ImageCommerce)
+                .FirstOrDefaultAsync(c => c.IdCommerce == id);
         }
 
         public async Task ModifCommerce(Commerce entity, Commerce dto)
