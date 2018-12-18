@@ -67,18 +67,21 @@ namespace APISmartCity.Controllers
                     {
                         targetFilePath = Path.GetTempFileName();
                         using (var targetStream = System.IO.File.Create(targetFilePath))
-                        {
+                        {   // Voir avec Luca
+                            //rediriger le stream vers cloudinary
+                            ImageUploadResult results = cloudinary.Upload(new ImageUploadParams()
+                            {
+                                //File = new FileDescription(name, stream)
+                            });
                             await section.Body.CopyToAsync(targetStream);
 
                             Console.WriteLine($"Copied the uploaded file '{targetFilePath}'");
                         }
+
                     }
                     else if (MultipartRequestHelper.HasFormDataContentDisposition(contentDisposition))
                     {
                         // Content-Disposition: form-data; name="key"
-                        //
-                        // value
-
                         // Do not limit the key name length here because the 
                         // multipart headers length limit is already in effect.
                         var key = HeaderUtilities.RemoveQuotes(contentDisposition.Name);
@@ -110,14 +113,15 @@ namespace APISmartCity.Controllers
                 // reads the headers for the next section.
                 section = await reader.ReadNextSectionAsync();
             }
-         
 
-            return Ok(new {
-                FilePath=targetFilePath
+
+            return Ok(new
+            {
+                FilePath = targetFilePath
             });
         }
 
-         private static Encoding GetEncoding(MultipartSection section)
+        private static Encoding GetEncoding(MultipartSection section)
         {
             MediaTypeHeaderValue mediaType;
             var hasMediaTypeHeader = MediaTypeHeaderValue.TryParse(section.ContentType, out mediaType);
