@@ -8,11 +8,6 @@ namespace APISmartCity.DTO
         public string Name {get; set;}
         public RoleDTO(){
         }
-
-        public override string ToString()
-        {
-            return Name;
-        }
     }
 
 }
