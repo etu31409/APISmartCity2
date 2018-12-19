@@ -45,12 +45,10 @@ namespace APISmartCity.Controllers
             Commerce commerce = await commercesDAO.GetCommerce(id);
             if(commerce == null)
                 return NotFound();
-            //return Ok(commerce);
             return Ok(Mapper.Map<CommerceDTO>(commerce));
         }
 
         [HttpPost]
-        //ajouter p-e le role d'admin - Non, les utilisateurs d'angular doivent savoir ajouter sans etre admin - Gestionnaire ? Ca ferrait une différence avec ceux qui ont pas de privilèges en Android
         //[Authorize(Roles = Constants.Roles.Admin)]
         public async Task<ActionResult<Commerce>> Post([FromBody] Commerce commerce)
         {   

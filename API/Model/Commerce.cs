@@ -46,5 +46,8 @@ namespace APISmartCity.Model
 
             this.OpeningPeriod.Add(newPeriod);
         }
+        public void AddImage(String uri, int idCommerce){
+            this.ImageCommerce.Add(new ImageCommerce(uri, idCommerce));
+        }
     }
 }
