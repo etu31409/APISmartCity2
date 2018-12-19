@@ -31,5 +31,13 @@ namespace APISmartCity.DAO
             return await context.User
             .FirstOrDefaultAsync(user => user.Email == email);
         }
+
+        public async Task<User> GetUserWithId(int id)
+        {
+            return await context.User
+                .Include(user => user.UserRoles)
+                .ThenInclude(r => r.Role)
+                .FirstOrDefaultAsync(c => c.Id == id);
+        }
     }
 }

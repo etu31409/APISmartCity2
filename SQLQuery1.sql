@@ -91,3 +91,58 @@ CREATE TABLE Actualite(
 	FOREIGN KEY (IdCommerce) REFERENCES Commerce(IdCommerce)
 );
 
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Role](
+	[Name] [nvarchar](450) NOT NULL,
+ CONSTRAINT [PK_Role] PRIMARY KEY CLUSTERED 
+(
+	[Name] ASC
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+INSERT INTO [Role] (name) values ('user');
+INSERT INTO [Role] (name) values ('admin');
+
+/****** Object:  Table [dbo].[UserRole]    Script Date: 19/12/2018 11:04:34 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[UserRole](
+	[IdRole] [nvarchar](450) NOT NULL,
+	[IdUser] [int] NOT NULL,
+ CONSTRAINT [PK_UserRole] PRIMARY KEY CLUSTERED 
+(
+	[IdRole] ASC,
+	[IdUser] ASC
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[UserRole]  WITH CHECK ADD  CONSTRAINT [FK_UserRole_Role_IdRole] FOREIGN KEY([IdRole])
+REFERENCES [dbo].[Role] ([Name])
+ON DELETE CASCADE
+GO
+
+ALTER TABLE [dbo].[UserRole] CHECK CONSTRAINT [FK_UserRole_Role_IdRole]
+GO
+
+ALTER TABLE [dbo].[UserRole]  WITH CHECK ADD  CONSTRAINT [FK_UserRole_User_IdUser] FOREIGN KEY([IdUser])
+REFERENCES [dbo].[User] ([Id])
+ON DELETE CASCADE
+GO
+
+ALTER TABLE [dbo].[UserRole] CHECK CONSTRAINT [FK_UserRole_User_IdUser]
+GO
+
+insert into UserRole (IdRole, IdUser) values ('admin', 1);
+insert into UserRole (IdRole, IdUser) values ('user', 1);

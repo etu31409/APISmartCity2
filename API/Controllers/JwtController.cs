@@ -47,7 +47,7 @@ namespace APISmartCity.Controllers
             if (userFound.UserRoles != null)
             {
                 userFound.UserRoles.ToList().ForEach(userRole =>
-                claims.Add(new Claim("roles", userRole.Role.ToString())));
+                claims.Add(new Claim("roles", userRole.Role.Name)));
             }
 
             JwtSecurityToken token = new JwtSecurityToken(
