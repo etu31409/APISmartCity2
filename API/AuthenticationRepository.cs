@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using APISmartCity.Model;
 using System.Linq;
 using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace APISmartCity.Controllers
 {
@@ -13,7 +14,10 @@ namespace APISmartCity.Controllers
         }
         
         public IEnumerable<User> GetUsers(){
-            return context.User.ToList();
+            return context.User
+            .Include(user => user.UserRoles)
+            .ThenInclude(r => r.Role)
+            .ToList();
         }
         
     }

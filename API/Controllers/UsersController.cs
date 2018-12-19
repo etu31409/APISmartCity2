@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Cors;
 using APISmartCity.ExceptionPackage;
+using AutoMapper;
+
 
 namespace APISmartCity.Controllers
 {
@@ -42,5 +44,13 @@ namespace APISmartCity.Controllers
             return Created($"api/user", user);
         }
 
+         [HttpGet("{id}")]
+        public async Task<ActionResult<User>> GetById(int id)
+        {
+            User user = await userDAO.GetUserWithId(id);
+            if(user == null)
+                return NotFound();
+            return Ok(Mapper.Map<DTO.UserDTO>(user));
+        }
     }
 }
