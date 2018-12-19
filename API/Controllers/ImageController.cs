@@ -28,18 +28,29 @@ namespace APISmartCity.Controllers
     [ApiController]
     public class ImageController : ControllerBase
     {
+        private SCNConnectDBContext context;
         private CloudinaryDotNet.Cloudinary cloudinary;
-        public ImageController()
+        private CommercesDAO commercesDAO;
+        public ImageController(SCNConnectDBContext context)
         {
+            this.context = context ?? throw new ArgumentNullException(nameof(context));
             Account account = new Account("dtf5i3kcx", "331395718795461", "jAAPUe06bLnqQbogzB5nREwJBRQ");
             cloudinary = new Cloudinary(account);
+            this.commercesDAO = new CommercesDAO(context);
         }
 
         private static readonly FormOptions _defaultFormOptions = new FormOptions();
 
         [HttpPost()]
+        //  public async Task<IActionResult> Post(int idCommerce)
         public async Task<IActionResult> Post()
         {
+
+
+
+
+            int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
+
             if (!MultipartRequestHelper.IsMultipartContentType(Request.ContentType))
             {
                 return BadRequest($"Expected a multipart request, but got {Request.ContentType}");
@@ -53,6 +64,7 @@ namespace APISmartCity.Controllers
             var boundary = MultipartRequestHelper.GetBoundary(
                 MediaTypeHeaderValue.Parse(Request.ContentType),
                 _defaultFormOptions.MultipartBoundaryLengthLimit);
+
             var reader = new MultipartReader(boundary, HttpContext.Request.Body);
 
             var section = await reader.ReadNextSectionAsync();
@@ -70,11 +82,8 @@ namespace APISmartCity.Controllers
                         {
                             await section.Body.CopyToAsync(targetStream);
                         }
-                        ImageUploadResult results = cloudinary.Upload(new ImageUploadParams()
-                        {
-                            File = new FileDescription(targetFilePath)
-                        });
-                        return Ok(results.Uri);
+
+                        //return Ok(results.Uri);
                     }
                     else if (MultipartRequestHelper.HasFormDataContentDisposition(contentDisposition))
                     {
@@ -105,17 +114,27 @@ namespace APISmartCity.Controllers
                         }
                     }
                 }
-
                 // Drains any remaining section body that has not been consumed and
                 // reads the headers for the next section.
                 section = await reader.ReadNextSectionAsync();
             }
+            int idCommerce = int.Parse(formAccumulator.GetResults()["idCommerce"].ToString());
+            Commerce entity = await commercesDAO.GetCommerce(idCommerce);
+            if (entity == null)
+                return NotFound("Commerce non trouvé" + idCommerce);
+            if (entity.IdUser != userId && !User.IsInRole(Constants.Roles.Admin))
+                return Forbid();
 
-
-            return Ok(new
+            ImageUploadResult results = cloudinary.Upload(new ImageUploadParams()
             {
-                FilePath = targetFilePath
+                File = new FileDescription(targetFilePath)
             });
+
+
+            entity.AddImage(results.Uri.ToString(), idCommerce);
+            await context.SaveChangesAsync();
+
+            return Ok(results.Uri);
         }
 
         private static Encoding GetEncoding(MultipartSection section)
