@@ -45,10 +45,6 @@ namespace APISmartCity.Controllers
         //  public async Task<IActionResult> Post(int idCommerce)
         public async Task<IActionResult> Post()
         {
-
-
-
-
             int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
 
             if (!MultipartRequestHelper.IsMultipartContentType(Request.ContentType))
@@ -82,8 +78,6 @@ namespace APISmartCity.Controllers
                         {
                             await section.Body.CopyToAsync(targetStream);
                         }
-
-                        //return Ok(results.Uri);
                     }
                     else if (MultipartRequestHelper.HasFormDataContentDisposition(contentDisposition))
                     {
