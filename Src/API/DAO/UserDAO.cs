@@ -7,6 +7,7 @@ using APISmartCity.Model;
 using Microsoft.EntityFrameworkCore;
 using APISmartCity.DTO;
 using AutoMapper;
+
 namespace APISmartCity.DAO
 {
     public class UserDAO
@@ -21,6 +22,7 @@ namespace APISmartCity.DAO
         {
             if (user == null)
                 throw new UserNotFoundException();
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
             context.User.Add(user);
             await context.SaveChangesAsync();
             return user;

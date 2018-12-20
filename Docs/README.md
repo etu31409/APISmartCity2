@@ -12,3 +12,6 @@ Cette commande permet de mettre à jour les références notamment.
 Pour compiler le projet utiliser la commande dotnet *dotnet build*
 
 Pour lancer le projet utiliser la commande dotnet *dotnet run*
+
+## Comment cryptons nous les mots de passe ?
+ Nous utilisons BCrypt [https://github.com/BcryptNet/bcrypt.net](https://github.com/BcryptNet/bcrypt.net)
