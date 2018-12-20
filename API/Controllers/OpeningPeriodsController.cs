@@ -45,7 +45,7 @@ namespace APISmartCity.Controllers
 
         private Task<Model.OpeningPeriod> FindOpeningPeriodById(int id)
         {
-            throw new NotImplementedException();
+            return context.OpeningPeriod.FirstOrDefaultAsync(op => op.IdHoraire == id);
         }
 
         // GET api/OpeningPeriod/Shop/5
@@ -81,7 +81,6 @@ namespace APISmartCity.Controllers
 
             await dao.AddOpeningPeriod(entity, commerce);
             return Created($"api/{entity.IdHoraire}", Mapper.Map<OpeningPeriod>(entity));
-            //return Created($"api/{entity.IdHoraire}", dao.CreateDTOFromEntity(entity));
         }
 
         private Model.OpeningPeriod CreateEntityFromDTO(DTO.OpeningPeriodDTO dto)

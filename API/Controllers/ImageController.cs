@@ -28,18 +28,16 @@ namespace APISmartCity.Controllers
     [ApiController]
     public class ImageController : ControllerBase
     {
+        private static readonly FormOptions _defaultFormOptions = new FormOptions();
         private SCNConnectDBContext context;
         private CloudinaryDotNet.Cloudinary cloudinary;
         private CommercesDAO commercesDAO;
         public ImageController(SCNConnectDBContext context)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
-            Account account = new Account("dtf5i3kcx", "331395718795461", "jAAPUe06bLnqQbogzB5nREwJBRQ");
-            cloudinary = new Cloudinary(account);
+            cloudinary = new Cloudinary(new Account("dtf5i3kcx", "331395718795461", "jAAPUe06bLnqQbogzB5nREwJBRQ"));
             this.commercesDAO = new CommercesDAO(context);
         }
-
-        private static readonly FormOptions _defaultFormOptions = new FormOptions();
 
         [HttpPost()]
         //  public async Task<IActionResult> Post(int idCommerce)
