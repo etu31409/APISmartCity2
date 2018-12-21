@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Cors;
 using APISmartCity.ExceptionPackage;
 using AutoMapper;
-
+using APISmartCity.Infra;
 
 namespace APISmartCity.Controllers
 {
@@ -39,7 +39,7 @@ namespace APISmartCity.Controllers
                 if(userDB.Email == user.Email)
                     return Forbid();
             }
-            
+            user.Password = Hashing.HashPassword(user.Password);
             user = await userDAO.AddUser(user);
             return Created($"api/user", user);
         }

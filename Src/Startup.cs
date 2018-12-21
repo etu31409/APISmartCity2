@@ -110,14 +110,7 @@ namespace APISmartCity
             //automapper
             Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<Model.LoginModel, DTO.LoginModelDTO>();
-                cfg.CreateMap<DTO.LoginModelDTO, Model.LoginModel>();
-                cfg.CreateMap<DTO.OpeningPeriodDTO, Model.OpeningPeriod>();
-                cfg.CreateMap<Model.OpeningPeriod, DTO.OpeningPeriodDTO>();
-                cfg.CreateMap<Model.Commerce, DTO.CommerceDTO>();
-                cfg.CreateMap<DTO.CommerceDTO, Model.Commerce>();
-                cfg.CreateMap<DTO.UserDTO, Model.User>();
-                cfg.CreateMap<Model.User, DTO.UserDTO>();
+                cfg.AddProfile<Infra.MappingProfile>();
             });
            
             if (env.IsDevelopment())

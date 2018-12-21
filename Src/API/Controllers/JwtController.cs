@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using APISmartCity.Model;
+using APISmartCity.Infra;
+
 namespace APISmartCity.Controllers
 {
     [AllowAnonymous]
@@ -29,7 +31,8 @@ namespace APISmartCity.Controllers
                 return BadRequest(ModelState);
 
             var repository = new AuthenticationRepository(this.context);
-            User userFound = repository.GetUsers().FirstOrDefault(user => user.UserName==model.Username && user.Password == model.Password);
+            //User userFound = repository.GetUsers().FirstOrDefault(user => user.UserName==model.Username && user.Password == model.Password);
+            User userFound = repository.GetUsers().FirstOrDefault(user => user.UserName==model.Username && Hashing.VerifyPassword(model.Password, user.Password));
             if(userFound==null)
                 return Unauthorized();
             
