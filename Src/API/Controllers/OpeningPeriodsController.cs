@@ -77,7 +77,8 @@ namespace APISmartCity.Controllers
             if (!User.IsInRole(Constants.Roles.Admin) && commerce.IdUser!=userId)
                 return Forbid();
 
-            Model.OpeningPeriod entity = CreateEntityFromDTO(dto);
+            //Model.OpeningPeriod entity = CreateEntityFromDTO(dto);
+            Model.OpeningPeriod entity = Mapper.Map<Model.OpeningPeriod>(dto);
 
             await dao.AddOpeningPeriod(entity, commerce);
             return Created($"api/{entity.IdHoraire}", Mapper.Map<OpeningPeriod>(entity));

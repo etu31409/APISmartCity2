@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Cors;
 using APISmartCity.ExceptionPackage;
 using AutoMapper;
 using APISmartCity.Infra;
+using APISmartCity.DTO;
 
 namespace APISmartCity.Controllers
 {
@@ -29,28 +30,42 @@ namespace APISmartCity.Controllers
         
         
         [HttpPost]
-        public async Task<ActionResult<User>> Post([FromBody] User user)
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+
+        public async Task<ActionResult<User>> Post([FromBody] UserDTO dto)
         {   
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
             //Bof ... si email devient la clé primaire de user pas besoin de vérifier içi
-            User userDB = await userDAO.GetUser(user.Email);
+            User userDB = await userDAO.GetUser(dto.Email);
             if(userDB != null){
-                if(userDB.Email == user.Email)
+                if(userDB.Email == dto.Email)
                     return Forbid();
             }
-            user.Password = Hashing.HashPassword(user.Password);
-            user = await userDAO.AddUser(user);
-            return Created($"api/user", user);
+            dto.Password = Hashing.HashPassword(dto.Password);
+            var userEntity = Mapper.Map<User>(dto);
+            userEntity = await userDAO.AddUser(userEntity);
+            return Created($"api/user", Mapper.Map<UserDTO>(userEntity));
         }
 
+        //seul il faut que le userId dans le token et l'id en argument sois les mêmes
          [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetById(int id)
         {
+            if(id <= 0){
+                return NotFound();
+            }
+            int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
+            if(id != userId && !User.IsInRole(Constants.Roles.Admin)){
+                return Forbid();
+            }
             User user = await userDAO.GetUserWithId(id);
             if(user == null)
                 return NotFound();
             return Ok(Mapper.Map<DTO.UserDTO>(user));
         }
+        //TODO put 
+
+        //TODO DELETE
     }
 }

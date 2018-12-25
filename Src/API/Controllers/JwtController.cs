@@ -52,7 +52,7 @@ namespace APISmartCity.Controllers
                 userFound.UserRoles.ToList().ForEach(userRole =>
                 claims.Add(new Claim("roles", userRole.Role.Name)));
             }
-
+        
             JwtSecurityToken token = new JwtSecurityToken(
                 issuer: _jwtOptions.Issuer,
                 audience: _jwtOptions.Audience,
