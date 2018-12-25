@@ -49,7 +49,8 @@ namespace APISmartCity.Controllers
         }
 
         //seul il faut que le userId dans le token et l'id en argument sois les mêmes
-         [HttpGet("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetById(int id)
         {
             if(id <= 0){
