@@ -22,6 +22,7 @@ namespace APISmartCity.DAO
             return await context.Commerce
                 .Include(commerce => commerce.OpeningPeriod)
                 .Include(commerce => commerce.ImageCommerce)
+                .Include(commerce => commerce.Actualite)
                 .Where(c => (categorie == 0 || c.IdCategorie == categorie) && (c.IdUser == UserId || all))
                 .ToListAsync();
         }
@@ -31,6 +32,7 @@ namespace APISmartCity.DAO
             return await context.Commerce
                 .Include(c => c.OpeningPeriod)
                 .Include(c => c.ImageCommerce)
+                .Include(commerce => commerce.Actualite)
                 .FirstOrDefaultAsync(c => c.IdCommerce == id);
         }
 

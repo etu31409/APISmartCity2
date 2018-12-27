@@ -49,5 +49,10 @@ namespace APISmartCity.Model
         public void AddImage(String uri, int idCommerce){
             this.ImageCommerce.Add(new ImageCommerce(uri, idCommerce));
         }
+
+        public void AddActualite(Actualite actualite)
+        {
+            this.Actualite.Add(actualite);
+        }
     }
 }

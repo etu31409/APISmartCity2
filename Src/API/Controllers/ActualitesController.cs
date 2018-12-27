@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Cors;
 using APISmartCity.ExceptionPackage;
 using AutoMapper;
 using APISmartCity.DTO;
+using Microsoft.EntityFrameworkCore;
 
 namespace APISmartCity.Controllers
 {
@@ -38,5 +39,49 @@ namespace APISmartCity.Controllers
             return Created($"api/Actualites/{dto.IdActualite}", Mapper.Map<ActualiteDTO>(entity));
         }
         
+        // GET api/OpeningPeriod/5
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            Model.Actualite entity = await actualitesDAO.GetActualite(id);
+            return (entity == null) ? NotFound() : (IActionResult)Ok(Mapper.Map<ActualiteDTO>(entity));
+        }
+
+        // private Task<Model.Actualite> FindActualiteById(int id)
+        // {
+        //     return context.Actualite.FirstOrDefaultAsync(actu => actu.IdActualite == id);
+        // }
+
+        [HttpPut]
+        public async Task<ActionResult> Put([FromBody] ActualiteDTO actuDto)
+        {
+            Actualite entity = await actualitesDAO.GetActualite(actuDto.IdActualite);
+            if (entity == null)
+                return NotFound();
+            int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
+            //Pas possible si l'utilisateur n'est pas le propriétaire du commerce ou admin
+            // if(entity.IdCommerceNavigation.IdUser != userId && !User.IsInRole(Constants.Roles.Admin))
+            Commerce commerce = await actualitesDAO.getCommerceActualite(actuDto.IdCommerce.GetValueOrDefault());
+            if(commerce.IdUser != userId && !User.IsInRole(Constants.Roles.Admin))
+                 return Forbid();
+            entity = await actualitesDAO.UpdateActualite(entity, actuDto);
+            return Ok(Mapper.Map<ActualiteDTO>(entity));
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            Actualite actualite = await actualitesDAO.GetActualite(id);
+            if(actualite==null)
+                return NotFound();
+            int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
+            //Pas possible si l'utilisateur n'est pas le propriétaire du commerce ou admin
+            //if(actualite.IdCommerceNavigation.IdUser != userId && !User.IsInRole(Constants.Roles.Admin))
+            Commerce commerce = await actualitesDAO.getCommerceActualite(actualite.IdCommerce.GetValueOrDefault());
+            if(commerce.IdUser != userId && !User.IsInRole(Constants.Roles.Admin))
+                return Forbid();
+            await actualitesDAO.DeleteActualite(actualite);
+            return Ok();
+        }
     }
 }

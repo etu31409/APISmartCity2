@@ -5,6 +5,13 @@ namespace APISmartCity.Model
 {
     public partial class Actualite
     {
+       
+
+        public Actualite()
+        {
+            
+        }
+
         public int IdActualite { get; set; }
         public string Libelle { get; set; }
         public string Texte { get; set; }

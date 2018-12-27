@@ -32,7 +32,7 @@ namespace APISmartCity.DTO
 
         public ICollection<OpeningPeriodDTO> OpeningPeriod { get; set; }
         public ICollection<ImageCommerceDTO> ImageCommerce { get; set; }
-
+        public ICollection<ActualiteDTO> Actualite { get; set; }
         public void AddOpeningPeriod(OpeningPeriodDTO newPeriod)
         {
             if (OpeningPeriod.Any(existingPeriod =>
