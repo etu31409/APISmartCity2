@@ -17,6 +17,13 @@ namespace APISmartCity.DAO
             this.context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        
+        public async Task<Model.Actualite> AddActualite(Actualite actualite)
+        {
+            if (actualite == null)
+                throw new ActualiteNotFoundException();
+            context.Actualite.Add(actualite);
+            await context.SaveChangesAsync();
+            return actualite;
+        }
     }
 }

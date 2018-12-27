@@ -14,6 +14,8 @@ namespace APISmartCity.Infra
             CreateMap<DTO.CommerceDTO, Model.Commerce>();
             CreateMap<DTO.UserDTO, Model.User>();
             CreateMap<Model.User, DTO.UserDTO>();
+            CreateMap<DTO.ActualiteDTO, Model.Actualite>();
+            CreateMap<Model.Actualite, DTO.ActualiteDTO>();
         }
     }
 }

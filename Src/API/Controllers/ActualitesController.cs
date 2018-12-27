@@ -27,7 +27,16 @@ namespace APISmartCity.Controllers
             this.actualitesDAO = new ActualitesDAO(context);
         }
         
-        
+        [HttpPost]
+        //[Authorize(Roles = Constants.Roles.Admin)]
+        public async Task<ActionResult> Post([FromBody] ActualiteDTO dto)
+        {   
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+            Actualite entity = Mapper.Map<Model.Actualite>(dto);
+            entity = await actualitesDAO.AddActualite(entity);  
+            return Created($"api/Actualites/{dto.IdActualite}", Mapper.Map<ActualiteDTO>(entity));
+        }
         
     }
 }
