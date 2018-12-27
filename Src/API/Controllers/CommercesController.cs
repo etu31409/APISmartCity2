@@ -50,12 +50,13 @@ namespace APISmartCity.Controllers
 
         [HttpPost]
         //[Authorize(Roles = Constants.Roles.Admin)]
-        public async Task<ActionResult> Post([FromBody] Commerce commerce)
+        public async Task<ActionResult> Post([FromBody] CommerceDTO commerce)
         {   
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
-            commerce = await commercesDAO.AddCommerce(commerce);  
-            return Created($"api/Commerces/{commerce.IdCommerce}", commerce);
+            Commerce entity = Mapper.Map<Commerce>(commerce);
+            entity = await commercesDAO.AddCommerce(entity);  
+            return Created($"api/Commerces/{commerce.IdCommerce}", Mapper.Map<CommerceDTO>(entity));
         }
 
         [HttpPut]
