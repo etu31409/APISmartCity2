@@ -31,12 +31,13 @@ namespace APISmartCity.DAO
             return await context.Actualite.FirstOrDefaultAsync(c => c.IdActualite == id);
         }
 
-        public async Task<Actualite> UpdateActualite(Actualite entity, ActualiteDTO actuDto)
+        public async Task UpdateActualite(Actualite entity, ActualiteDTO actuDto)
         {
-            entity = Mapper.Map<Actualite>(actuDto);
+            //entity = Mapper.Map<Actualite>(actuDto);
+            entity.Libelle = actuDto.Libelle;
+            entity.Texte = actuDto.Texte;
             //context.Entry(entity).OriginalValues["RowVersion"] = actuDto.RowVersion;
             await context.SaveChangesAsync();
-            return entity;
         }
 
         public async Task DeleteActualite(Actualite actualite)

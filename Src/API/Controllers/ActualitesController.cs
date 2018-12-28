@@ -52,10 +52,10 @@ namespace APISmartCity.Controllers
         //     return context.Actualite.FirstOrDefaultAsync(actu => actu.IdActualite == id);
         // }
 
-        [HttpPut]
-        public async Task<ActionResult> Put([FromBody] ActualiteDTO actuDto)
+        [HttpPut("{id}")]
+        public async Task<ActionResult> Put(int id, [FromBody] ActualiteDTO actuDto)
         {
-            Actualite entity = await actualitesDAO.GetActualite(actuDto.IdActualite);
+            Actualite entity = await actualitesDAO.GetActualite(id);
             if (entity == null)
                 return NotFound();
             int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
@@ -64,7 +64,7 @@ namespace APISmartCity.Controllers
             Commerce commerce = await actualitesDAO.getCommerceActualite(actuDto.IdCommerce.GetValueOrDefault());
             if(commerce.IdUser != userId && !User.IsInRole(Constants.Roles.Admin))
                  return Forbid();
-            entity = await actualitesDAO.UpdateActualite(entity, actuDto);
+            await actualitesDAO.UpdateActualite(entity, actuDto);
             return Ok(Mapper.Map<ActualiteDTO>(entity));
         }
 
