@@ -41,7 +41,7 @@ namespace APISmartCity.DAO
             //fixme: Configurer un mapper
             entity.NomCommerce = dto.NomCommerce;
             entity.AdresseMail = dto.AdresseMail;
-            entity.Actualite = dto.Actualite;
+            //entity.Actualite = dto.Actualite;
             entity.Numero = dto.Numero;
             entity.Rue = dto.Rue;
             entity.Description = dto.Description;
@@ -50,13 +50,13 @@ namespace APISmartCity.DAO
             entity.IdCommerce = dto.IdCommerce;
             entity.IdUser = dto.IdUser;
             entity.IdUserNavigation = dto.IdUserNavigation;
-            entity.ImageCommerce = dto.ImageCommerce;
+            //entity.ImageCommerce = dto.ImageCommerce;
             entity.NumeroFixe = dto.NumeroFixe;
             entity.NumeroGsm = dto.NumeroGsm;
             entity.ParcoursProduitPhare = dto.ParcoursProduitPhare;
             entity.ProduitPhare = dto.ProduitPhare;
             entity.UrlPageFacebook = dto.UrlPageFacebook;
-
+            
             context.Entry(entity).OriginalValues["RowVersion"] = dto.RowVersion;
             await context.SaveChangesAsync();
             //return Ok(Mapper.Map<DTO.Commerce>(Model.Commerce));
