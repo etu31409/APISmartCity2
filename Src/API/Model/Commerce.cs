@@ -35,6 +35,8 @@ namespace APISmartCity.Model
         public ICollection<ImageCommerce> ImageCommerce { get; set; }
         public ICollection<OpeningPeriod> OpeningPeriod { get; set; }
 
+        public ICollection<Favoris> Favoris { get; set; }
+
         public void AddOpeningPeriod(OpeningPeriod newPeriod)
         {
             if (OpeningPeriod.Any(existingPeriod =>

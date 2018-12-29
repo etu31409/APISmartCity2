@@ -113,14 +113,14 @@ namespace APISmartCity
                 cfg.AddProfile<Infra.MappingProfile>();
             });
            
-            if (env.IsDevelopment())
-            {
+            //if (env.IsDevelopment())
+            //{
                 app.UseDeveloperExceptionPage();
-            }
-            else
-            {
+            //}
+            //else
+            //{
                 app.UseHsts();
-            }
+            //}
             //Swagger
             //app.useSwagger();
             app.UseSwaggerUI(c =>

@@ -23,7 +23,8 @@ using Microsoft.Net.Http.Headers;
 
 namespace APISmartCity.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
     public class ImageController : ControllerBase
@@ -140,6 +141,23 @@ namespace APISmartCity.Controllers
                 return Encoding.UTF8;
             }
             return mediaType.Encoding;
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult> Delete(int idImage, int idCommerce)
+        {
+            Commerce commerce = await commercesDAO.GetCommerce(idCommerce);
+            if (commerce == null)
+                return NotFound("Commerce non trouvé" + idCommerce);
+            int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
+            if (commerce.IdUser != userId && !User.IsInRole(Constants.Roles.Admin))
+                return Forbid();
+
+            ImageCommerce img = commerce.ImageCommerce.FirstOrDefault(i => i.IdImageCommerce == idImage);
+            if (img != null)
+                context.Remove(img);
+            await context.SaveChangesAsync();
+            return Ok();
         }
     }
 }

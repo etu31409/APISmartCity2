@@ -157,6 +157,18 @@ namespace APISmartCity
                     .WithMany(u => u.UserRoles)
                     .HasForeignKey(e => e.IdRole);
             });
+
+            modelBuilder.Entity<Favoris>(entity =>{
+                entity.HasKey(e => e.IdFavoris);
+
+                entity.HasOne(e => e.IdUserNavigation)
+                    .WithMany(c => c.Favoris)
+                    .HasForeignKey(e => e.idUser);
+
+                entity.HasOne(e => e.IdCommerceNavigation)
+                    .WithMany(c => c.Favoris)
+                    .HasForeignKey(e => e.IdFavoris);
+            });
         }
     }
 }

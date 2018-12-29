@@ -18,6 +18,8 @@ namespace APISmartCity.Model
 
         public ICollection<Commerce> Commerce { get; set; }
 
+        public ICollection<Favoris> Favoris { get; set; }
+
         public User(){
         }
 
