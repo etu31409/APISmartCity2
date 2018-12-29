@@ -60,7 +60,10 @@ namespace APISmartCity.DAO
 
         public async Task ModifOpeningPeriod(Model.OpeningPeriod entity, DTO.OpeningPeriodDTO dto)
         {
-            entity = CreateEntityFromDTO(dto);
+            //entity = CreateEntityFromDTO(dto);
+            entity.HoraireDebut = dto.HoraireDebut;
+            entity.HoraireFin= dto.HoraireFin;
+            entity.Jour = dto.Jour;
             context.Entry(entity).OriginalValues["RowVersion"] = dto.RowVersion;
             await context.SaveChangesAsync();
         }
