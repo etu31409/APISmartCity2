@@ -36,6 +36,7 @@ namespace APISmartCity.DAO
             //entity = Mapper.Map<Actualite>(actuDto);
             entity.Libelle = actuDto.Libelle;
             entity.Texte = actuDto.Texte;
+            entity.Date = actuDto.Date;
             //context.Entry(entity).OriginalValues["RowVersion"] = actuDto.RowVersion;
             await context.SaveChangesAsync();
         }
