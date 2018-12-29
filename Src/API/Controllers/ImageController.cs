@@ -41,11 +41,8 @@ namespace APISmartCity.Controllers
         }
 
         [HttpPost()]
-        //  public async Task<IActionResult> Post(int idCommerce)
         public async Task<IActionResult> Post()
         {
-            int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
-
             if (!MultipartRequestHelper.IsMultipartContentType(Request.ContentType))
             {
                 return BadRequest($"Expected a multipart request, but got {Request.ContentType}");
@@ -70,6 +67,7 @@ namespace APISmartCity.Controllers
 
                 if (hasContentDispositionHeader)
                 {
+                    //Passe pas ici car ne considere pas le form data en file mais en clé + valeur
                     if (MultipartRequestHelper.HasFileContentDisposition(contentDisposition))
                     {
                         targetFilePath = Path.GetTempFileName();
@@ -80,9 +78,6 @@ namespace APISmartCity.Controllers
                     }
                     else if (MultipartRequestHelper.HasFormDataContentDisposition(contentDisposition))
                     {
-                        // Content-Disposition: form-data; name="key"
-                        // Do not limit the key name length here because the 
-                        // multipart headers length limit is already in effect.
                         var key = HeaderUtilities.RemoveQuotes(contentDisposition.Name);
                         var encoding = GetEncoding(section);
                         using (var streamReader = new StreamReader(
@@ -94,7 +89,7 @@ namespace APISmartCity.Controllers
                         {
                             // The value length limit is enforced by MultipartBodyLengthLimit
                             var value = await streamReader.ReadToEndAsync();
-                            if (String.Equals(value, "undefined", StringComparison.OrdinalIgnoreCase))
+                                
                             {
                                 value = String.Empty;
                             }
@@ -111,12 +106,10 @@ namespace APISmartCity.Controllers
                 // reads the headers for the next section.
                 section = await reader.ReadNextSectionAsync();
             }
+
             int idCommerce = int.Parse(formAccumulator.GetResults()["idCommerce"].ToString());
             Commerce entity = await commercesDAO.GetCommerce(idCommerce);
-            if (entity == null)
-                return NotFound("Commerce non trouvé" + idCommerce);
-            if (entity.IdUser != userId && !User.IsInRole(Constants.Roles.Admin))
-                return Forbid();
+            if (entity == null) return NotFound("Commerce non trouvé" + idCommerce);
 
             ImageUploadResult results = cloudinary.Upload(new ImageUploadParams()
             {
@@ -149,9 +142,6 @@ namespace APISmartCity.Controllers
             Commerce commerce = await commercesDAO.GetCommerce(idCommerce);
             if (commerce == null)
                 return NotFound("Commerce non trouvé" + idCommerce);
-            int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
-            if (commerce.IdUser != userId && !User.IsInRole(Constants.Roles.Admin))
-                return Forbid();
 
             ImageCommerce img = commerce.ImageCommerce.FirstOrDefault(i => i.IdImageCommerce == idImage);
             if (img != null)
