@@ -59,7 +59,6 @@ namespace APISmartCity.DAO
             
             context.Entry(entity).OriginalValues["RowVersion"] = dto.RowVersion;
             await context.SaveChangesAsync();
-            //return Ok(Mapper.Map<DTO.Commerce>(Model.Commerce));
         }
 
         public async Task<Model.Commerce> AddCommerce(Commerce commerce)

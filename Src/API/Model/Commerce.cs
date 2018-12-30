@@ -41,11 +41,13 @@ namespace APISmartCity.Model
         {
             if (OpeningPeriod.Any(existingPeriod =>
                 existingPeriod.Jour == newPeriod.Jour &&
-                (newPeriod.HoraireFin >= existingPeriod.HoraireDebut && newPeriod.HoraireFin <= existingPeriod.HoraireFin) ||
-                (newPeriod.HoraireDebut >= existingPeriod.HoraireDebut && newPeriod.HoraireDebut <= existingPeriod.HoraireFin) ||
-                (newPeriod.HoraireDebut <= existingPeriod.HoraireDebut && newPeriod.HoraireFin >= existingPeriod.HoraireFin)))
-                throw new InvalidOpeningPeriodException();
-
+                    (newPeriod.HoraireFin >= existingPeriod.HoraireDebut && newPeriod.HoraireFin <= existingPeriod.HoraireFin) ||
+                    (newPeriod.HoraireDebut >= existingPeriod.HoraireDebut && newPeriod.HoraireDebut <= existingPeriod.HoraireFin) ||
+                    (newPeriod.HoraireDebut <= existingPeriod.HoraireDebut && newPeriod.HoraireFin >= existingPeriod.HoraireFin))
+                )
+                {
+                    throw new InvalidOpeningPeriodException();
+                }
             this.OpeningPeriod.Add(newPeriod);
         }
         public void AddImage(String uri, int idCommerce){

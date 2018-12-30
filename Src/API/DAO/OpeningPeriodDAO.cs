@@ -41,6 +41,7 @@ namespace APISmartCity.DAO
                 Jour = dto.Jour,
                 IdCommerce = dto.IdCommerce
             };
+            //return new Model.OpeningPeriod(dto.HoraireDebut, dto.HoraireFin, dto.Jour, dto.IdCommerce);
         }
 
         public async Task<List<Model.OpeningPeriod>> GetOpeningPeriods()

@@ -12,7 +12,7 @@ namespace APISmartCity.DTO
         {
             //Actualite = new HashSet<Actualite>();
             //ImageCommerce = new HashSet<ImageCommerce>();
-            OpeningPeriod = new HashSet<OpeningPeriodDTO>();
+            //OpeningPeriod = new HashSet<OpeningPeriodDTO>();
         }
 
         public int IdCommerce { get; set; }
@@ -35,14 +35,14 @@ namespace APISmartCity.DTO
         public ICollection<ActualiteDTO> Actualite { get; set; }
         public void AddOpeningPeriod(OpeningPeriodDTO newPeriod)
         {
-            if (OpeningPeriod.Any(existingPeriod =>
-                existingPeriod.Jour == newPeriod.Jour &&
-                (newPeriod.HoraireFin >= existingPeriod.HoraireDebut && newPeriod.HoraireFin <= existingPeriod.HoraireFin) ||
-                (newPeriod.HoraireDebut >= existingPeriod.HoraireDebut && newPeriod.HoraireDebut <= existingPeriod.HoraireFin) ||
-                (newPeriod.HoraireDebut <= existingPeriod.HoraireDebut && newPeriod.HoraireFin >= existingPeriod.HoraireFin)))
-                throw new InvalidOpeningPeriodException();
+            // if (OpeningPeriod.Any(existingPeriod =>
+            //     existingPeriod.Jour == newPeriod.Jour &&
+            //     (newPeriod.HoraireFin >= existingPeriod.HoraireDebut && newPeriod.HoraireFin <= existingPeriod.HoraireFin) ||
+            //     (newPeriod.HoraireDebut >= existingPeriod.HoraireDebut && newPeriod.HoraireDebut <= existingPeriod.HoraireFin) ||
+            //     (newPeriod.HoraireDebut <= existingPeriod.HoraireDebut && newPeriod.HoraireFin >= existingPeriod.HoraireFin)))
+            //     throw new InvalidOpeningPeriodException();
 
-            this.OpeningPeriod.Add(newPeriod);
+            // this.OpeningPeriod.Add(newPeriod);
         }
     }
 }

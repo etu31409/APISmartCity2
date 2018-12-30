@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using APISmartCity.DTO;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace APISmartCity.Controllers
@@ -39,8 +40,10 @@ namespace APISmartCity.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             Model.OpeningPeriod entity = await FindOpeningPeriodById(id);
-            return (entity == null) ? NotFound() : (IActionResult)Ok(dao.CreateDTOFromEntity(entity));
-
+            //return (entity == null) ? NotFound() : (IActionResult)Ok(dao.CreateDTOFromEntity(entity));
+            if(entity == null)
+                return NotFound();
+            return Ok(Mapper.Map<OpeningPeriodDTO>(entity));
         }
 
         private Task<Model.OpeningPeriod> FindOpeningPeriodById(int id)
@@ -81,7 +84,7 @@ namespace APISmartCity.Controllers
             Model.OpeningPeriod entity = Mapper.Map<Model.OpeningPeriod>(dto);
 
             await dao.AddOpeningPeriod(entity, commerce);
-            return Created($"api/{entity.IdHoraire}", Mapper.Map<OpeningPeriod>(entity));
+            return Created($"api/OpeningPeriods/Shop/{entity.IdHoraire}", Mapper.Map<OpeningPeriod>(dto));
         }
 
         private Model.OpeningPeriod CreateEntityFromDTO(DTO.OpeningPeriodDTO dto)
