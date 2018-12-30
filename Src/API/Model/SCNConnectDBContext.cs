@@ -164,7 +164,7 @@ namespace APISmartCity
 
                 entity.HasOne(e => e.IdUserNavigation)
                     .WithMany(c => c.Favoris)
-                    .HasForeignKey(e => e.idUser);
+                    .HasForeignKey(e => e.IdUser);
 
                 entity.HasOne(e => e.IdCommerceNavigation)
                     .WithMany(c => c.Favoris)

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace APISmartCity.Model
+namespace APISmartCity.DTO
 {
     public partial class FavorisDTO
     {
@@ -16,7 +16,7 @@ namespace APISmartCity.Model
         public int IdCommerce { get; set; }
         public int idUser {get; set; }
 
-        public Commerce IdCommerceNavigation { get; set; }
-        public User IdUserNavigation { get; set; }
+        // public Commerce IdCommerceNavigation { get; set; }
+        // public User IdUserNavigation { get; set; }
     }
 }
