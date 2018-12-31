@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace APISmartCity.Model
 {
@@ -11,6 +12,7 @@ namespace APISmartCity.Model
         {
             
         }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 
         public int IdFavoris { get; set; }
         public int IdCommerce { get; set; }

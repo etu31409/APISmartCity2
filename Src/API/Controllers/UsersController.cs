@@ -39,7 +39,7 @@ namespace APISmartCity.Controllers
             //Bof ... si email devient la clé primaire de user pas besoin de vérifier içi
             User userDB = await userDAO.GetUser(dto.Email);
             if(userDB != null){
-                if(userDB.Email == dto.Email)
+                //if(userDB.Email == dto.Email)
                     return Forbid();
             }
             dto.Password = Hashing.HashPassword(dto.Password);

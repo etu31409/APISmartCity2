@@ -7,6 +7,7 @@ using APISmartCity.Model;
 using Microsoft.EntityFrameworkCore;
 using APISmartCity.DTO;
 using AutoMapper;
+
 namespace APISmartCity.DAO
 {
     public class FavorisDAO
@@ -20,7 +21,7 @@ namespace APISmartCity.DAO
         public async Task<Model.Favoris> AddFavoris(Favoris favoris)
         {
             if (favoris == null)
-                throw new ActualiteNotFoundException();
+                throw new FavorisNotFoundException();
             context.Favoris.Add(favoris);
             await context.SaveChangesAsync();
             return favoris;
@@ -31,7 +32,7 @@ namespace APISmartCity.DAO
             return await context.Favoris.ToListAsync();
         }
 
-        public async Task<Favoris> GetFavoris(int id)
+        public async Task<Favoris> GetFavorisById(int id)
         {
             return await context.Favoris.FirstOrDefaultAsync(f => f.IdFavoris == id);
         }
@@ -47,6 +48,13 @@ namespace APISmartCity.DAO
             {
                 Console.WriteLine(e.Message);
             }
+        }
+
+        public async Task<Favoris> GetOneFavoris(Favoris favoris)
+        {
+            return await context.Favoris.FirstOrDefaultAsync(
+                x => x.IdUser == favoris.IdUser && x.IdCommerce == favoris.IdCommerce
+            );
         }
     }
 }

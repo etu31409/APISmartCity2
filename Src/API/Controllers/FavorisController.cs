@@ -34,8 +34,11 @@ namespace APISmartCity.Controllers
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
             Favoris entity = Mapper.Map<Model.Favoris>(dto);
+            Favoris entityDB = await favorisDAO.GetOneFavoris(entity);
+            if(entityDB != null)
+                throw new IsAleadySetToFavorisException();
             entity = await favorisDAO.AddFavoris(entity);  
-            return Created($"api/Favoris/{dto.IdFavoris}", Mapper.Map<ActualiteDTO>(entity));
+            return Created($"api/Favoris/{dto.IdFavoris}", Mapper.Map<FavorisDTO>(entity));
         }
         
         [HttpGet]
@@ -48,7 +51,7 @@ namespace APISmartCity.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            Favoris favoris = await favorisDAO.GetFavoris(id);
+            Favoris favoris = await favorisDAO.GetFavorisById(id);
             if(favoris==null)
                 return NotFound();
             await favorisDAO.DeleteFavoris(favoris);
