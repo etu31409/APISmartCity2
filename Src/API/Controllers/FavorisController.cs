@@ -42,7 +42,7 @@ namespace APISmartCity.Controllers
         public async Task<IActionResult> GetById()
         {
             List<Favoris> entity = await favorisDAO.GetFavoris();
-            return (entity == null) ? NotFound() : (IActionResult)Ok(Mapper.Map<ActualiteDTO>(entity));
+            return (entity == null) ? NotFound() : (IActionResult)Ok(Mapper.Map<List<FavorisDTO>>(entity));
         }
 
         [HttpDelete("{id}")]
