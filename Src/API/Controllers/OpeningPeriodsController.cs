@@ -32,7 +32,8 @@ namespace APISmartCity.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok(await dao.GetOpeningPeriods());
+            List<Model.OpeningPeriod> openingPeriods= await dao.GetOpeningPeriods();
+            return Ok(Mapper.Map<List<OpeningPeriodDTO>>(openingPeriods));
         }
 
         // GET api/OpeningPeriod/5

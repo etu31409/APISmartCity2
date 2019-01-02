@@ -39,7 +39,7 @@ namespace APISmartCity.Controllers
             return Created($"api/Actualites/{dto.IdActualite}", Mapper.Map<ActualiteDTO>(entity));
         }
         
-        // GET api/OpeningPeriod/5
+        // GET api/Actualites/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
