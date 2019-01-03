@@ -18,7 +18,7 @@ namespace APISmartCity.Model
         public DateTime? Date { get; set; }
         public int? IdCommerce { get; set; }
         public int? IdSiteTouristique { get; set; }
-        //public byte[] RowVersion { get; set; }
+        public byte[] RowVersion { get; set; }
 
         public Commerce IdCommerceNavigation { get; set; }
     }

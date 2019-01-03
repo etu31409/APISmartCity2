@@ -11,5 +11,6 @@ namespace APISmartCity.DTO
         public DateTime? Date { get; set; }
         public int? IdCommerce { get; set; }
         public int? IdSiteTouristique { get; set; }
+        public byte[] RowVersion { get; set; }
     }
 }

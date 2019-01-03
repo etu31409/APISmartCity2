@@ -45,9 +45,9 @@ namespace APISmartCity
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                // entity.Property(e => e.RowVersion)
-                //     .IsRequired()
-                //     .IsRowVersion();
+                entity.Property(e => e.RowVersion)
+                    .IsRequired()
+                    .IsRowVersion();
 
                 entity.HasOne(d => d.IdCommerceNavigation)
                     .WithMany(p => p.Actualite)
