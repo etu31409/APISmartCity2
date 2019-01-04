@@ -31,10 +31,10 @@ namespace APISmartCity.Controllers
         [HttpGet]
         [Authorize(Roles = Constants.Roles.ADMIN)]
         [Authorize(Roles = Constants.Roles.USER)]
-        public async Task<ActionResult<IEnumerable<Commerce>>> Get(int categorie = 0, bool all = true)
+        public async Task<ActionResult<IEnumerable<Commerce>>> Get(int categorie = 0, bool all = true, string nom=null)
         {
             int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
-            List<Commerce> commerces = await commercesDAO.GetCommerces(categorie, userId, all);
+            List<Commerce> commerces = await commercesDAO.GetCommerces(categorie, userId, all, nom);
             if (commerces == null)
                 return NotFound();
             //return Ok(commerces);

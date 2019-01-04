@@ -103,9 +103,9 @@ namespace APISmartCity.Controllers
 
             int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
             //Pas possible si l'utilisateur n'est pas le propriétaire du commerce ou admin
-            //if(entity.IdCommerce != userId && !User.IsInRole(Constants.Roles.Admin))
-              //  return Forbid();
-              //fixme : Faire une validation que le commerce (opening period par extension) appartient bien a l'utilisateur
+            Commerce commerce = await dao.getCommerceOpeningPeriod(dto.IdCommerce);
+            if(commerce.IdUser != userId && !User.IsInRole(Constants.Roles.ADMIN))
+                 return Forbid();
 
             await dao.ModifOpeningPeriod(entity, dto);
             return Ok(dto);

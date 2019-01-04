@@ -66,6 +66,14 @@ namespace APISmartCity.DAO
             entity.HoraireFin= dto.HoraireFin;
             entity.Jour = dto.Jour;
             context.Entry(entity).OriginalValues["RowVersion"] = dto.RowVersion;
+            if(context.OpeningPeriod
+            .Where(existingPeriod => existingPeriod.IdHoraire != entity.IdHoraire)
+            .Any(existingPeriod =>
+                existingPeriod.Jour == entity.Jour &&
+                    (entity.HoraireFin >= existingPeriod.HoraireDebut && entity.HoraireFin <= existingPeriod.HoraireFin) ||
+                    (entity.HoraireDebut >= existingPeriod.HoraireDebut && entity.HoraireDebut <= existingPeriod.HoraireFin) ||
+                    (entity.HoraireDebut <= existingPeriod.HoraireDebut && entity.HoraireFin >= existingPeriod.HoraireFin))
+                )
             await context.SaveChangesAsync();
         }
 
@@ -73,6 +81,12 @@ namespace APISmartCity.DAO
         {
             context.Remove(op);
             await context.SaveChangesAsync();
+        }
+
+        public async Task<Commerce> getCommerceOpeningPeriod(int commerceId)
+        {
+            CommercesDAO commercesDAO = new CommercesDAO(context);
+            return await commercesDAO.GetCommerce(commerceId);
         }
     }
 }
