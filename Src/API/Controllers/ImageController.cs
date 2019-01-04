@@ -93,6 +93,7 @@ namespace APISmartCity.Controllers
                             {
                                 value = String.Empty;
                             }
+                            //Value = ""
                             formAccumulator.Append(key.ToString(), value);
 
                             if (formAccumulator.ValueCount > _defaultFormOptions.ValueCountLimit)
@@ -107,7 +108,8 @@ namespace APISmartCity.Controllers
                 section = await reader.ReadNextSectionAsync();
             }
 
-            int idCommerce = int.Parse(formAccumulator.GetResults()["idCommerce"].ToString());
+            //int idCommerce = int.Parse(formAccumulator.GetResults()["IdCommerce"].ToString());
+            int idCommerce = 35;
             Commerce entity = await commercesDAO.GetCommerce(idCommerce);
             if (entity == null) return NotFound("Commerce non trouvé" + idCommerce);
 
