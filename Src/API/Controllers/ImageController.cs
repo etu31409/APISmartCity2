@@ -107,9 +107,9 @@ namespace APISmartCity.Controllers
                 // reads the headers for the next section.
                 section = await reader.ReadNextSectionAsync();
             }
-
-            //int idCommerce = int.Parse(formAccumulator.GetResults()["IdCommerce"].ToString());
-            int idCommerce = 35;
+            string str = formAccumulator.GetResults()["IdCommerce"];
+            int idCommerce = int.Parse(formAccumulator.GetResults()["IdCommerce"].ToString());
+            //int idCommerce = 35;
             Commerce entity = await commercesDAO.GetCommerce(idCommerce);
             if (entity == null) return NotFound("Commerce non trouvé" + idCommerce);
 

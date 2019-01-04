@@ -47,11 +47,6 @@ namespace APISmartCity.Controllers
             return (entity == null) ? NotFound() : (IActionResult)Ok(Mapper.Map<ActualiteDTO>(entity));
         }
 
-        // private Task<Model.Actualite> FindActualiteById(int id)
-        // {
-        //     return context.Actualite.FirstOrDefaultAsync(actu => actu.IdActualite == id);
-        // }
-
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(int id, [FromBody] ActualiteDTO actuDto)
         {

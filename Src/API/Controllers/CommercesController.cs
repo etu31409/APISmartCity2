@@ -72,10 +72,10 @@ namespace APISmartCity.Controllers
                 return NotFound();
             
             int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
-            //if(entity.IdUser != userId && !User.IsInRole(Constants.Roles.ADMIN))
-            if(entity.IdUser != userId)
+            if(entity.IdUser != userId && !User.IsInRole(Constants.Roles.ADMIN)){
+                //if(entity.IdUser != userId)
                 return Forbid();
-
+            }
             await commercesDAO.ModifCommerce(entity, commerce);
             return Ok(commerce);
         }
@@ -88,9 +88,10 @@ namespace APISmartCity.Controllers
             if(commerce==null)
                 return NotFound();
             int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
-            //if(commerce.IdUser != userId && !User.IsInRole(Constants.Roles.ADMIN))
-            if(commerce.IdUser != userId)
+            if(commerce.IdUser != userId && !User.IsInRole(Constants.Roles.ADMIN)){
+                //if(commerce.IdUser != userId)
                 return Forbid();
+            }
             await commercesDAO.DeleteCommerce(commerce);
             return Ok();
         }
