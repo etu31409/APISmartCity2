@@ -13,6 +13,7 @@ namespace APISmartCity.DAO
     public class UserDAO
     {
         private SCNConnectDBContext context;
+        
         public UserDAO(SCNConnectDBContext context)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
@@ -23,7 +24,10 @@ namespace APISmartCity.DAO
             if (user == null)
                 throw new UserNotFoundException();
             context.User.Add(user);
+            UserRole userRole= new UserRole();
+            UserRoleDAO userRoleDAO = new UserRoleDAO(context);
             await context.SaveChangesAsync();
+            await userRoleDAO.AddUserRole(user);
             return user;
         }
 

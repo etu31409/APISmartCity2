@@ -22,6 +22,7 @@ namespace APISmartCity
         public virtual DbSet<ImageCommerce> ImageCommerce { get; set; }
         public virtual DbSet<OpeningPeriod> OpeningPeriod { get; set; }
         public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<User> UserRole { get; set; }
         public virtual DbSet<Favoris> Favoris { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

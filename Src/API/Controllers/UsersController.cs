@@ -31,12 +31,11 @@ namespace APISmartCity.Controllers
         
         [HttpPost]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-
         public async Task<ActionResult<User>> Post([FromBody] UserDTO dto)
         {   
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
-            //Bof ... si email devient la clé primaire de user pas besoin de vérifier içi
+            //si email devient la clé primaire de user pas besoin de vérifier içi
             User userDB = await userDAO.GetUser(dto.Email);
             if(userDB != null){
                 //if(userDB.Email == dto.Email)
@@ -57,7 +56,7 @@ namespace APISmartCity.Controllers
                 return NotFound();
             }
             int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
-            if(id != userId && !User.IsInRole(Constants.Roles.Admin)){
+            if(id != userId && !User.IsInRole(Constants.Roles.ADMIN)){
                 return Forbid();
             }
             User user = await userDAO.GetUserWithId(id);

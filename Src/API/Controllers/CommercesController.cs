@@ -29,6 +29,8 @@ namespace APISmartCity.Controllers
         
         
         [HttpGet]
+        [Authorize(Roles = Constants.Roles.ADMIN)]
+        [Authorize(Roles = Constants.Roles.USER)]
         public async Task<ActionResult<IEnumerable<Commerce>>> Get(int categorie = 0, bool all = true)
         {
             int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
@@ -40,6 +42,8 @@ namespace APISmartCity.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = Constants.Roles.ADMIN)]
+        [Authorize(Roles = Constants.Roles.USER)]
         public async Task<ActionResult<Commerce>> GetById(int id)
         {
             Commerce commerce = await commercesDAO.GetCommerce(id);
@@ -49,7 +53,7 @@ namespace APISmartCity.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = Constants.Roles.Admin)]
+        [Authorize(Roles = Constants.Roles.ADMIN)]
         public async Task<ActionResult> Post([FromBody] CommerceDTO commerce)
         {   
             if(!ModelState.IsValid)
@@ -60,6 +64,7 @@ namespace APISmartCity.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = Constants.Roles.ADMIN)]
         public async Task<ActionResult> Put([FromBody] Commerce commerce)
         {
             Commerce entity = await commercesDAO.GetCommerce(commerce.IdCommerce);
@@ -67,8 +72,8 @@ namespace APISmartCity.Controllers
                 return NotFound();
             
             int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
-            //Pas possible si l'utilisateur n'est pas le propriétaire du commerce ou admin
-            if(entity.IdUser != userId && !User.IsInRole(Constants.Roles.Admin))
+            //if(entity.IdUser != userId && !User.IsInRole(Constants.Roles.ADMIN))
+            if(entity.IdUser != userId)
                 return Forbid();
 
             await commercesDAO.ModifCommerce(entity, commerce);
@@ -76,14 +81,15 @@ namespace APISmartCity.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = Constants.Roles.ADMIN)]
         public async Task<ActionResult> Delete(int id)
         {
             Commerce commerce = await commercesDAO.GetCommerce(id);
             if(commerce==null)
                 return NotFound();
             int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
-            //Pas possible si l'utilisateur n'est pas le propriétaire du commerce ou admin
-            if(commerce.IdUser != userId && !User.IsInRole(Constants.Roles.Admin))
+            //if(commerce.IdUser != userId && !User.IsInRole(Constants.Roles.ADMIN))
+            if(commerce.IdUser != userId)
                 return Forbid();
             await commercesDAO.DeleteCommerce(commerce);
             return Ok();

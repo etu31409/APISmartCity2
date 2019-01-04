@@ -29,7 +29,7 @@ namespace APISmartCity.Controllers
         }
         
         [HttpPost]
-        //[Authorize(Roles = Constants.Roles.Admin)]
+        //[Authorize(Roles = Constants.Roles.ADMIN)]
         public async Task<ActionResult> Post([FromBody] ActualiteDTO dto)
         {   
             if(!ModelState.IsValid)
@@ -60,9 +60,9 @@ namespace APISmartCity.Controllers
                 return NotFound();
             int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
             //Pas possible si l'utilisateur n'est pas le propriétaire du commerce ou admin
-            // if(entity.IdCommerceNavigation.IdUser != userId && !User.IsInRole(Constants.Roles.Admin))
+            // if(entity.IdCommerceNavigation.IdUser != userId && !User.IsInRole(Constants.Roles.ADMIN))
             Commerce commerce = await actualitesDAO.getCommerceActualite(actuDto.IdCommerce.GetValueOrDefault());
-            if(commerce.IdUser != userId && !User.IsInRole(Constants.Roles.Admin))
+            if(commerce.IdUser != userId && !User.IsInRole(Constants.Roles.ADMIN))
                  return Forbid();
             await actualitesDAO.UpdateActualite(entity, actuDto);
             return Ok(Mapper.Map<ActualiteDTO>(entity));
@@ -78,7 +78,7 @@ namespace APISmartCity.Controllers
             //Pas possible si l'utilisateur n'est pas le propriétaire du commerce ou admin
             //if(actualite.IdCommerceNavigation.IdUser != userId && !User.IsInRole(Constants.Roles.Admin))
             Commerce commerce = await actualitesDAO.getCommerceActualite(actualite.IdCommerce.GetValueOrDefault());
-            if(commerce.IdUser != userId && !User.IsInRole(Constants.Roles.Admin))
+            if(commerce.IdUser != userId && !User.IsInRole(Constants.Roles.ADMIN))
                 return Forbid();
             await actualitesDAO.DeleteActualite(actualite);
             return Ok();
