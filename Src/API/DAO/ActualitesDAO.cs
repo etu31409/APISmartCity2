@@ -43,14 +43,11 @@ namespace APISmartCity.DAO
 
         public async Task DeleteActualite(Actualite actualite)
         {
-            try{
-                context.Remove(actualite);
-                await context.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
+            if(actualite == null)
+                throw new ActualiteNotFoundException();
+            context.Remove(actualite);
+            await context.SaveChangesAsync();
+            
         }
 
         public async Task<Commerce> getCommerceActualite(int commerceId)

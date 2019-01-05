@@ -73,12 +73,16 @@ namespace APISmartCity.DAO
                     (entity.HoraireFin >= existingPeriod.HoraireDebut && entity.HoraireFin <= existingPeriod.HoraireFin) ||
                     (entity.HoraireDebut >= existingPeriod.HoraireDebut && entity.HoraireDebut <= existingPeriod.HoraireFin) ||
                     (entity.HoraireDebut <= existingPeriod.HoraireDebut && entity.HoraireFin >= existingPeriod.HoraireFin))
-                )
+                ){
+                    throw new InvalidOpeningPeriodException();
+                }
             await context.SaveChangesAsync();
         }
 
         public async Task DeleteOpeningPeriod(Model.OpeningPeriod op)
         {
+            if(op == null)
+                throw new OpeningPeriodNotFoundException();
             context.Remove(op);
             await context.SaveChangesAsync();
         }

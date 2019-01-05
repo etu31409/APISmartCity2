@@ -44,5 +44,13 @@ namespace APISmartCity.DAO
                 .ThenInclude(r => r.Role)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
+
+        public async Task DeleteUser(User user)
+        {
+            if(user == null)
+                throw new UserNotFoundException();
+            context.Remove(user);
+            await context.SaveChangesAsync();
+        }
     }
 }

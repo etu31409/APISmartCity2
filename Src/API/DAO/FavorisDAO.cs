@@ -39,15 +39,10 @@ namespace APISmartCity.DAO
 
         public async Task DeleteFavoris(Favoris favoris)
         {
-            try
-            {
-                context.Remove(favoris);
-                await context.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
+            if(favoris == null)
+                throw new FavorisNotFoundException();
+            context.Remove(favoris);
+            await context.SaveChangesAsync();
         }
 
         public async Task<Favoris> GetOneFavoris(Favoris favoris)

@@ -66,6 +66,19 @@ namespace APISmartCity.Controllers
         }
         //TODO put 
 
-        //TODO DELETE
+        [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<ActionResult> Delete(int id)
+        {
+            User user = await userDAO.GetUserWithId(id);
+            if(user == null)
+                return NotFound();
+            int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
+            if(id != userId && !User.IsInRole(Constants.Roles.ADMIN)){
+                return Forbid();
+            }
+            await userDAO.DeleteUser(user);
+            return Ok(Mapper.Map<UserDTO>(user));
+        }
     }
 }
