@@ -29,7 +29,6 @@ namespace APISmartCity.Controllers
         
         
         [HttpGet]
-        [Authorize(Roles = Constants.Roles.ADMIN)]
         [Authorize(Roles = Constants.Roles.USER)]
         public async Task<ActionResult<IEnumerable<Commerce>>> Get(int categorie = 0, bool all = true, string nom=null)
         {
@@ -42,7 +41,6 @@ namespace APISmartCity.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = Constants.Roles.ADMIN)]
         [Authorize(Roles = Constants.Roles.USER)]
         public async Task<ActionResult<Commerce>> GetById(int id)
         {

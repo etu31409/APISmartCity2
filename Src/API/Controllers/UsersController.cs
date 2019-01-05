@@ -68,6 +68,8 @@ namespace APISmartCity.Controllers
 
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(Roles = Constants.Roles.USER)]
+
         public async Task<ActionResult> Delete(int id)
         {
             User user = await userDAO.GetUserWithId(id);
