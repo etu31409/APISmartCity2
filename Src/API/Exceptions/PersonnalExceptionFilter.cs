@@ -23,9 +23,9 @@ namespace APISmartCity.ExceptionPackage
             _logger.LogError(context.Exception, "Une erreur inattendue s'est produite");
 
 
-            if (context.Exception.GetType()==typeof(DbUpdateConcurrencyException))
+            if (context.Exception.GetType() == typeof(DbUpdateConcurrencyException))
             {
-               
+
                 var result = new ContentResult()
                 {
                     StatusCode = (int)HttpStatusCode.Conflict,
@@ -34,7 +34,8 @@ namespace APISmartCity.ExceptionPackage
 
                 };
                 context.Result = result;
-            }else
+            }
+            else
             if (context.Exception.GetType().IsSubclassOf(typeof(ActualiteNotFoundException)))
             {
                 var result = new ContentResult()
@@ -45,7 +46,8 @@ namespace APISmartCity.ExceptionPackage
 
                 };
                 context.Result = result;
-            }else
+            }
+            else
             if (context.Exception.GetType().IsSubclassOf(typeof(CommerceNotFoundException)))
             {
                 var result = new ContentResult()
@@ -56,7 +58,8 @@ namespace APISmartCity.ExceptionPackage
 
                 };
                 context.Result = result;
-            }else
+            }
+            else
             if (context.Exception.GetType().IsSubclassOf(typeof(FavorisNotFoundException)))
             {
                 var result = new ContentResult()
@@ -67,7 +70,8 @@ namespace APISmartCity.ExceptionPackage
 
                 };
                 context.Result = result;
-            }else
+            }
+            else
             if (context.Exception.GetType().IsSubclassOf(typeof(InvalidOpeningPeriodException)))
             {
                 var result = new ContentResult()
@@ -78,7 +82,8 @@ namespace APISmartCity.ExceptionPackage
 
                 };
                 context.Result = result;
-            }else
+            }
+            else
             if (context.Exception.GetType().IsSubclassOf(typeof(IsAleadySetToFavorisException)))
             {
                 var result = new ContentResult()
@@ -89,7 +94,8 @@ namespace APISmartCity.ExceptionPackage
 
                 };
                 context.Result = result;
-            }else
+            }
+            else
             if (context.Exception.GetType().IsSubclassOf(typeof(OpeningPeriodNotFoundException)))
             {
                 var result = new ContentResult()
@@ -100,7 +106,8 @@ namespace APISmartCity.ExceptionPackage
 
                 };
                 context.Result = result;
-            }else
+            }
+            else
             if (context.Exception.GetType().IsSubclassOf(typeof(UserAlreadyExistException)))
             {
                 var result = new ContentResult()
@@ -111,7 +118,8 @@ namespace APISmartCity.ExceptionPackage
 
                 };
                 context.Result = result;
-            }else
+            }
+            else
             if (context.Exception.GetType().IsSubclassOf(typeof(UserNotFoundException)))
             {
                 var result = new ContentResult()
@@ -122,8 +130,20 @@ namespace APISmartCity.ExceptionPackage
 
                 };
                 context.Result = result;
-            }else
+            }
+            else
             if (context.Exception.GetType().IsSubclassOf(typeof(PersonnalException)))
+            {
+                var result = new ContentResult()
+                {
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Content = Newtonsoft.Json.JsonConvert.SerializeObject(new PersonnalError() { Message = context.Exception.Message }),
+                    ContentType = "application/json"
+
+                };
+                context.Result = result;
+            }
+            else
             {
                 var result = new ContentResult()
                 {
