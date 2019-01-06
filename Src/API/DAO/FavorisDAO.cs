@@ -51,5 +51,13 @@ namespace APISmartCity.DAO
                 x => x.IdUser == favoris.IdUser && x.IdCommerce == favoris.IdCommerce
             );
         }
+
+        public async Task DeleteFavorisWithoutId(Favoris favoris)
+        {
+            if(favoris == null)
+                throw new FavorisNotFoundException();
+            context.Remove(favoris);
+            await context.SaveChangesAsync();
+        }
     }
 }

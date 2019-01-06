@@ -60,5 +60,19 @@ namespace APISmartCity.Controllers
             await favorisDAO.DeleteFavoris(favoris);
             return Ok();
         }
+
+        [HttpDelete]
+        [ProducesResponseType(200, Type = typeof(DTO.FavorisDTO))]
+        public async Task<ActionResult> DeleteWithoutId([FromBody] FavorisDTO dto)
+        {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+            Favoris entity = Mapper.Map<Model.Favoris>(dto);
+            Favoris entityDB = await favorisDAO.GetOneFavoris(entity);
+            if(entityDB == null)
+                throw new IsNotFavorisException();
+            await favorisDAO.DeleteFavorisWithoutId(entityDB);
+            return Ok();
+        }
     }
 }
