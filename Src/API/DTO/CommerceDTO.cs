@@ -15,15 +15,22 @@ namespace APISmartCity.DTO
             //OpeningPeriod = new HashSet<OpeningPeriodDTO>();
         }
 
+        [Required]
         public int IdCommerce { get; set; }
+        [Required]
         public string NomCommerce { get; set; }
+        [Required]
         public string Rue { get; set; }
+        [Required]
         public int Numero { get; set; }
+        [Required]
         public string Description { get; set; }
+        [Required]
         public string ProduitPhare { get; set; }
         public string ParcoursProduitPhare { get; set; }
         public int? NumeroGsm { get; set; }
         public int? NumeroFixe { get; set; }
+        [EmailAddress]
         public string AdresseMail { get; set; }
         public string UrlPageFacebook { get; set; }
         public int? IdCategorie { get; set; }
@@ -33,16 +40,6 @@ namespace APISmartCity.DTO
         public ICollection<OpeningPeriodDTO> OpeningPeriod { get; set; }
         public ICollection<ImageCommerceDTO> ImageCommerce { get; set; }
         public ICollection<ActualiteDTO> Actualite { get; set; }
-        public void AddOpeningPeriod(OpeningPeriodDTO newPeriod)
-        {
-            // if (OpeningPeriod.Any(existingPeriod =>
-            //     existingPeriod.Jour == newPeriod.Jour &&
-            //     (newPeriod.HoraireFin >= existingPeriod.HoraireDebut && newPeriod.HoraireFin <= existingPeriod.HoraireFin) ||
-            //     (newPeriod.HoraireDebut >= existingPeriod.HoraireDebut && newPeriod.HoraireDebut <= existingPeriod.HoraireFin) ||
-            //     (newPeriod.HoraireDebut <= existingPeriod.HoraireDebut && newPeriod.HoraireFin >= existingPeriod.HoraireFin)))
-            //     throw new InvalidOpeningPeriodException();
-
-            // this.OpeningPeriod.Add(newPeriod);
-        }
+        
     }
 }
