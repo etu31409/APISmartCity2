@@ -42,7 +42,7 @@ namespace APISmartCity.Controllers
         }
         
         [HttpGet]
-        public async Task<IActionResult> GetById()
+        public async Task<IActionResult> Get()
         {
             List<Favoris> entity = await favorisDAO.GetFavoris();
             return (entity == null) ? NotFound() : (IActionResult)Ok(Mapper.Map<List<FavorisDTO>>(entity));
