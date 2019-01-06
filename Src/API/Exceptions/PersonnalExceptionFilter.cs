@@ -35,6 +35,94 @@ namespace APISmartCity.ExceptionPackage
                 };
                 context.Result = result;
             }else
+            if (context.Exception.GetType().IsSubclassOf(typeof(ActualiteNotFoundException)))
+            {
+                var result = new ContentResult()
+                {
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Content = Newtonsoft.Json.JsonConvert.SerializeObject(new PersonnalError() { Message = "Actualite introuvable" }),
+                    ContentType = "application/json"
+
+                };
+                context.Result = result;
+            }else
+            if (context.Exception.GetType().IsSubclassOf(typeof(CommerceNotFoundException)))
+            {
+                var result = new ContentResult()
+                {
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Content = Newtonsoft.Json.JsonConvert.SerializeObject(new PersonnalError() { Message = "Commerce introuvable" }),
+                    ContentType = "application/json"
+
+                };
+                context.Result = result;
+            }else
+            if (context.Exception.GetType().IsSubclassOf(typeof(FavorisNotFoundException)))
+            {
+                var result = new ContentResult()
+                {
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Content = Newtonsoft.Json.JsonConvert.SerializeObject(new PersonnalError() { Message = "Favoris introuvable" }),
+                    ContentType = "application/json"
+
+                };
+                context.Result = result;
+            }else
+            if (context.Exception.GetType().IsSubclassOf(typeof(InvalidOpeningPeriodException)))
+            {
+                var result = new ContentResult()
+                {
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Content = Newtonsoft.Json.JsonConvert.SerializeObject(new PersonnalError() { Message = "Période d'ouverture invalide" }),
+                    ContentType = "application/json"
+
+                };
+                context.Result = result;
+            }else
+            if (context.Exception.GetType().IsSubclassOf(typeof(IsAleadySetToFavorisException)))
+            {
+                var result = new ContentResult()
+                {
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Content = Newtonsoft.Json.JsonConvert.SerializeObject(new PersonnalError() { Message = "Commerce déjà ajouter aux favoris" }),
+                    ContentType = "application/json"
+
+                };
+                context.Result = result;
+            }else
+            if (context.Exception.GetType().IsSubclassOf(typeof(OpeningPeriodNotFoundException)))
+            {
+                var result = new ContentResult()
+                {
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Content = Newtonsoft.Json.JsonConvert.SerializeObject(new PersonnalError() { Message = "Période d'ouverture introuvable" }),
+                    ContentType = "application/json"
+
+                };
+                context.Result = result;
+            }else
+            if (context.Exception.GetType().IsSubclassOf(typeof(UserAlreadyExistException)))
+            {
+                var result = new ContentResult()
+                {
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Content = Newtonsoft.Json.JsonConvert.SerializeObject(new PersonnalError() { Message = "Utilisateur déjà existant" }),
+                    ContentType = "application/json"
+
+                };
+                context.Result = result;
+            }else
+            if (context.Exception.GetType().IsSubclassOf(typeof(UserNotFoundException)))
+            {
+                var result = new ContentResult()
+                {
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Content = Newtonsoft.Json.JsonConvert.SerializeObject(new PersonnalError() { Message = "Utilisateur introuvable" }),
+                    ContentType = "application/json"
+
+                };
+                context.Result = result;
+            }else
             if (context.Exception.GetType().IsSubclassOf(typeof(PersonnalException)))
             {
                 var result = new ContentResult()
