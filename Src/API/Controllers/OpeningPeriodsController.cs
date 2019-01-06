@@ -30,6 +30,7 @@ namespace APISmartCity.Controllers
 
         // GET: api/OpeningPeriod
         [HttpGet]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<DTO.OpeningPeriodDTO>))]
         public async Task<IActionResult> Get()
         {
             List<Model.OpeningPeriod> openingPeriods= await dao.GetOpeningPeriods();
@@ -38,6 +39,7 @@ namespace APISmartCity.Controllers
 
         // GET api/OpeningPeriod/5
         [HttpGet("{id}")]
+        [ProducesResponseType(200, Type = typeof(DTO.OpeningPeriodDTO))]
         public async Task<IActionResult> GetById(int id)
         {
             Model.OpeningPeriod entity = await FindOpeningPeriodById(id);
@@ -71,6 +73,7 @@ namespace APISmartCity.Controllers
 
         //POST api/OpeningPeriod
        [HttpPost("Shop/{shopId}")]
+       [ProducesResponseType(201, Type = typeof(DTO.OpeningPeriodDTO))]
        public async Task<IActionResult> Post(int shopId, [FromBody]DTO.OpeningPeriodDTO dto)
         {
             Model.Commerce commerce = await FindCommerceById(shopId);
@@ -95,6 +98,7 @@ namespace APISmartCity.Controllers
 
         // PUT api/OpeningPeriod/5
         [HttpPut("{id}")]
+        [ProducesResponseType(200, Type = typeof(DTO.OpeningPeriodDTO))]
         public async Task<IActionResult> Put(int id, [FromBody]DTO.OpeningPeriodDTO dto)
         {
             Model.OpeningPeriod entity = await FindOpeningPeriodById(id);
@@ -113,6 +117,7 @@ namespace APISmartCity.Controllers
 
         // DELETE api/OpeningPeriod/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(200, Type = typeof(DTO.OpeningPeriodDTO))]
         public async Task<IActionResult> Delete(int id)
         {
             Model.OpeningPeriod entity = await FindOpeningPeriodById(id);

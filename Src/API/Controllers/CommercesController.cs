@@ -30,6 +30,7 @@ namespace APISmartCity.Controllers
         
         [HttpGet]
         [Authorize(Roles = Constants.Roles.USER)]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<DTO.CommerceDTO>))]
         public async Task<ActionResult<IEnumerable<Commerce>>> Get(int categorie = 0, bool all = true, string nom=null)
         {
             int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
@@ -42,6 +43,7 @@ namespace APISmartCity.Controllers
 
         [HttpGet("{id}")]
         [Authorize(Roles = Constants.Roles.USER)]
+        [ProducesResponseType(200, Type = typeof(DTO.CommerceDTO))]
         public async Task<ActionResult<Commerce>> GetById(int id)
         {
             Commerce commerce = await commercesDAO.GetCommerce(id);
@@ -52,6 +54,7 @@ namespace APISmartCity.Controllers
 
         [HttpPost]
         [Authorize(Roles = Constants.Roles.ADMIN)]
+        [ProducesResponseType(201, Type = typeof(DTO.CommerceDTO))]
         public async Task<ActionResult> Post([FromBody] CommerceDTO commerce)
         {   
             if(!ModelState.IsValid)
@@ -63,6 +66,7 @@ namespace APISmartCity.Controllers
 
         [HttpPut]
         [Authorize(Roles = Constants.Roles.ADMIN)]
+        [ProducesResponseType(200, Type = typeof(DTO.CommerceDTO))]
         public async Task<ActionResult> Put([FromBody] Commerce commerce)
         {
             Commerce entity = await commercesDAO.GetCommerce(commerce.IdCommerce);
@@ -80,6 +84,7 @@ namespace APISmartCity.Controllers
 
         [HttpDelete("{id}")]
         [Authorize(Roles = Constants.Roles.ADMIN)]
+        [ProducesResponseType(200, Type = typeof(DTO.CommerceDTO))]
         public async Task<ActionResult> Delete(int id)
         {
             Commerce commerce = await commercesDAO.GetCommerce(id);

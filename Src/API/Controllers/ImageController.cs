@@ -41,6 +41,7 @@ namespace APISmartCity.Controllers
         }
 
         [HttpPost()]
+        [ProducesResponseType(201, Type = typeof(DTO.ImageCommerceDTO))]
         public async Task<IActionResult> Post()
         {
             if (!MultipartRequestHelper.IsMultipartContentType(Request.ContentType))
@@ -139,6 +140,7 @@ namespace APISmartCity.Controllers
         }
 
         [HttpDelete]
+        [ProducesResponseType(204, Type = typeof(DTO.FavorisDTO))]
         public async Task<ActionResult> Delete(int idImage, int idCommerce)
         {
             Commerce commerce = await commercesDAO.GetCommerce(idCommerce);

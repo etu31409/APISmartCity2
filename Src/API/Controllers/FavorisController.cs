@@ -29,6 +29,7 @@ namespace APISmartCity.Controllers
         }
         
         [HttpPost]
+        [ProducesResponseType(201, Type = typeof(DTO.FavorisDTO))]
         public async Task<ActionResult> Post([FromBody] FavorisDTO dto)
         {   
             if(!ModelState.IsValid)
@@ -42,6 +43,7 @@ namespace APISmartCity.Controllers
         }
         
         [HttpGet]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<DTO.FavorisDTO>))]
         public async Task<IActionResult> GetById()
         {
             List<Favoris> entity = await favorisDAO.GetFavoris();
@@ -49,6 +51,7 @@ namespace APISmartCity.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(200, Type = typeof(DTO.FavorisDTO))]
         public async Task<ActionResult> Delete(int id)
         {
             Favoris favoris = await favorisDAO.GetFavorisById(id);

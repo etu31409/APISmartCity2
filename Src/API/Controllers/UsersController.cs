@@ -31,6 +31,7 @@ namespace APISmartCity.Controllers
         
         [HttpPost]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [ProducesResponseType(201, Type = typeof(DTO.UserDTO))]
         public async Task<ActionResult<User>> Post([FromBody] UserDTO dto)
         {   
             if(!ModelState.IsValid)
@@ -50,6 +51,7 @@ namespace APISmartCity.Controllers
         //seul il faut que le userId dans le token et l'id en argument sois les mêmes
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("{id}")]
+        [ProducesResponseType(200, Type = typeof(DTO.UserDTO))]
         public async Task<ActionResult<User>> GetById(int id)
         {
             if(id <= 0){
@@ -64,12 +66,13 @@ namespace APISmartCity.Controllers
                 return NotFound();
             return Ok(Mapper.Map<DTO.UserDTO>(user));
         }
+        
         //TODO put 
 
         [HttpDelete("{id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [Authorize(Roles = Constants.Roles.USER)]
-
+        [ProducesResponseType(201, Type = typeof(DTO.UserDTO))]
         public async Task<ActionResult> Delete(int id)
         {
             User user = await userDAO.GetUserWithId(id);

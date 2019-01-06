@@ -30,6 +30,7 @@ namespace APISmartCity.Controllers
         
         [HttpPost]
         //[Authorize(Roles = Constants.Roles.ADMIN)]
+        [ProducesResponseType(201, Type = typeof(IEnumerable<DTO.ActualiteDTO>))]
         public async Task<ActionResult> Post([FromBody] ActualiteDTO dto)
         {   
             if(!ModelState.IsValid)
@@ -41,6 +42,7 @@ namespace APISmartCity.Controllers
         
         // GET api/Actualites/5
         [HttpGet("{id}")]
+        [ProducesResponseType(200, Type = typeof(DTO.ActualiteDTO))]
         public async Task<IActionResult> GetById(int id)
         {
             Model.Actualite entity = await actualitesDAO.GetActualite(id);
@@ -48,6 +50,7 @@ namespace APISmartCity.Controllers
         }
 
         [HttpPut("{id}")]
+        [ProducesResponseType(200, Type = typeof(DTO.ActualiteDTO))]
         public async Task<ActionResult> Put(int id, [FromBody] ActualiteDTO actuDto)
         {
             Actualite entity = await actualitesDAO.GetActualite(id);
@@ -64,6 +67,7 @@ namespace APISmartCity.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(200, Type = typeof(DTO.ActualiteDTO))]
         public async Task<ActionResult> Delete(int id)
         {
             Actualite actualite = await actualitesDAO.GetActualite(id);

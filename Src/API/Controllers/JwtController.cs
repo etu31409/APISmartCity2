@@ -26,6 +26,7 @@ namespace APISmartCity.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(201, Type = typeof(String))]
         public async Task<IActionResult> LoginAsync([FromBody] LoginModel model){
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
