@@ -12,7 +12,7 @@ namespace APISmartCity.Model
         {
             
         }
-        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 
         public int IdFavoris { get; set; }
         public int IdCommerce { get; set; }
