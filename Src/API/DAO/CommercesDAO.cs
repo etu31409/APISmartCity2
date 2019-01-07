@@ -23,6 +23,7 @@ namespace APISmartCity.DAO
                 .Include(commerce => commerce.OpeningPeriod)
                 .Include(commerce => commerce.ImageCommerce)
                 .Include(commerce => commerce.Actualite)
+                .Include(commerce => commerce.Favoris)
                 .Where(c => (categorie == 0 || c.IdCategorie == categorie) && (c.IdUser == UserId || all))
                 .Where(commerce=>nom==null || commerce.NomCommerce.Contains(nom))
                 .ToListAsync();
@@ -34,6 +35,7 @@ namespace APISmartCity.DAO
                 .Include(c => c.OpeningPeriod)
                 .Include(c => c.ImageCommerce)
                 .Include(commerce => commerce.Actualite)
+                .Include(commerce => commerce.Favoris)
                 .FirstOrDefaultAsync(c => c.IdCommerce == id);
         }
 
@@ -73,6 +75,30 @@ namespace APISmartCity.DAO
         {
             if(commerce == null)
                 throw new CommerceNotFoundException();
+            if(commerce.Actualite != null){
+                foreach (var actu in commerce.Actualite)
+                {
+                    context.Remove(actu);
+                }
+            }
+            if(commerce.OpeningPeriod != null){
+                foreach (var op in commerce.OpeningPeriod)
+                {
+                    context.Remove(op);
+                }
+            }
+            if(commerce.ImageCommerce != null){
+                foreach (var image in commerce.ImageCommerce)
+                {
+                    context.Remove(image);
+                }
+            }
+            if(commerce.Favoris != null){
+                foreach (var fav in commerce.Favoris)
+                {
+                    context.Remove(fav);
+                }
+            }
             context.Remove(commerce);
             await context.SaveChangesAsync();
         }

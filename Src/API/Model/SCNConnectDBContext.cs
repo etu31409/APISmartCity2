@@ -173,7 +173,7 @@ namespace APISmartCity
 
                 entity.HasOne(e => e.IdCommerceNavigation)
                     .WithMany(c => c.Favoris)
-                    .HasForeignKey(e => e.IdFavoris);
+                    .HasForeignKey(e => e.IdCommerce);
             });
         }
     }
