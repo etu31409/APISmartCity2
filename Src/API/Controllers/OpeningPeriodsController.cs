@@ -43,7 +43,6 @@ namespace APISmartCity.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             Model.OpeningPeriod entity = await FindOpeningPeriodById(id);
-            //return (entity == null) ? NotFound() : (IActionResult)Ok(dao.CreateDTOFromEntity(entity));
             if(entity == null)
                 return NotFound();
             return Ok(Mapper.Map<OpeningPeriodDTO>(entity));
@@ -83,8 +82,6 @@ namespace APISmartCity.Controllers
             int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
             if (!User.IsInRole(Constants.Roles.ADMIN) && commerce.IdUser!=userId)
                 return Forbid();
-
-            //Model.OpeningPeriod entity = CreateEntityFromDTO(dto);
             Model.OpeningPeriod entity = Mapper.Map<Model.OpeningPeriod>(dto);
 
             await dao.AddOpeningPeriod(entity, commerce);
