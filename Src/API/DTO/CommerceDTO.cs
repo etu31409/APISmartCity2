@@ -8,12 +8,7 @@ namespace APISmartCity.DTO
 {
     public class CommerceDTO
     {
-        public CommerceDTO()
-        {
-            //Actualite = new HashSet<Actualite>();
-            //ImageCommerce = new HashSet<ImageCommerce>();
-            //OpeningPeriod = new HashSet<OpeningPeriodDTO>();
-        }
+        public CommerceDTO(){}
 
         public int IdCommerce { get; set; }
         [Required]
