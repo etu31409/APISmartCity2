@@ -69,6 +69,8 @@ namespace APISmartCity.Controllers
         [ProducesResponseType(200, Type = typeof(DTO.CommerceDTO))]
         public async Task<ActionResult> Put([FromBody] Commerce commerce)
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
             Commerce entity = await commercesDAO.GetCommerce(commerce.IdCommerce);
             if (entity == null)
                 return NotFound();

@@ -75,6 +75,8 @@ namespace APISmartCity.Controllers
        [ProducesResponseType(201, Type = typeof(DTO.OpeningPeriodDTO))]
        public async Task<IActionResult> Post(int shopId, [FromBody]DTO.OpeningPeriodDTO dto)
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
             Model.Commerce commerce = await FindCommerceById(shopId);
             if (commerce == null)
                 return NotFound();
@@ -98,6 +100,8 @@ namespace APISmartCity.Controllers
         [ProducesResponseType(200, Type = typeof(DTO.OpeningPeriodDTO))]
         public async Task<IActionResult> Put(int id, [FromBody]DTO.OpeningPeriodDTO dto)
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
             Model.OpeningPeriod entity = await FindOpeningPeriodById(id);
             if (entity == null)
                 return NotFound();
