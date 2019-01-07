@@ -31,7 +31,6 @@ namespace APISmartCity.ExceptionPackage
                     StatusCode = (int)HttpStatusCode.Conflict,
                     Content = Newtonsoft.Json.JsonConvert.SerializeObject(new PersonnalError() { Message = "Access concurent à la base de donnée" }),
                     ContentType = "application/json"
-
                 };
                 context.Result = result;
             }else
@@ -42,7 +41,14 @@ namespace APISmartCity.ExceptionPackage
                     StatusCode = (int)HttpStatusCode.BadRequest,
                     Content = Newtonsoft.Json.JsonConvert.SerializeObject(new PersonnalError() { Message = context.Exception.Message }),
                     ContentType = "application/json"
-
+                };
+                context.Result = result;
+            }else{
+                var result = new ContentResult()
+                {
+                    StatusCode = (int)HttpStatusCode.BadRequest,
+                    Content = Newtonsoft.Json.JsonConvert.SerializeObject(new PersonnalError() { Message = "Une erreur s'est produite lors de l'execution de la requete" }),
+                    ContentType = "application/json"
                 };
                 context.Result = result;
             }
