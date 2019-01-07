@@ -79,6 +79,9 @@ namespace APISmartCity.Controllers
                     }
                     else if (MultipartRequestHelper.HasFormDataContentDisposition(contentDisposition))
                     {
+                        // Content-Disposition: form-data; name="key"
+                        // Do not limit the key name length here because the 
+                        // multipart headers length limit is already in effect.
                         var key = HeaderUtilities.RemoveQuotes(contentDisposition.Name);
                         var encoding = GetEncoding(section);
                         using (var streamReader = new StreamReader(
@@ -90,11 +93,11 @@ namespace APISmartCity.Controllers
                         {
                             // The value length limit is enforced by MultipartBodyLengthLimit
                             var value = await streamReader.ReadToEndAsync();
-                                
+                            if (String.Equals(value, "undefined", StringComparison.OrdinalIgnoreCase))
                             {
                                 value = String.Empty;
                             }
-                            //Value = ""
+                            
                             formAccumulator.Append(key.ToString(), value);
 
                             if (formAccumulator.ValueCount > _defaultFormOptions.ValueCountLimit)
@@ -113,7 +116,7 @@ namespace APISmartCity.Controllers
             //int idCommerce = 35;
             Commerce entity = await commercesDAO.GetCommerce(idCommerce);
             if (entity == null) return NotFound("Commerce non trouvé" + idCommerce);
-
+            
             ImageUploadResult results = cloudinary.Upload(new ImageUploadParams()
             {
                 File = new FileDescription(targetFilePath)
