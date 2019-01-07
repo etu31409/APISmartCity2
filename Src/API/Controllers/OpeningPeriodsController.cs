@@ -33,7 +33,7 @@ namespace APISmartCity.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<DTO.OpeningPeriodDTO>))]
         public async Task<IActionResult> Get()
         {
-            List<Model.OpeningPeriod> openingPeriods= await dao.GetOpeningPeriods();
+            List<Model.OpeningPeriod> openingPeriods = await dao.GetOpeningPeriods();
             return Ok(Mapper.Map<List<OpeningPeriodDTO>>(openingPeriods));
         }
 
@@ -43,7 +43,7 @@ namespace APISmartCity.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             Model.OpeningPeriod entity = await FindOpeningPeriodById(id);
-            if(entity == null)
+            if (entity == null)
                 return NotFound();
             return Ok(Mapper.Map<OpeningPeriodDTO>(entity));
         }
@@ -57,7 +57,7 @@ namespace APISmartCity.Controllers
         [HttpGet("Shop/{shopId}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<DTO.OpeningPeriodDTO>))]
         public async Task<IActionResult> GetByShop(int shopId)
-        { 
+        {
             Model.Commerce commerceFound = await FindCommerceById(shopId);
             if (commerceFound == null)
                 return NotFound();
@@ -66,28 +66,29 @@ namespace APISmartCity.Controllers
         }
 
         private async Task<Model.Commerce> FindCommerceById(int shopId)
-        { 
+        {
             return await commercesDAO.GetCommerce(shopId);
         }
 
         //POST api/OpeningPeriod
-       [HttpPost("Shop/{shopId}")]
-       [ProducesResponseType(201, Type = typeof(DTO.OpeningPeriodDTO))]
-       public async Task<IActionResult> Post(int shopId, [FromBody]DTO.OpeningPeriodDTO dto)
+        [HttpPost("Shop/{shopId}")]
+        [ProducesResponseType(201, Type = typeof(DTO.OpeningPeriodDTO))]
+        public async Task<IActionResult> Post(int shopId, [FromBody]DTO.OpeningPeriodDTO dto)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             Model.Commerce commerce = await FindCommerceById(shopId);
             if (commerce == null)
                 return NotFound();
 
             int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
-            if (!User.IsInRole(Constants.Roles.ADMIN) && commerce.IdUser!=userId)
+            if (!User.IsInRole(Constants.Roles.ADMIN) && commerce.IdUser != userId)
                 return Forbid();
             Model.OpeningPeriod entity = Mapper.Map<Model.OpeningPeriod>(dto);
 
-            await dao.AddOpeningPeriod(entity, commerce);
-            return Created($"api/OpeningPeriods/Shop/{entity.IdHoraire}", Mapper.Map<OpeningPeriod>(dto));
+            entity = await dao.AddOpeningPeriod(entity, commerce);
+            
+            return Created($"api/OpeningPeriods/Shop/{entity.IdHoraire}", Mapper.Map<OpeningPeriodDTO>(entity));
         }
 
         private Model.OpeningPeriod CreateEntityFromDTO(DTO.OpeningPeriodDTO dto)
@@ -100,7 +101,7 @@ namespace APISmartCity.Controllers
         [ProducesResponseType(200, Type = typeof(DTO.OpeningPeriodDTO))]
         public async Task<IActionResult> Put(int id, [FromBody]DTO.OpeningPeriodDTO dto)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             Model.OpeningPeriod entity = await FindOpeningPeriodById(id);
             if (entity == null)
@@ -109,8 +110,8 @@ namespace APISmartCity.Controllers
             int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
             //Pas possible si l'utilisateur n'est pas le propriétaire du commerce ou admin
             Commerce commerce = await dao.getCommerceOpeningPeriod(dto.IdCommerce);
-            if(commerce.IdUser != userId && !User.IsInRole(Constants.Roles.ADMIN))
-                 return Forbid();
+            if (commerce.IdUser != userId && !User.IsInRole(Constants.Roles.ADMIN))
+                return Forbid();
 
             await dao.ModifOpeningPeriod(entity, dto);
             return Ok(dto);

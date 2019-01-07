@@ -49,7 +49,7 @@ namespace APISmartCity.DAO
             return await context.OpeningPeriod.ToListAsync();
         }
 
-        public async Task<Model.OpeningPeriod> AddOpeningPeriod(Model.OpeningPeriod op, Model.Commerce commerce)
+        public async Task<OpeningPeriod> AddOpeningPeriod(Model.OpeningPeriod op, Model.Commerce commerce)
         {
             if (op == null)
                 throw new OpeningPeriodNotFoundException();
