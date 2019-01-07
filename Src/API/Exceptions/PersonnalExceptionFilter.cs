@@ -22,36 +22,30 @@ namespace APISmartCity.ExceptionPackage
         {
             _logger.LogError(context.Exception, "Une erreur inattendue s'est produite");
 
+            string message;
 
             if (context.Exception.GetType() == typeof(DbUpdateConcurrencyException))
             {
-
-                var result = new ContentResult()
-                {
-                    StatusCode = (int)HttpStatusCode.Conflict,
-                    Content = Newtonsoft.Json.JsonConvert.SerializeObject(new PersonnalError() { Message = "Access concurent à la base de donnée" }),
-                    ContentType = "application/json"
-                };
-                context.Result = result;
-            }else
+                message = "Access concurent à la base de donnée";
+            }
+            else
             if (context.Exception.GetType().IsSubclassOf(typeof(PersonnalException)))
             {
-                var result = new ContentResult()
-                {
-                    StatusCode = (int)HttpStatusCode.BadRequest,
-                    Content = Newtonsoft.Json.JsonConvert.SerializeObject(new PersonnalError() { Message = context.Exception.Message }),
-                    ContentType = "application/json"
-                };
-                context.Result = result;
-            }else{
-                var result = new ContentResult()
-                {
-                    StatusCode = (int)HttpStatusCode.BadRequest,
-                    Content = Newtonsoft.Json.JsonConvert.SerializeObject(new PersonnalError() { Message = "Une erreur s'est produite lors de l'execution de la requete" }),
-                    ContentType = "application/json"
-                };
-                context.Result = result;
+                message = context.Exception.Message;
             }
+            else
+            {
+                message = "Une erreur s'est produite lors de l'execution de la requete";
+            }
+
+            var result = new ContentResult()
+            {
+                StatusCode = (int)HttpStatusCode.Conflict,
+                Content = Newtonsoft.Json.JsonConvert.SerializeObject(new PersonnalError() { Message = message}),
+                ContentType = "application/json"
+            };
+            context.Result = result;
+
         }
     }
 }
