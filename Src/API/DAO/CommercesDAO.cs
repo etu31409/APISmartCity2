@@ -37,7 +37,7 @@ namespace APISmartCity.DAO
                 .FirstOrDefaultAsync(c => c.IdCommerce == id);
         }
 
-        public async Task ModifCommerce(Commerce entity, Commerce dto)
+        public async Task ModifCommerce(Commerce entity, CommerceDTO dto)
         {
             //fixme: Configurer un mapper
             entity.NomCommerce = dto.NomCommerce;
@@ -47,10 +47,8 @@ namespace APISmartCity.DAO
             entity.Rue = dto.Rue;
             entity.Description = dto.Description;
             entity.IdCategorie = dto.IdCategorie;
-            entity.IdCategorieNavigation = dto.IdCategorieNavigation;
             entity.IdCommerce = dto.IdCommerce;
             entity.IdUser = dto.IdUser;
-            entity.IdUserNavigation = dto.IdUserNavigation;
             //entity.ImageCommerce = dto.ImageCommerce;
             entity.NumeroFixe = dto.NumeroFixe;
             entity.NumeroGsm = dto.NumeroGsm;

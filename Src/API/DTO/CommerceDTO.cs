@@ -15,17 +15,13 @@ namespace APISmartCity.DTO
             //OpeningPeriod = new HashSet<OpeningPeriodDTO>();
         }
 
-        [Required]
         public int IdCommerce { get; set; }
         [Required]
         public string NomCommerce { get; set; }
         [Required]
         public string Rue { get; set; }
-        [Required]
         public int Numero { get; set; }
-        [Required]
         public string Description { get; set; }
-        [Required]
         public string ProduitPhare { get; set; }
         public string ParcoursProduitPhare { get; set; }
         public int? NumeroGsm { get; set; }

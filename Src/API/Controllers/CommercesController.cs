@@ -67,7 +67,7 @@ namespace APISmartCity.Controllers
         [HttpPut]
         [Authorize(Roles = Constants.Roles.ADMIN)]
         [ProducesResponseType(200, Type = typeof(DTO.CommerceDTO))]
-        public async Task<ActionResult> Put([FromBody] Commerce commerce)
+        public async Task<ActionResult> Put([FromBody] CommerceDTO commerce)
         {
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -80,6 +80,7 @@ namespace APISmartCity.Controllers
                 //if(entity.IdUser != userId)
                 return Forbid();
             }
+
             await commercesDAO.ModifCommerce(entity, commerce);
             return Ok(commerce);
         }
