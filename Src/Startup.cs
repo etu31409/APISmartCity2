@@ -23,7 +23,6 @@ namespace APISmartCity
 {
     public class Startup
     {
-        //TODO : Créer des constantes pour le serveur par exemple
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -136,7 +135,7 @@ namespace APISmartCity
                 .AllowAnyHeader()
             );
 
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
             app.UseMvc();
 
 
