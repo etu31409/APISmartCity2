@@ -43,7 +43,6 @@ namespace APISmartCity.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             Model.OpeningPeriod entity = await FindOpeningPeriodById(id);
-            //return (entity == null) ? NotFound() : (IActionResult)Ok(dao.CreateDTOFromEntity(entity));
             if(entity == null)
                 return NotFound();
             return Ok(Mapper.Map<OpeningPeriodDTO>(entity));
@@ -76,6 +75,8 @@ namespace APISmartCity.Controllers
        [ProducesResponseType(201, Type = typeof(DTO.OpeningPeriodDTO))]
        public async Task<IActionResult> Post(int shopId, [FromBody]DTO.OpeningPeriodDTO dto)
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
             Model.Commerce commerce = await FindCommerceById(shopId);
             if (commerce == null)
                 return NotFound();
@@ -83,8 +84,6 @@ namespace APISmartCity.Controllers
             int userId = int.Parse(User.Claims.First(c => c.Type == PrivateClaims.UserId).Value);
             if (!User.IsInRole(Constants.Roles.ADMIN) && commerce.IdUser!=userId)
                 return Forbid();
-
-            //Model.OpeningPeriod entity = CreateEntityFromDTO(dto);
             Model.OpeningPeriod entity = Mapper.Map<Model.OpeningPeriod>(dto);
 
             await dao.AddOpeningPeriod(entity, commerce);
@@ -101,6 +100,8 @@ namespace APISmartCity.Controllers
         [ProducesResponseType(200, Type = typeof(DTO.OpeningPeriodDTO))]
         public async Task<IActionResult> Put(int id, [FromBody]DTO.OpeningPeriodDTO dto)
         {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
             Model.OpeningPeriod entity = await FindOpeningPeriodById(id);
             if (entity == null)
                 return NotFound();

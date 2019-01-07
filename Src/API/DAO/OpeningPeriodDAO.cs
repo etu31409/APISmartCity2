@@ -69,10 +69,10 @@ namespace APISmartCity.DAO
             if(context.OpeningPeriod
             .Where(existingPeriod => existingPeriod.IdHoraire != entity.IdHoraire)
             .Any(existingPeriod =>
-                existingPeriod.Jour == entity.Jour &&
+                existingPeriod.Jour == entity.Jour &&(
                     (entity.HoraireFin >= existingPeriod.HoraireDebut && entity.HoraireFin <= existingPeriod.HoraireFin) ||
                     (entity.HoraireDebut >= existingPeriod.HoraireDebut && entity.HoraireDebut <= existingPeriod.HoraireFin) ||
-                    (entity.HoraireDebut <= existingPeriod.HoraireDebut && entity.HoraireFin >= existingPeriod.HoraireFin))
+                    (entity.HoraireDebut <= existingPeriod.HoraireDebut && entity.HoraireFin >= existingPeriod.HoraireFin)))
                 ){
                     throw new InvalidOpeningPeriodException();
                 }
